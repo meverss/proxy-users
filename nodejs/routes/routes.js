@@ -1,13 +1,13 @@
 import { Router } from 'express'
-import { createBlog, deleteBlog, getAllBlogs, getOneBlog, updateBlog } from '../controllers/BlogControllers.js'
+import { createUser, deleteUser, getAllUsers, getOneUser, updateUser } from '../controllers/UsersController.js'
 
 const router = Router()
 
 // Routes
-router.get('/', getAllBlogs)
-router.get('/:id', getOneBlog)
-router.post('/', createBlog)
-router.patch('/:id', updateBlog)
-router.delete('/:id', deleteBlog)
+router.get('/', getAllUsers)
+router.get('/:id', getOneUser)
+router.post('/', createUser)
+router.patch('/:id', updateUser)
+router.delete('/:id', deleteUser)
 
 export default router

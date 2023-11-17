@@ -1,9 +1,16 @@
-import { Sequelize } from 'sequelize'
-import { DB_HOST, DB_DATABASE, DB_PASSWORD, DB_USER } from '../config.js'
+import { createPool } from 'mysql2/promise'
+import { DB_HOST, DB_DATABASE, DB_PASSWORD, DB_PORT, DB_USER } from '../config.js'
 
-const db = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
-  host: DB_HOST,
-  dialect: 'mysql'
-})
-
-export default db
+export const pool = () => {
+  try {
+    createPool({
+      host: DB_HOST,
+      user: DB_USER,
+      password: DB_PASSWORD,
+      database: DB_DATABASE,
+      port: DB_PORT
+    })
+  } catch (error) {
+    console.log(`Failed to connect to database: ${error}`)
+  }
+}
