@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS passwd (
     password VARCHAR(160) DEFAULT NULL,
     enabled INT(1) DEFAULT 1,
     fullname VARCHAR(160) DEFAULT NULL,
-    createdAt DATE DEFAULT NULL,
-    updatedAt DATE DEFAULT NULL,
+    createdAt VARCHAR(100) DEFAULT NULL,
+    updatedAt VARCHAR(100) DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
