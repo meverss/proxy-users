@@ -4,14 +4,14 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
 
 // Import Components
-import CompShowBlogs from './blog/ShowBlogs.js'
-import CompCreateBlog from './blog/CreateBlog.js'
-import CompEditBlog from './blog/EditBlog.js'
+import CompShowUsers from './proxy-users/ShowUsers.js'
+import CompCreateUser from './proxy-users/CreateUser.js'
+import CompEditUser from './proxy-users/EditUser.js'
 
 // Import router
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import CompPdf from './blog/PrintPdf.js'
-// import CompPageNotFound from './blog/PageNotFound.js'
+import CompPdf from './proxy-users/PrintPdf.js'
+// import CompPageNotFound from './User/PageNotFound.js'
 
 function App() {
   return (
@@ -22,9 +22,9 @@ function App() {
       <br />
       <BrowserRouter basename='/'>
         <Routes>
-          <Route path='/' element={<CompShowBlogs />} />
-          <Route path='/create' element={<CompCreateBlog />} />
-          <Route path='/edit/:id' element={<CompEditBlog />} />
+          <Route path='/' element={<CompShowUsers />} />
+          <Route path='/create' element={<CompCreateUser />} />
+          <Route path='/edit/:id' element={<CompEditUser />} />
           <Route path='/pdf' Component={CompPdf} />
         </Routes>
       </BrowserRouter>

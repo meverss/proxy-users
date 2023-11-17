@@ -4,27 +4,27 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const PORT = 4000
 
-const URI = `http://192.168.181.15:${PORT}/blogs/`
+const URI = `http://192.168.181.15:${PORT}/users/`
 
-const CompEditBlog = () => {
+const CompEditUser = () => {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
 
   const navigate = useNavigate()
   const { id } = useParams()
   // id = 4
-  // Procedure for updating blog
-  const updateBlog = async (e) => {
+  // Procedure for updating User
+  const updateUser = async (e) => {
     e.preventDefault()
     await axios.patch(URI + id, { title, content })
     navigate('/')
   }
 
   useEffect(() => {
-    getBlogById()
+    getUserById()
   }, [])
 
-  const getBlogById = async () => {
+  const getUserById = async () => {
     const res = await axios.get(URI + id)
     setTitle(res.data[0].title)
     setContent(res.data[0].content)
@@ -52,7 +52,7 @@ const CompEditBlog = () => {
                 <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close' />
               </div>
               <div className='modal-body'>
-                <form onSubmit={updateBlog}>
+                <form onSubmit={updateUser}>
                   <div className='mb-3'>
                     <label className='form-label'>Title</label>
                     <input
@@ -82,11 +82,11 @@ const CompEditBlog = () => {
         </div>
 
         <br /><br />
-        <h1>Edit blog id:{id}</h1>
+        <h1>Edit User id:{id}</h1>
       </div>
       <p id='fecha' style={{ bottom: 0 }} />
     </>
   )
 }
 
-export default CompEditBlog
+export default CompEditUser
