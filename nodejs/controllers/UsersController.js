@@ -15,7 +15,6 @@ if (mm < 10) mm = '0' + mm
 if (hh < 10) hh = '0' + hh
 if (min < 10) min = '0' + min
 if (sec < 10) sec = '0' + sec
-const customDate = dd + '-' + mm + '-' + yyyy + '.' + hh + ':' + min + ':' + sec
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -50,6 +49,7 @@ export const getOneUser = async (req, res) => {
 
 export const createUser = async (req, res) => {
   const { user, password, fullname } = req.body
+  const customDate = dd + '-' + mm + '-' + yyyy + '.' + hh + ':' + min + ':' + sec
 
   try {
     const [sql] = await pool.query(`INSERT INTO passwd (user, password, fullname, createdAt, updatedAt) VALUES ('${user}', SHA1('${password}'), '${fullname}', '${customDate}', '${customDate}')`)
@@ -70,9 +70,10 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   const { user, password, enabled, fullname } = req.body
   const { id } = req.params
+  const customDate = dd + '-' + mm + '-' + yyyy + '.' + hh + ':' + min + ':' + sec
 
   try {
-    const [sql] = await pool.query(`UPDATE passwd SET user = IFNULL(?, user), password = IFNULL(SHA1(?), password), enabled = IFNULL(?, enabled), fullname = IFNULL(?, fullname), updatedAt = IFNULL(?, updatedAt) WHERE id = ${id}`, [user, password, enabled, fullname, customDate])
+    const [sql] = await pool.query(`UPDATE passwd SET user = IFNULL(?, user), password = IFNULL(SHA1(?), password), enabled = IFNULL(?, enabled), fullname = IFNULL(?, fullname), updatedAt = '${customDate}' WHERE id = ${id}`, [user, password, enabled, fullname])
     if (sql.affectedRows >= 1) {
       console.log(`Updated user ${user}`)
       res.sendStatus(204)
@@ -91,12 +92,11 @@ export const deleteUser = async (req, res) => {
   const { id } = req.params
 
   try {
-    const [db] = await pool.query('SELECT * FROM passwd')
-    const [employee] = await pool.query(`SELECT (name) FROM passwd WHERE id = ${id}`)
+    const [user] = await pool.query(`SELECT (fullname) FROM passwd WHERE id = ${id}`)
     const [sql] = await pool.query(`DELETE FROM passwd WHERE id = ${id}`)
     if (sql.affectedRows >= 1) {
-      console.log(`${employee[0].name} has been deleted from passwd`)
-      res.send(db)
+      console.log(`${user[0].fullname} has been deleted from Squid users`)
+      res.sendStatus(204)
     } else {
       console.log('No records found')
       res.status(404).send('No records found')
