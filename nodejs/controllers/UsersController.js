@@ -1,4 +1,4 @@
-import { pool } from '../database/db.js'
+import { db } from '../database/db.js'
 
 // SETTING CUSTOM DATE
 
@@ -18,7 +18,7 @@ if (sec < 10) sec = '0' + sec
 
 export const getAllUsers = async (req, res) => {
   try {
-    const [sql] = await pool.query('SELECT * FROM passwd')
+    const [sql] = await db.query('SELECT * FROM passwd')
     res.json(sql)
   } catch (error) {
     return res.status(500).json({
@@ -31,7 +31,7 @@ export const getOneUser = async (req, res) => {
   const { id } = req.params
 
   try {
-    const [sql] = await pool.query(`SELECT * FROM passwd WHERE id = ${id}`)
+    const [sql] = await db.query(`SELECT * FROM passwd WHERE id = ${id}`)
     if (sql != '') {
       res.json(sql[0])
     } else {
@@ -52,7 +52,7 @@ export const createUser = async (req, res) => {
   const customDate = dd + '-' + mm + '-' + yyyy + '.' + hh + ':' + min + ':' + sec
 
   try {
-    const [sql] = await pool.query(`INSERT INTO passwd (user, password, fullname, createdAt, updatedAt) VALUES ('${user}', SHA1('${password}'), '${fullname}', '${customDate}', '${customDate}')`)
+    const [sql] = await db.query(`INSERT INTO passwd (user, password, fullname, createdAt, updatedAt) VALUES ('${user}', SHA1('${password}'), '${fullname}', '${customDate}', '${customDate}')`)
     if (sql.insertId >= 0) {
       console.log(`Added new user ${user}`)
       res.sendStatus(204)
@@ -73,7 +73,7 @@ export const updateUser = async (req, res) => {
   const customDate = dd + '-' + mm + '-' + yyyy + '.' + hh + ':' + min + ':' + sec
 
   try {
-    const [sql] = await pool.query(`UPDATE passwd SET user = IFNULL(?, user), password = IFNULL(SHA1(?), password), enabled = IFNULL(?, enabled), fullname = IFNULL(?, fullname), updatedAt = '${customDate}' WHERE id = ${id}`, [user, password, enabled, fullname])
+    const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), password = IFNULL(SHA1(?), password), enabled = IFNULL(?, enabled), fullname = IFNULL(?, fullname), updatedAt = '${customDate}' WHERE id = ${id}`, [user, password, enabled, fullname])
     if (sql.affectedRows >= 1) {
       console.log(`Updated user ${user}`)
       res.sendStatus(204)
@@ -92,8 +92,8 @@ export const deleteUser = async (req, res) => {
   const { id } = req.params
 
   try {
-    const [user] = await pool.query(`SELECT (fullname) FROM passwd WHERE id = ${id}`)
-    const [sql] = await pool.query(`DELETE FROM passwd WHERE id = ${id}`)
+    const [user] = await db.query(`SELECT (fullname) FROM passwd WHERE id = ${id}`)
+    const [sql] = await db.query(`DELETE FROM passwd WHERE id = ${id}`)
     if (sql.affectedRows >= 1) {
       console.log(`${user[0].fullname} has been deleted from Squid users`)
       res.sendStatus(204)

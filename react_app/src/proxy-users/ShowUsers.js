@@ -33,7 +33,7 @@ const CompShowusers = () => {
           <div className='col'>
             <h1 className='appTitle'>Listado de usuarios</h1>
             <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
-              <Link to='/create' className='new-record btn btn-outline-primary  me-md-2'><i className='fas fa-user-plus' /></Link>
+              <Link to='/create' className='new-record btn btn-outline-primary me-md-2' style={{ borderRadius: '8px' }}><i className='fas fa-user-plus' /></Link>
             </div>
             <div className='usersTable'>
               <table className='table table-responsive table-sm table-hover'>
@@ -58,7 +58,7 @@ const CompShowusers = () => {
                       <td><p> {user.fullname}</p> </td>
                       <td><p> {user.createdAt}</p> </td>
                       <td><p> {user.updatedAt} </p></td>
-                      <td> <p>{user.enabled === 1 ? <span style={{ color: 'green' }}>Activado</span> : <span style={{ color: 'red' }}>Desactivado</span>} </p></td>
+                      <td> <p>{user.enabled === 1 ? <span style={{ color: 'green' }}>Activo</span> : <span style={{ color: 'red' }}>Desactivado</span>} </p></td>
                       {/* <CompEdituser id={user.id} /> */}
                     </tr>
                   ))}

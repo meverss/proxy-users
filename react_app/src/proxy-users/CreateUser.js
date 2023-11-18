@@ -10,7 +10,6 @@ const CompCreateUser = () => {
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const [fullname, setFullname] = useState('')
-  const [enabled, setEnabled] = useState('')
   const navigate = useNavigate()
 
   // Procedure to save User
@@ -21,45 +20,34 @@ const CompCreateUser = () => {
   }
 
   return (
-    <div>
-      <h1>Create a new User</h1>
+    <div className='container'>
+      <h1>Crear nuevo Usuario</h1>
       <form onSubmit={save}>
-        <div className='mb-3'>
-          <label className='form-label'>Usuario</label>
+        <div class='input-group mb-3'>
+          <span class='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
           <input
+            className='form-control'
             value={user}
             onChange={(e) => setUser(e.target.value)}
             type='text'
-            className='form-control'
           />
         </div>
-        <div className='mb-3'>
-          <label className='form-label'>Contraseña</label>
+        <div class='input-group mb-3'>
+          <span class='input-group-text' id='inputGroup-sizing-default'>Contraseña</span>
           <input
+            className='form-control'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            type='text'
-            className='form-control'
+            type='password'
           />
         </div>
-
-        <div className='mb-3'>
-          <label className='form-label'>user</label>
+        <div class='input-group mb-3'>
+          <span class='input-group-text' id='inputGroup-sizing-default'>Nombre y Apellidos</span>
           <input
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
-            type='text'
             className='form-control'
-          />
-        </div>
-
-        <div className='mb-3'>
-          <label className='form-label'>fullname</label>
-          <textarea
             value={fullname}
             onChange={(e) => setFullname(e.target.value)}
             type='text'
-            className='form-control'
           />
         </div>
         <div className='formButtons'>

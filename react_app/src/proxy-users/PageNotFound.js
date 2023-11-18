@@ -1,14 +1,27 @@
 import axios from 'axios'
-// import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
 
 const PORT = 4000
 
-const URI = `http://192.168.181.15:${PORT}/error`
+const URI = `http://localhost:${PORT}/error`
 
-const CompPageNotFound = async () => {
-  // const navigate = useNavigate()
-  await axios.get(URI)
+const CompPageNotFound = () => {
+  const [errorPage, setErrorPage] = useState('')
+  useEffect(() => {
+    getErrorPage()
+  }, [])
+
+  const getErrorPage = async () => {
+    const res = await axios.get(URI)
+    setErrorPage(res.data)
+  }
+
+  return (
+    <>
+      {errorPage}
+    </>
+  )
 }
 
 export default CompPageNotFound

@@ -13,9 +13,13 @@ CREATE TABLE IF NOT EXISTS passwd (
 
 INSERT INTO `passwd` (`id`, `user`, `password`, `enabled`, `fullname`, `createdAt`, `updatedAt`) VALUES (1, 'admin', SHA1('admin'), '1', 'Administrador', NULL, NULL);
 
+-- Show ALL Users
 SELECT * FROM passwd;
 
+-- Filter by USER or FULLNAME
+SELECT * FROM passwd WHERE user = 'marvin' OR fullname like '%marvin%'
 
+-- Show table structure
 DESCRIBE squid;
 
 CREATE USER 'marvin'@'localhost' IDENTIFIED BY 'mes2**';

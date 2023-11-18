@@ -1,5 +1,5 @@
 // import logo from './logo.svg'
-import logo from '../src/images/squid.webp'
+import logo from '../src/images/icon.webp'
 import './fontawesome/css/all.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
@@ -12,6 +12,7 @@ import CompEditUser from './proxy-users/EditUser.js'
 // Import router
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import CompPdf from './proxy-users/PrintPdf.js'
+import CompPageNotFound from './proxy-users/PageNotFound.js'
 // import CompPageNotFound from './User/PageNotFound.js'
 
 function App() {
@@ -20,11 +21,12 @@ function App() {
       <nav className='navbar bg-dark border-bottom border-body' data-bs-theme='dark'>
         <div className='container container-fluid titlebar'>
           <a className='navbar-brand' href='/'>
-            <img src={logo} className='App-logo' alt='logo' />&nbsp;
+            {/* <img src={logo} className='App-logo' alt='logo' />&nbsp; */}
+            {/* Gestión de usuarios del proxy */}
           </a>
           <form className='d-flex' role='search'>
             <input className='form-control me-2' type='search' placeholder='Usuario' aria-label='Search' />
-            <button className='btn btn-outline-info' type='submit'>Buscar</button>
+            <button className='btn btn-outline-info' style={{ width: '100px' }} type='submit'>Buscar</button>
           </form>
         </div>
       </nav>
@@ -35,6 +37,7 @@ function App() {
           <Route path='/create' element={<CompCreateUser />} />
           <Route path='/edit/:id' element={<CompEditUser />} />
           <Route path='/pdf' Component={CompPdf} />
+          <Route path='/as' element={<CompPageNotFound />} />
         </Routes>
       </BrowserRouter>
 
