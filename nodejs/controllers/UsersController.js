@@ -73,7 +73,7 @@ export const updateUser = async (req, res) => {
   const customDate = dd + '-' + mm + '-' + yyyy + '.' + hh + ':' + min + ':' + sec
 
   try {
-    const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), password = IFNULL(SHA1(?), password), enabled = IFNULL(?, enabled), fullname = IFNULL(?, fullname), updatedAt = '${customDate}' WHERE id = ${id}`, [user, password, enabled, fullname])
+    const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), fullname = IFNULL(?, fullname), password = IFNULL(SHA1(?), password), enabled = IFNULL(?, enabled), updatedAt = '${customDate}' WHERE id = ${id}`, [user, fullname, password, enabled])
     if (sql.affectedRows >= 1) {
       console.log(`Updated user ${user}`)
       res.sendStatus(204)

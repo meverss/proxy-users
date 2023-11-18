@@ -22,7 +22,7 @@ const CompEditUser = () => {
   // Procedure for updating User
   const updateUser = async (e) => {
     e.preventDefault()
-    await axios.patch(URI + id, { user, password, fullname, enabled })
+    await axios.patch(URI + id, { user, fullname, password, enabled })
     navigate('/')
   }
 
@@ -52,10 +52,12 @@ const CompEditUser = () => {
       stateSwitch.checked = false
       stateLabel.innerHTML = 'Inactivo'
       setEnabled(0)
+      console.log(enabled)
     } else {
       stateSwitch.checked = true
       stateLabel.innerHTML = 'Activo'
       setEnabled(1)
+      console.log(enabled)
     }
   }
 
