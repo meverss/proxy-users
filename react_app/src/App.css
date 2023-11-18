@@ -1,27 +1,53 @@
+@font-face {
+  font-family: "Hack";
+  src: local('sans-serif'), url("../src/fonts/hack.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bakbakone";
+  src: local('sans-serif'), url("../src/fonts/bakbakone.ttf") format("ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Solitreo";
+  src: local('sans-serif'), url("../src/fonts/solitreo.ttf") format("ttf");
+  font-display: swap;
+}
+
+* {
+  font-family: Hack;
+  overflow: hidden;
+}
+
 .App {
   text-align: center;
 }
 
 .App-logo {
-  height: 15vmin;
+  height: 8vmin;
   pointer-events: none;
+  margin-left: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
+} */
 
-.App-header {
-  background-color: #333;
-  min-height: 10vh;
+.titlebar {
   display: flex;
-  flex-direction: column;
+  gap: 20px;
+  top: 0;
+  position: sticky;
+  min-height: 10vh;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #555;
+  padding: 10px;
 }
 
 .App-link {
@@ -49,13 +75,24 @@
 }
 
 th {
-  font-size: 14pt;
+  font-size: 12pt;
   margin: 15px;
 }
 
 td {
   align-items: center;
   font-size: 11pt;
+  height: 45px;
+}
+
+td p {
+  height: 100%;
+  align-items: first baseline;
+}
+
+.appTitle {
+ font-size: 32px;
+  color: #222;
 }
 
 .actions {
@@ -75,4 +112,12 @@ td {
   justify-content: center;
   align-items: center;
   /* opacity: 1; */
+}
+
+.usersTable {
+  overflow-x: auto;
+}
+
+.table {
+  min-width: 900px;
 }

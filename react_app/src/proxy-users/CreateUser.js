@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 const PORT = 4000
 
-const URI = `http://192.168.181.15:${PORT}/users/`
+const URI = `http://localhost:${PORT}/users/`
 
 const CompCreateUser = () => {
   const [user, setUser] = useState('')

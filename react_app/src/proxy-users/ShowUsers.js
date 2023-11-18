@@ -1,11 +1,13 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+// import os from 'os'
+
 // import CompEdituser from './EditUser.js'
 
 const PORT = 4000
 
-const URI = `http://192.168.181.15:${PORT}/users/`
+const URI = `http://localhost:${PORT}/users/`
 const CompShowusers = () => {
   const [users, setusers] = useState([])
   useEffect(() => {
@@ -29,37 +31,40 @@ const CompShowusers = () => {
       <div className='container'>
         <div className='row'>
           <div className='col'>
-            <div class='d-grid gap-2 d-md-flex justify-content-md-end'>
-              <Link to='/create' className='new-record btn btn-outline-success  me-md-2'>Nuevo</Link>
+            <h1 className='appTitle'>Listado de usuarios</h1>
+            <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
+              <Link to='/create' className='new-record btn btn-outline-primary  me-md-2'><i className='fas fa-user-plus' /></Link>
             </div>
-            <table className='table table-responsive table-sm table-hover'>
-              <thead className='table-dark'>
-                <tr>
-                  <th scope='col'>Usuario</th>
-                  <th scope='col'>Nombre y apellidos</th>
-                  <th scope='col'>F. Creado</th>
-                  <th scope='col'>F. Actualización</th>
-                  <th scope='col'>Estado</th>
-                  <th scope='col'>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr key={user.id}>
-                    <td> {user.user} </td>
-                    <td> {user.fullname} </td>
-                    <td> {user.createdAt} </td>
-                    <td> {user.updatedAt} </td>
-                    <td> {user.enabled === 1 ? 'Activado' : 'Desactivado'} </td>
-                    <td className='actions'>
-                      <Link to={`/edit/${user.id}`} className='btn btn-info'><i className='far fa-edit' /></Link>
-                      <button className='btn btn-danger' onClick={() => deleteuser(user.id)}><i className='far fa-trash-can' /></button>
-                    </td>
-                    {/* <CompEdituser id={user.id} /> */}
+            <div className='usersTable'>
+              <table className='table table-responsive table-sm table-hover'>
+                <thead className='table-dark'>
+                  <tr>
+                    <th scope='col'>Acciones</th>
+                    <th scope='col'>Usuario</th>
+                    <th scope='col'>Nombre y apellidos</th>
+                    <th scope='col'>Creado</th>
+                    <th scope='col'>Modificdo</th>
+                    <th scope='col'>Estado</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {users.map((user) => (
+                    <tr key={user.id}>
+                      <td className='actions'>
+                        <Link to={`/edit/${user.id}`} className='btn btn-sm btn-outline-info'><i className='fas fa-user-pen' /></Link>
+                        <button className='btn btn-sm btn-outline-danger' onClick={() => deleteuser(user.id)}><i className='far fa-trash-can' /></button>
+                      </td>
+                      <td><p> {user.user}</p> </td>
+                      <td><p> {user.fullname}</p> </td>
+                      <td><p> {user.createdAt}</p> </td>
+                      <td><p> {user.updatedAt} </p></td>
+                      <td> <p>{user.enabled === 1 ? <span style={{ color: 'green' }}>Activado</span> : <span style={{ color: 'red' }}>Desactivado</span>} </p></td>
+                      {/* <CompEdituser id={user.id} /> */}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

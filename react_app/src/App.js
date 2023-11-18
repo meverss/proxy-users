@@ -1,4 +1,5 @@
-import logo from './logo.svg'
+// import logo from './logo.svg'
+import logo from '../src/images/squid.webp'
 import './fontawesome/css/all.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
@@ -16,9 +17,17 @@ import CompPdf from './proxy-users/PrintPdf.js'
 function App() {
   return (
     <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-      </header>
+      <nav className='navbar bg-dark border-bottom border-body' data-bs-theme='dark'>
+        <div className='container container-fluid titlebar'>
+          <a className='navbar-brand' href='/'>
+            <img src={logo} className='App-logo' alt='logo' />&nbsp;
+          </a>
+          <form className='d-flex' role='search'>
+            <input className='form-control me-2' type='search' placeholder='Usuario' aria-label='Search' />
+            <button className='btn btn-outline-info' type='submit'>Buscar</button>
+          </form>
+        </div>
+      </nav>
       <br />
       <BrowserRouter basename='/'>
         <Routes>
