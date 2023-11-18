@@ -10,10 +10,8 @@ import CompCreateUser from './proxy-users/CreateUser.js'
 import CompEditUser from './proxy-users/EditUser.js'
 
 // Import router
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import CompPdf from './proxy-users/PrintPdf.js'
-import CompPageNotFound from './proxy-users/PageNotFound.js'
-// import CompPageNotFound from './User/PageNotFound.js'
 
 function App() {
   return (
@@ -37,7 +35,6 @@ function App() {
           <Route path='/create' element={<CompCreateUser />} />
           <Route path='/edit/:id' element={<CompEditUser />} />
           <Route path='/pdf' Component={CompPdf} />
-          <Route path='/as' element={<CompPageNotFound />} />
         </Routes>
       </BrowserRouter>
 

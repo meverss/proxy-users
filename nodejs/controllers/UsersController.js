@@ -22,7 +22,7 @@ export const getAllUsers = async (req, res) => {
     res.json(sql)
   } catch (error) {
     return res.status(500).json({
-      message: `Something went wrong: ${error}`
+      message: `ALL USERS: Something went wrong: ${error}`
     })
   }
 }
@@ -42,7 +42,7 @@ export const getOneUser = async (req, res) => {
     }
   } catch (error) {
     return res.status(500).json({
-      message: `Something went wrong: ${error}`
+      message: `ONE USER: Something went wrong: ${error}`
     })
   }
 }
@@ -62,7 +62,7 @@ export const createUser = async (req, res) => {
     }
   } catch (error) {
     return res.status(500).json({
-      message: `Something went wrong: ${error}`
+      message: `CREATE USER: Something went wrong: ${error}`
     })
   }
 }
@@ -83,7 +83,7 @@ export const updateUser = async (req, res) => {
     }
   } catch (error) {
     return res.status(500).json({
-      message: `Something went wrong: ${error}`
+      message: `UPDATE USER: Something went wrong: ${error}`
     })
   }
 }
@@ -103,19 +103,21 @@ export const deleteUser = async (req, res) => {
     }
   } catch (error) {
     return res.status(500).json({
-      message: `Something went wrong: ${error}`
+      message: `DELETE USER: Something went wrong: ${error}`
     })
   }
 }
 
-export const searchUsers = async (req, res) => {
+export const searchUsers = async (req, res, next) => {
   try {
-    const user = req.params
+    // const user = req.params
+    const user = req.query.user
     const [sql] = await db.query(`SELECT * FROM passwd WHERE user = '${user}' OR fullname like '%${user}%'`)
     res.json(sql)
   } catch (error) {
+    res.send(req.query)
     return res.status(500).json({
-      message: `Something went wrong: ${error}`
+      message: `SEARCH USER: Something went wrong: ${error}`
     })
   }
 }

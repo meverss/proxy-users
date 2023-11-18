@@ -7,6 +7,7 @@ const PORT = 4000
 const URI = `http://localhost:${PORT}/users/`
 const CompShowusers = () => {
   const [users, setusers] = useState([])
+  // const [filter, setFilter] = useState([])
   useEffect(() => {
     getUsers()
   }, [])
@@ -15,6 +16,13 @@ const CompShowusers = () => {
   const getUsers = async () => {
     const res = await axios.get(URI)
     setusers(res.data)
+  }
+
+  // Procedure to filter all users
+  const filterUsers = async (filter) => {
+    const res = await axios.get(URI + `search?user=${filter}`)
+    setusers(res.data)
+    console.log(res.data)
   }
 
   // Procedure to delete a user
@@ -32,6 +40,16 @@ const CompShowusers = () => {
             <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
               <Link to='/create' className='new-record btn btn-outline-primary me-md-2' style={{ borderRadius: '8px' }}><i className='fas fa-user-plus' /></Link>
             </div>
+            <input
+              className='form-control'
+              // value={filter}
+              placeholder='Buscar usuario'
+              onChange={(e) => {
+                filterUsers(e.target.value)
+              }}
+              type='text'
+            />
+            <br />
             <div className='usersTable'>
               <table className='table table-responsive table-sm table-hover'>
                 <thead className='table-dark'>
@@ -55,8 +73,7 @@ const CompShowusers = () => {
                       <td><p> {user.fullname}</p> </td>
                       <td><p> {user.createdAt}</p> </td>
                       <td><p> {user.updatedAt} </p></td>
-                      <td> <p>{user.enabled === 1 ? <span style={{ color: 'green' }}>Activo</span> : <span style={{ color: 'red' }}>Desactivado</span>} </p></td>
-                      {/* <CompEdituser id={user.id} /> */}
+                      <td> <p>{user.enabled === 1 ? <span style={{ color: 'green' }}>Activo</span> : <span style={{ color: 'red' }}>Inactivo</span>} </p></td>
                     </tr>
                   ))}
                 </tbody>
