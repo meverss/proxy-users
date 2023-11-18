@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const PORT = 4000
 
-const URI = `http://localhost:${PORT}/error`
+const URI = `http://localhost:${PORT}/users/`
 
 const CompPageNotFound = () => {
   const [errorPage, setErrorPage] = useState('')

@@ -1,9 +1,6 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-// import os from 'os'
-
-// import CompEdituser from './EditUser.js'
 
 const PORT = 4000
 
@@ -49,7 +46,7 @@ const CompShowusers = () => {
                 </thead>
                 <tbody>
                   {users.map((user) => (
-                    <tr key={user.id}>
+                    <tr key={user.id} className='table-sm'>
                       <td className='actions'>
                         <Link to={`/edit/${user.id}`} className='btn btn-sm btn-outline-info'><i className='fas fa-user-pen' /></Link>
                         <button className='btn btn-sm btn-outline-danger' onClick={() => deleteuser(user.id)}><i className='far fa-trash-can' /></button>

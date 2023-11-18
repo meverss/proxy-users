@@ -54,7 +54,7 @@ export const createUser = async (req, res) => {
   try {
     const [sql] = await db.query(`INSERT INTO passwd (user, password, fullname, createdAt, updatedAt) VALUES ('${user}', SHA1('${password}'), '${fullname}', '${customDate}', '${customDate}')`)
     if (sql.insertId >= 0) {
-      console.log(`Added new user ${user}`)
+      console.log(`Added new user ${fullname}`)
       res.sendStatus(204)
     } else {
       console.log('No records added')
@@ -101,6 +101,18 @@ export const deleteUser = async (req, res) => {
       console.log('No records found')
       res.status(404).send('No records found')
     }
+  } catch (error) {
+    return res.status(500).json({
+      message: `Something went wrong: ${error}`
+    })
+  }
+}
+
+export const searchUsers = async (req, res) => {
+  try {
+    const user = req.params
+    const [sql] = await db.query(`SELECT * FROM passwd WHERE user = '${user}' OR fullname like '%${user}%'`)
+    res.json(sql)
   } catch (error) {
     return res.status(500).json({
       message: `Something went wrong: ${error}`

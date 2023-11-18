@@ -15,7 +15,7 @@ const CompCreateUser = () => {
   // Procedure to save User
   const save = async (e) => {
     e.preventDefault()
-    await axios.post(URI, { user, fullname })
+    await axios.post(URI, { user, password, fullname })
     navigate('/')
   }
 

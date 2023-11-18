@@ -1,5 +1,5 @@
 // import logo from './logo.svg'
-import logo from '../src/images/icon.webp'
+// import logo from '../src/images/icon.webp'
 import './fontawesome/css/all.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'

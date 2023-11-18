@@ -81,16 +81,14 @@ th {
 td {
   align-items: center;
   font-size: 11pt;
-  height: 45px;
 }
 
 td p {
   height: 100%;
-  align-items: first baseline;
 }
 
 .appTitle {
- font-size: 32px;
+  font-size: 32px;
   color: #222;
 }
 
