@@ -108,11 +108,10 @@ export const deleteUser = async (req, res) => {
   }
 }
 
-export const searchUsers = async (req, res, next) => {
+export const searchUsers = async (req, res) => {
   try {
-    // const user = req.params
-    const user = req.query.user
-    const [sql] = await db.query(`SELECT * FROM passwd WHERE user = '${user}' OR fullname like '%${user}%'`)
+    const { user } = req.query
+    const [sql] = await db.query(`SELECT * FROM passwd WHERE user like '%${user}%' OR fullname like '%${user}%'`)
     res.json(sql)
   } catch (error) {
     res.send(req.query)

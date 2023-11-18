@@ -7,84 +7,106 @@ const PORT = 4000
 const URI = `http://localhost:${PORT}/users/`
 
 const CompEditUser = () => {
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
+  const [user, setUser] = useState('')
+  const [password, setPassword] = useState('')
+  const [fullname, setFullname] = useState('')
+  const [enabled, setEnabled] = useState('')
 
   const navigate = useNavigate()
   const { id } = useParams()
-  // id = 4
-  // Procedure for updating User
-  const updateUser = async (e) => {
-    e.preventDefault()
-    await axios.patch(URI + id, { title, content })
-    navigate('/')
-  }
 
   useEffect(() => {
     getUserById()
   }, [])
 
-  const getUserById = async () => {
-    const res = await axios.get(URI + id)
-    setTitle(res.data[0].title)
-    setContent(res.data[0].content)
+  // Procedure for updating User
+  const updateUser = async (e) => {
+    e.preventDefault()
+    await axios.patch(URI + id, { user, password, fullname, enabled })
+    navigate('/')
   }
 
-  const showModal = () => {
-    const exampleModal = document.getElementById('exampleModal')
-    exampleModal.classList.toggle('show')
+  const getUserById = async () => {
+    const stateSwitch = document.getElementById('userState')
+    const stateLabel = document.getElementById('userStateLabel')
+    const res = await axios.get(URI + id)
+    setUser(res.data.user)
+    setPassword(res.data.password)
+    setFullname(res.data.fullname)
+    setEnabled(res.data.enabled)
+
+    if (res.data.enabled === 1) {
+      stateSwitch.checked = true
+      stateLabel.innerHTML = 'Activo'
+    } else {
+      stateSwitch.checked = false
+      stateLabel.innerHTML = 'Inactivo'
+    }
+  }
+
+  const checkState = () => {
+    const stateSwitch = document.getElementById('userState')
+    const stateLabel = document.getElementById('userStateLabel')
+
+    if (enabled === 1) {
+      stateSwitch.checked = false
+      stateLabel.innerHTML = 'Inactivo'
+      setEnabled(0)
+    } else {
+      stateSwitch.checked = true
+      stateLabel.innerHTML = 'Activo'
+      setEnabled(1)
+    }
   }
 
   return (
     <>
       <div className='container'>
-        {/* Button trigger modal */}
-        <button type='button' className='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal' onClick={showModal}>
-          Launch demo modal
-        </button>
-
-        {/* Modal */}
-        <div className='modal fade' id='exampleModal' tabIndex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
-          <div className='modal-dialog modal-lg'>
-            <div className='modal-content'>
-              <div className='modal-header'>
-                <h1 className='modal-title fs-5' id='exampleModalLabel'>Modal title</h1>
-                <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close' />
-              </div>
-              <div className='modal-body'>
-                <form onSubmit={updateUser}>
-                  <div className='mb-3'>
-                    <label className='form-label'>Title</label>
-                    <input
-                      placeholder={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      type='text'
-                      className='form-control'
-                    />
-                  </div>
-                  <div className='mb-3'>
-                    <label className='form-label'>Content</label>
-                    <textarea
-                      placeholder={content}
-                      onChange={(e) => setContent(e.target.value)}
-                      type='text'
-                      className='form-control'
-                    />
-                  </div>
-                  <div className='modal-footer'>
-                    <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' onClick={() => navigate('/')}>Close</button>
-                    <button type='submit' className='btn btn-primary'>Save changes</button>
-                  </div>
-                </form>
-              </div>
-            </div>
+        <h1>Editar datos de {fullname}</h1>
+        <form onSubmit={updateUser}>
+          <div className='input-group mb-3'>
+            <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
+            <input
+              className='form-control'
+              placeholder={user}
+              onChange={(e) => setUser(e.target.value)}
+              type='text'
+            />
           </div>
-        </div>
-
-        <br /><br />
-        <h1>Edit User id:{id}</h1>
+          <div className='input-group mb-3'>
+            <span className='input-group-text' id='inputGroup-sizing-default'>Nombre y Apellidos</span>
+            <input
+              className='form-control'
+              placeholder={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+              type='text'
+            />
+          </div>
+          <div className='input-group mb-3'>
+            <span className='input-group-text' id='inputGroup-sizing-default'>Contraseña</span>
+            <input
+              className='form-control'
+              placeholder='********'
+              onChange={(e) => setPassword(e.target.value)}
+              type='password'
+            />
+          </div>
+          <div className='form-switch' style={{ display: 'flex', justifyContent: 'left' }}>
+            <input className='form-check-input' id='userState' type='checkbox' role='switch' onChange={checkState} /> &nbsp;
+            <label className='form-check-label' id='userStateLabel' htmlFor='flexSwitchCheckDefault' />
+          </div>
+          <div className='formButtons'>
+            <button
+              type='button' className='btn btn-secondary' onClick={() => navigate('/')}
+            >
+              Cancelar
+            </button>
+            <button type='submit' className='btn btn-primary'>
+              Guardar
+            </button>
+          </div>
+        </form>
       </div>
-      <p id='fecha' style={{ bottom: 0 }} />
     </>
   )
 }

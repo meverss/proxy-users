@@ -23,8 +23,8 @@ const CompCreateUser = () => {
     <div className='container'>
       <h1>Crear nuevo Usuario</h1>
       <form onSubmit={save}>
-        <div class='input-group mb-3'>
-          <span class='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
+        <div className='input-group mb-3'>
+          <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
           <input
             className='form-control'
             value={user}
@@ -32,17 +32,8 @@ const CompCreateUser = () => {
             type='text'
           />
         </div>
-        <div class='input-group mb-3'>
-          <span class='input-group-text' id='inputGroup-sizing-default'>Contraseña</span>
-          <input
-            className='form-control'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type='password'
-          />
-        </div>
-        <div class='input-group mb-3'>
-          <span class='input-group-text' id='inputGroup-sizing-default'>Nombre y Apellidos</span>
+        <div className='input-group mb-3'>
+          <span className='input-group-text' id='inputGroup-sizing-default'>Nombre y Apellidos</span>
           <input
             className='form-control'
             value={fullname}
@@ -50,14 +41,23 @@ const CompCreateUser = () => {
             type='text'
           />
         </div>
+        <div className='input-group mb-3'>
+          <span className='input-group-text' id='inputGroup-sizing-default'>Contraseña</span>
+          <input
+            className='form-control'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type='password'
+          />
+        </div>
         <div className='formButtons'>
           <button
             type='button' className='btn btn-secondary' onClick={() => navigate('/')}
           >
-            Cancel
+            Cancelar
           </button>
           <button type='submit' className='btn btn-primary'>
-            Save
+            Guardar
           </button>
         </div>
       </form>

@@ -18,11 +18,10 @@ const CompShowusers = () => {
     setusers(res.data)
   }
 
-  // Procedure to filter all users
+  // Procedure to search users
   const filterUsers = async (filter) => {
     const res = await axios.get(URI + `search?user=${filter}`)
     setusers(res.data)
-    console.log(res.data)
   }
 
   // Procedure to delete a user
@@ -37,19 +36,19 @@ const CompShowusers = () => {
         <div className='row'>
           <div className='col'>
             <h1 className='appTitle'>Listado de usuarios</h1>
+            <div className='input-group mb-3'>
+              <span className='input-group-text' id='basic-addon1'>Buscar usuario</span>
+              <input
+                className='form-control'
+                onChange={(e) => filterUsers(e.target.value)}
+                type='text'
+              />
+            </div>
+            <br />
+
             <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
               <Link to='/create' className='new-record btn btn-outline-primary me-md-2' style={{ borderRadius: '8px' }}><i className='fas fa-user-plus' /></Link>
             </div>
-            <input
-              className='form-control'
-              // value={filter}
-              placeholder='Buscar usuario'
-              onChange={(e) => {
-                filterUsers(e.target.value)
-              }}
-              type='text'
-            />
-            <br />
             <div className='usersTable'>
               <table className='table table-responsive table-sm table-hover'>
                 <thead className='table-dark'>

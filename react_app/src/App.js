@@ -1,5 +1,4 @@
-// import logo from './logo.svg'
-// import logo from '../src/images/icon.webp'
+import logo from '../src/images/squid.webp'
 import './fontawesome/css/all.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
@@ -10,7 +9,7 @@ import CompCreateUser from './proxy-users/CreateUser.js'
 import CompEditUser from './proxy-users/EditUser.js'
 
 // Import router
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import CompPdf from './proxy-users/PrintPdf.js'
 
 function App() {
@@ -19,13 +18,9 @@ function App() {
       <nav className='navbar bg-dark border-bottom border-body' data-bs-theme='dark'>
         <div className='container container-fluid titlebar'>
           <a className='navbar-brand' href='/'>
-            {/* <img src={logo} className='App-logo' alt='logo' />&nbsp; */}
+            <img src={logo} className='App-logo' alt='logo' />&nbsp;
             {/* Gestión de usuarios del proxy */}
           </a>
-          <form className='d-flex' role='search'>
-            <input className='form-control me-2' type='search' placeholder='Usuario' aria-label='Search' />
-            <button className='btn btn-outline-info' style={{ width: '100px' }} type='submit'>Buscar</button>
-          </form>
         </div>
       </nav>
       <br />
