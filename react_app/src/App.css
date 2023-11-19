@@ -118,3 +118,7 @@ td p {
 .table {
   min-width: 900px;
 }
+
+.editUser, .createUser {
+  max-width: 800px;
+}

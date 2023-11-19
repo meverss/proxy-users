@@ -22,7 +22,11 @@ const CompEditUser = () => {
   // Procedure for updating User
   const updateUser = async (e) => {
     e.preventDefault()
-    await axios.patch(URI + id, { user, fullname, password, enabled })
+    if (password === '') {
+      await axios.patch(URI + id + '/nopwd', { user, fullname, enabled })
+    } else {
+      await axios.patch(URI + id, { user, fullname, password, enabled })
+    }
     navigate('/')
   }
 
@@ -31,7 +35,7 @@ const CompEditUser = () => {
     const stateLabel = document.getElementById('userStateLabel')
     const res = await axios.get(URI + id)
     setUser(res.data.user)
-    setPassword(res.data.password)
+    // setPassword(res.data.password)
     setFullname(res.data.fullname)
     setEnabled(res.data.enabled)
 
@@ -52,19 +56,17 @@ const CompEditUser = () => {
       stateSwitch.checked = false
       stateLabel.innerHTML = 'Inactivo'
       setEnabled(0)
-      console.log(enabled)
     } else {
       stateSwitch.checked = true
       stateLabel.innerHTML = 'Activo'
       setEnabled(1)
-      console.log(enabled)
     }
   }
 
   return (
     <>
-      <div className='container'>
-        <h1>Editar datos de {fullname}</h1>
+      <div className='container editUser'>
+        <h1 className='appTitle'>Editar datos de {fullname}</h1>
         <form onSubmit={updateUser}>
           <div className='input-group mb-3'>
             <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
@@ -85,7 +87,7 @@ const CompEditUser = () => {
             />
           </div>
           <div className='input-group mb-3'>
-            <span className='input-group-text' id='inputGroup-sizing-default'>Contraseña</span>
+            <span className='input-group-text' id='passwd'>Contraseña</span>
             <input
               className='form-control'
               placeholder='********'
@@ -103,7 +105,7 @@ const CompEditUser = () => {
             >
               Cancelar
             </button>
-            <button type='submit' className='btn btn-primary'>
+            <button type='submit' className='btn btn-success'>
               Guardar
             </button>
           </div>

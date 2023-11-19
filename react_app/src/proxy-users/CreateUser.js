@@ -20,8 +20,8 @@ const CompCreateUser = () => {
   }
 
   return (
-    <div className='container'>
-      <h1>Crear nuevo Usuario</h1>
+    <div className='container createUser'>
+      <h1 className='appTitle'>Crear nuevo Usuario</h1>
       <form onSubmit={save}>
         <div className='input-group mb-3'>
           <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
@@ -56,7 +56,7 @@ const CompCreateUser = () => {
           >
             Cancelar
           </button>
-          <button type='submit' className='btn btn-primary'>
+          <button type='submit' className='btn btn-success'>
             Guardar
           </button>
         </div>

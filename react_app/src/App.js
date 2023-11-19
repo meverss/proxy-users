@@ -1,5 +1,4 @@
 import logo from '../src/images/squid.webp'
-import './fontawesome/css/all.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
 

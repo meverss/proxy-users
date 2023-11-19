@@ -1,20 +1,23 @@
 import { db } from '../database/db.js'
 
 // SETTING CUSTOM DATE
+const getDate = () => {
+  const timestamp = Date.now()
+  const today = new Date(timestamp)
+  const yyyy = today.getFullYear()
+  let mm = today.getMonth() + 1 // Months start at 0!
+  let dd = today.getDate() // prints the day of the month (1-31)
+  let hh = today.getHours() // prints the hour (0-23)
+  let min = today.getMinutes() // prints the minute (0-59)
+  let sec = today.getSeconds() // prints the second (0-59)
+  if (dd < 10) dd = '0' + dd
+  if (mm < 10) mm = '0' + mm
+  if (hh < 10) hh = '0' + hh
+  if (min < 10) min = '0' + min
+  if (sec < 10) sec = '0' + sec
 
-const timestamp = Date.now()
-const today = new Date(timestamp)
-const yyyy = today.getFullYear()
-let mm = today.getMonth() + 1 // Months start at 0!
-let dd = today.getDate() // prints the day of the month (1-31)
-let hh = today.getHours() // prints the hour (0-23)
-let min = today.getMinutes() // prints the minute (0-59)
-let sec = today.getSeconds() // prints the second (0-59)
-if (dd < 10) dd = '0' + dd
-if (mm < 10) mm = '0' + mm
-if (hh < 10) hh = '0' + hh
-if (min < 10) min = '0' + min
-if (sec < 10) sec = '0' + sec
+  return dd + '-' + mm + '-' + yyyy + '.' + hh + ':' + min + ':' + sec
+}
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -49,10 +52,9 @@ export const getOneUser = async (req, res) => {
 
 export const createUser = async (req, res) => {
   const { user, password, fullname } = req.body
-  const customDate = dd + '-' + mm + '-' + yyyy + '.' + hh + ':' + min + ':' + sec
 
   try {
-    const [sql] = await db.query(`INSERT INTO passwd (user, password, fullname, createdAt, updatedAt) VALUES ('${user}', SHA1('${password}'), '${fullname}', '${customDate}', '${customDate}')`)
+    const [sql] = await db.query(`INSERT INTO passwd (user, password, fullname, createdAt, updatedAt) VALUES ('${user}', SHA1('${password}'), '${fullname}', '${getDate()}', '${getDate()}')`)
     if (sql.insertId >= 0) {
       console.log(`Added new user ${fullname}`)
       res.sendStatus(204)
@@ -70,10 +72,29 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   const { user, password, enabled, fullname } = req.body
   const { id } = req.params
-  const customDate = dd + '-' + mm + '-' + yyyy + '.' + hh + ':' + min + ':' + sec
 
   try {
-    const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), fullname = IFNULL(?, fullname), password = IFNULL(SHA1(?), password), enabled = IFNULL(?, enabled), updatedAt = '${customDate}' WHERE id = ${id}`, [user, fullname, password, enabled])
+    const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), fullname = IFNULL(?, fullname), password = IFNULL(SHA1(?), password), enabled = IFNULL(?, enabled), updatedAt = '${getDate()}' WHERE id = ${id}`, [user, fullname, password, enabled])
+    if (sql.affectedRows >= 1) {
+      console.log(`Updated user ${user}`)
+      res.sendStatus(204)
+    } else {
+      console.log('Record not found')
+      res.sendStatus(404)
+    }
+  } catch (error) {
+    return res.status(500).json({
+      message: `UPDATE USER: Something went wrong: ${error}`
+    })
+  }
+}
+
+export const updateUserNoPass = async (req, res) => {
+  const { user, enabled, fullname } = req.body
+  const { id } = req.params
+
+  try {
+    const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), fullname = IFNULL(?, fullname), enabled = IFNULL(?, enabled), updatedAt = '${getDate()}' WHERE id = ${id}`, [user, fullname, enabled])
     if (sql.affectedRows >= 1) {
       console.log(`Updated user ${user}`)
       res.sendStatus(204)
