@@ -1,10 +1,9 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { SERVER } from './ShowUsers'
 
-const PORT = 4000
-
-const URI = `http://localhost:${PORT}/users/`
+const URI = `${SERVER}/users/`
 
 const CompCreateUser = () => {
   const [user, setUser] = useState('')

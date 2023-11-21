@@ -3,13 +3,14 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
 
 // Import Components
-import CompShowUsers from './proxy-users/ShowUsers.js'
-import CompCreateUser from './proxy-users/CreateUser.js'
-import CompEditUser from './proxy-users/EditUser.js'
+import CompShowUsers from './components/ShowUsers.js'
+import CompCreateUser from './components/CreateUser.js'
+import CompEditUser from './components/EditUser.js'
+import CompLogin from './components/CompLogin.js'
 
 // Import router
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import CompPdf from './proxy-users/PrintPdf.js'
+import CompPdf from './components/PrintPdf.js'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path='/create' element={<CompCreateUser />} />
           <Route path='/edit/:id' element={<CompEditUser />} />
           <Route path='/pdf' Component={CompPdf} />
+          <Route path='/login' element={<CompLogin />} />
         </Routes>
       </BrowserRouter>
 

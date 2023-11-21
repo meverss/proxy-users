@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom'
 import { BsJournalText, BsTrash, BsPersonFillAdd } from 'react-icons/bs'
 
 const PORT = 4000
+export const SERVER = `http://localhost:${PORT}`
 
-const URI = `http://localhost:${PORT}/users/`
+const URI = `${SERVER}/users/`
 const CompShowusers = () => {
   const [users, setusers] = useState([])
-  // const [filter, setFilter] = useState([])
   useEffect(() => {
     getUsers()
   }, [])

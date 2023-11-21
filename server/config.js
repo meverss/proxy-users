@@ -11,4 +11,7 @@ export const DB_DATABASE = process.env.DB_DATABASE || 'squid'
 export const DB_PORT = process.env.DB_PORT = 3306
 
 export const serverPort = PORT
-export const serverIP = ip.address()
+
+export const serverIP = []
+serverIP.push(ip.address())
+

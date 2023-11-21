@@ -4,12 +4,11 @@ import 'ejs'
 
 // Settings
 app.set('case sensitive routing', true)
-app.set('appName', 'CRUD_MERN')
+app.set('appName', 'proxy-users')
 app.set('view engine', 'ejs')
 app.set('views', './views')
 
 // Server
 app.listen(PORT, () => {
   console.log(`Server listenning on port ${PORT}...`)
-  // console.log()
 })

@@ -1,7 +1,7 @@
 import { db } from '../database/db.js'
 
 // SETTING CUSTOM DATE
-const getDate = () => {
+export const getDate = () => {
   const timestamp = Date.now()
   const today = new Date(timestamp)
   const yyyy = today.getFullYear()

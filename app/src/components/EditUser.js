@@ -1,10 +1,9 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { SERVER } from './ShowUsers'
 
-const PORT = 4000
-
-const URI = `http://localhost:${PORT}/users/`
+const URI = `${SERVER}/users/`
 
 const CompEditUser = () => {
   const [user, setUser] = useState('')
@@ -35,7 +34,6 @@ const CompEditUser = () => {
     const stateLabel = document.getElementById('userStateLabel')
     const res = await axios.get(URI + id)
     setUser(res.data.user)
-    // setPassword(res.data.password)
     setFullname(res.data.fullname)
     setEnabled(res.data.enabled)
 
@@ -95,7 +93,7 @@ const CompEditUser = () => {
               type='password'
             />
           </div>
-          <div className='form-switch' style={{ display: 'flex', justifyContent: 'left' }}>
+          <div className='form-switch' >
             <input className='form-check-input' id='userState' type='checkbox' role='switch' onChange={checkState} /> &nbsp;
             <label className='form-check-label' id='userStateLabel' htmlFor='flexSwitchCheckDefault' />
           </div>

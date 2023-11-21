@@ -26,7 +26,7 @@
 }
 
 .App-logo {
-  height: 10vmin;
+  height: 5vmin;
   pointer-events: none;
   margin-left: 20px;
 }
@@ -42,7 +42,8 @@
   gap: 20px;
   top: 0;
   position: sticky;
-  min-height: 8vh;
+  height: 8px;
+  min-height: 5vh;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
@@ -108,7 +109,6 @@ td p {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* opacity: 1; */
 }
 
 .usersTable {
@@ -119,6 +119,71 @@ td p {
   min-width: 900px;
 }
 
-.editUser, .createUser {
+.editUser,
+.createUser {
   max-width: 800px;
+}
+
+.form-switch {
+  display: flex;
+  justify-content: left;
+  padding-left: 45px;
+}
+
+.form-check-input:active {
+  --form-check-input-checked-color: red;
+}
+
+.form-check-input:hover {
+  cursor: pointer;
+}
+
+/* Login form */
+.mainContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-items: center;
+}
+
+.loginTitle {
+  padding: 15px;
+}
+
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+  max-height: 320px;
+  background-color: #333;
+}
+
+.card-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+}
+
+#showPwd:hover {
+  cursor: pointer;
+}
+
+#showPwd:hover::after {
+  content: " " attr(color, "red");
+}
+
+.formIcons {
+  color: #999;
+}
+
+.eye:hover {
+  color: #333;
 }
