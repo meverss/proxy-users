@@ -8,17 +8,21 @@ import { userLogin } from './controllers/LoginController.js'
 const app = express()
 
 // Middlewares
-app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.static('./static'))
-
-// Login
-app.post('/login', userLogin)
+app.use(cors({
+  origin: ['http://localhost:3000'],
+  methods: ['POST', 'GET', 'PATCH'],
+  credentials: true
+}))
 
 // Routes
 app.use('/users/search', searchUsers)
 app.use('/users', AppRoutes)
+
+// Login
+app.post('/login', userLogin)
 
 app.use('/error', (req, res) => {
   res.status(404).render('404error', { title: 'Error 404 - Page not found' })

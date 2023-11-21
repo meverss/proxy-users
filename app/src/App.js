@@ -11,6 +11,7 @@ import CompLogin from './components/CompLogin.js'
 // Import router
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import CompPdf from './components/PrintPdf.js'
+import CompPageNotFound from './components/PageNotFound.js'
 
 function App() {
   return (
@@ -26,11 +27,12 @@ function App() {
       <br />
       <BrowserRouter basename='/'>
         <Routes>
-          <Route path='/' element={<CompShowUsers />} />
+          <Route path='/' element={<CompLogin />} />
+          <Route path='/users' element={<CompShowUsers />} />
           <Route path='/create' element={<CompCreateUser />} />
           <Route path='/edit/:id' element={<CompEditUser />} />
           <Route path='/pdf' Component={CompPdf} />
-          <Route path='/login' element={<CompLogin />} />
+          <Route path='/error' Component={<CompPageNotFound />} />
         </Routes>
       </BrowserRouter>
 

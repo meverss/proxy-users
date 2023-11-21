@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { SERVER } from './ShowUsers'
+import { SERVER } from './ShowUsers.js'
 
 const URI = `${SERVER}/users/`
 

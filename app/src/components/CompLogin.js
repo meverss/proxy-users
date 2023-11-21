@@ -15,16 +15,12 @@ const CompLogin = () => {
   const showPassword = () => {
     const pwd = document.getElementById('pwdInput')
     const showPwd = document.getElementById('showPwd')
-    // const eye = document.getElementById('eye')
+
 
     if (pwd.type === 'password') {
-
       pwd.type = 'text'
-
-      showPwd.innerHTML = "<FaEyeSlash className='formIcons eye' id='eye' />"
     } else {
       pwd.type = 'password'
-      showPwd.innerHTML = `<FaEye className='formIcons eye' id='eye' />`
     }
   }
 
@@ -33,32 +29,36 @@ const CompLogin = () => {
     const pawdInput = document.getElementById('pwdInput')
     const subTitle = document.getElementById('subTitle')
 
-    e.preventDefault()
-    try {
-      const res = await axios.post(URI, { user: user, password: password })
-      if (res.status !== 404) {
-        pawdInput.value = ''; userInput.value = ''
-        setUser('')
-        setPassword('')
-        setInfo(res.data)
-        console.table(res.data)
-        console.log(res.status)
-      }
-    } catch (error) {
-      subTitle.innerHTML = `<span style="color: red">Usuario o contraseña incorrectos</span>`
-      setTimeout(() => {
-        subTitle.innerHTML = `Ingrese sus credenciales`
-      }, 2000)
+    const cleanForm = () => {
       pawdInput.value = ''; userInput.value = ''
       setUser('')
       setPassword('')
       userInput.focus()
     }
+
+    e.preventDefault()
+    try {
+      // axios.defaults.withCredentials = true
+      const res = await axios.post(URI, { user: user, password: password })
+      if (res.status !== 404) {
+        cleanForm()
+        setInfo(res.data)
+        console.table(res.data)
+        navigate('/users')
+      }
+    } catch (error) {
+      console.log(error.message)
+      subTitle.innerHTML = `<span style="color: red">Usuario o contraseña incorrectos</span>`
+      setTimeout(() => {
+        subTitle.innerHTML = `Ingrese sus credenciales`
+      }, 2000)
+      cleanForm()
+    }
   }
 
   return (
     <>
-      < div className='App' >
+      < div className='App'>
         <section className='vh-100 mainContainer'>
           <div className='container h-100 loginBox'>
             <div className='card text-white' style={{ borderRadius: '1rem' }}>
@@ -81,7 +81,7 @@ const CompLogin = () => {
                   <div className="input-group mb-3">
                     <span className="input-group-text"><FaUnlock className='formIcons' /></span>
                     <input type="password" className="form-control" id='pwdInput' name='pwdInput' placeholder='Contraseña' aria-label="Amount (to the nearest dollar)" value={password} onChange={(e) => setPassword(e.target.value)} />
-                    <span className="input-group-text" id="showPwd" onClick={showPassword}><FaEye className='formIcons eye' id='eye' /></span>
+                    <span className="input-group-text" id="showPwd" onClick={showPassword}><FaEye /></span>
                   </div>
 
                   <button className='btn btn-success px-5' type='submit'>Login</button>
@@ -89,8 +89,8 @@ const CompLogin = () => {
                 </form>
               </div>
             </div>
-          </div>
-        </section>
+          </div >
+        </section >
       </div >
     </>
   )
