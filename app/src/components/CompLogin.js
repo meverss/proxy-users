@@ -38,7 +38,7 @@ const CompLogin = () => {
 
     e.preventDefault()
     try {
-      // axios.defaults.withCredentials = true
+      axios.defaults.withCredentials = true
       const res = await axios.post(URI, { user: user, password: password })
       if (res.status !== 404) {
         cleanForm()
