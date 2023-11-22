@@ -19,16 +19,17 @@ function App() {
       <nav className='navbar bg-dark border-bottom border-body' data-bs-theme='dark'>
         <div className='container container-fluid titlebar'>
           <a className='navbar-brand' href='/'>
-            <img src={logo} className='App-logo' alt='logo' />&nbsp;
-            {/* Gestión de usuarios del proxy */}
+            {/* <img src={logo} className='App-logo' alt='logo' />&nbsp; */}
+            Gestión de usuarios del proxy
           </a>
         </div>
       </nav>
       <br />
-      <BrowserRouter basename='/'>
+
+      <BrowserRouter forceRefresh={true}>
         <Routes>
-          <Route path='/' element={<CompLogin />} />
-          <Route path='/users' element={<CompShowUsers />} />
+          <Route path='/' element={<CompShowUsers />} />
+          <Route path='/login' element={<CompLogin />} />
           <Route path='/create' element={<CompCreateUser />} />
           <Route path='/edit/:id' element={<CompEditUser />} />
           <Route path='/pdf' Component={CompPdf} />

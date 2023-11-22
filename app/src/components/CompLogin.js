@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { FaUser, FaUnlock, FaEye, FaEyeSlash } from "react-icons/fa6";
+import { SlUser, SlLock } from "react-icons/sl";
 import { useState } from "react"
 import { useNavigate } from 'react-router-dom'
 
@@ -9,6 +10,7 @@ const CompLogin = () => {
 
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
+  const [auth, setAuth] = useState(false)
   const [info, setInfo] = useState([])
   const navigate = useNavigate()
 
@@ -44,7 +46,7 @@ const CompLogin = () => {
         cleanForm()
         setInfo(res.data)
         console.table(res.data)
-        navigate('/users')
+        navigate('/')
       }
     } catch (error) {
       console.log(error.message)
@@ -70,8 +72,9 @@ const CompLogin = () => {
                   <p className='subTitle' id="subTitle">Ingrese sus credenciales</p>
 
                   <div className="input-group mb-3">
-                    <span className="input-group-text" id="basic-addon1"><FaUser className='formIcons' /></span>
-                    <input type="text" className="form-control" id='userInput' name='userInput' list="datalistOptions" placeholder="Usuario" aria-label="Username" aria-describedby="basic-addon1" value={user} onChange={(e) => setUser(e.target.value)} />
+                    <span className="input-group-text" id="basic-addon1"><SlUser className='formIcons' /></span>
+                    <input type="text" className="form-control" id='userInput' name='userInput' list="datalistOptions" placeholder="Usuario" aria-label="Username" aria-describedby="basic-addon1" value={user}
+                      onChange={(e) => { setUser(e.target.value.toLowerCase()) }} />
                     <datalist id="datalistOptions">
                       <option value="admin" />
                       <option value="marvin" />
@@ -79,9 +82,9 @@ const CompLogin = () => {
                   </div>
 
                   <div className="input-group mb-3">
-                    <span className="input-group-text"><FaUnlock className='formIcons' /></span>
+                    <span className="input-group-text"><SlLock className='formIcons' /></span>
                     <input type="password" className="form-control" id='pwdInput' name='pwdInput' placeholder='Contraseña' aria-label="Amount (to the nearest dollar)" value={password} onChange={(e) => setPassword(e.target.value)} />
-                    <span className="input-group-text" id="showPwd" onClick={showPassword}><FaEye /></span>
+                    <span className="input-group-text" id="showPwd" onClick={showPassword}><FaEye className='eye' /></span>
                   </div>
 
                   <button className='btn btn-success px-5' type='submit'>Login</button>

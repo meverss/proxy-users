@@ -1,16 +1,35 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { BsJournalText, BsTrash, BsPersonFillAdd } from 'react-icons/bs'
-
+import { Link, useNavigate } from 'react-router-dom'
+import { BsJournalText, BsTrash } from 'react-icons/bs'
+import { SlUserFollow, SlUser, SlNote, SlTrash, SlLock } from "react-icons/sl";
 
 const PORT = 4000
+
 export const SERVER = `http://localhost:${PORT}`
 
 const URI = `${SERVER}/users/`
+
 const CompShowusers = () => {
   const [users, setusers] = useState([])
+  const [auth, setAuth] = useState(false)
+  const [username, setUsernam] = useState('')
+  const navigate = useNavigate()
+
+  axios.defaults.withCredentials = true
   useEffect(() => {
+    const verifyUser = async () => {
+      const res = await axios.get(SERVER)
+      if (res.data.Status === 'success') {
+        setAuth(true)
+        setUsernam(res.data.fullname)
+        console.log(res.data.Status)
+      } else {
+        console.log('Error')
+        navigate('/login')
+      }
+    }
+    verifyUser()
     getUsers()
   }, [])
 
@@ -34,53 +53,60 @@ const CompShowusers = () => {
 
   return (
     <>
-      <div className='container'>
-        <div className='row'>
-          <div className='col'>
-            <h1 className='appTitle'>Listado de usuarios</h1>
-            <div className='input-group mb-3'>
-              <span className='input-group-text' id='basic-addon1'>Buscar usuario</span>
-              <input
-                className='form-control'
-                onChange={(e) => filterUsers(e.target.value)}
-                type='text'
-              />
-            </div>
-            <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
-              <Link to='/create' className='new-record btn btn-outline-secondary me-md-2' style={{ borderRadius: '8px' }}><BsPersonFillAdd size='20px' /> Nuevo usuario</Link>
-            </div>
-            <div className='usersTable'>
-              <table className='table table-responsive table-sm table-hover'>
-                <thead className='table-dark'>
-                  <tr>
-                    <th scope='col'>Usuario</th>
-                    <th scope='col'>Nombre y apellidos</th>
-                    <th scope='col'>Creado</th>
-                    <th scope='col'>Modificdo</th>
-                    <th scope='col'>Estado</th>
-                    <th scope='col'>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((user) => (
-                    <tr key={user.id} className='table-sm'>
-                      <td><p> {user.user}</p> </td>
-                      <td><p> {user.fullname}</p> </td>
-                      <td><p> {user.createdAt}</p> </td>
-                      <td><p> {user.updatedAt} </p></td>
-                      <td> <p>{user.enabled === 1 ? <span style={{ color: 'green' }}>Activo</span> : <span style={{ color: 'red' }}>Inactivo</span>} </p></td>
-                      <td className='actions'>
-                        <Link to={`/edit/${user.id}`} className='btn btn-sm btn-outline-secondary'><BsJournalText size='26px' /></Link>
-                        <button className='btn btn-sm btn-outline-danger' onClick={() => deleteuser(user.id)}><BsTrash size='24px' /></button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+      {
+        auth ?
+          <div className='container'>
+            <div className='row'>
+              <div className='col'>
+                <h1 className='appTitle'>Listado de usuarios</h1>
+                <div className='input-group mb-3'>
+                  <span className='input-group-text' id='basic-addon1'>Buscar usuario</span>
+                  <input
+                    className='form-control'
+                    onChange={(e) => filterUsers(e.target.value)}
+                    type='text'
+                  />
+                </div>
+                <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
+                  <Link to='/create' className='new-record btn btn-outline-secondary me-md-2' style={{ borderRadius: '8px' }}><SlUserFollow size='32px' /></Link>
+                </div>
+                <div className='usersTable'>
+                  <table className='table table-responsive table-sm table-hover'>
+                    <thead className='table-dark'>
+                      <tr>
+                        <th scope='col'>Usuario</th>
+                        <th scope='col'>Nombre y apellidos</th>
+                        <th scope='col'>Creado</th>
+                        <th scope='col'>Modificdo</th>
+                        <th scope='col'>Estado</th>
+                        <th scope='col'>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {users.map((user) => (
+                        <tr key={user.id} className='table-sm'>
+                          <td><p> {user.user}</p> </td>
+                          <td><p> {user.fullname}</p> </td>
+                          <td><p> {user.createdAt}</p> </td>
+                          <td><p> {user.updatedAt} </p></td>
+                          <td> <p>{user.enabled === 1 ? <span style={{ color: 'green' }}>Activo</span> : <span style={{ color: 'red' }}>Inactivo</span>} </p></td>
+                          <td className='actions'>
+                            <Link to={`/edit/${user.id}`} className='btn btn-sm btn-outline-secondary'><BsJournalText size='26px' /></Link>
+                            <button className='btn btn-sm btn-outline-danger' onClick={() => deleteuser(user.id)}><BsTrash size='24px' /></button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+          :
+          <div>
+            <h1>Debe iniciar sesión</h1>
+          </div>
+      }
     </>
   )
 }

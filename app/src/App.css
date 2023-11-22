@@ -182,9 +182,18 @@ td p {
 }
 
 .formIcons {
-  color: #999;
+  color: #333;
+}
+.eye {
+  color: #333;
+  transition: .2s;
+}
+.eye:hover {
+  color: #000;
+  transform: scale(1.2);
 }
 
-.eye:hover {
+.eye:active {
   color: #333;
+  transform: scale(1);
 }
