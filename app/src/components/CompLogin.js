@@ -39,6 +39,7 @@ const CompLogin = () => {
     }
 
     e.preventDefault()
+    
     try {
       axios.defaults.withCredentials = true
       const res = await axios.post(URI, { user: user, password: password })
@@ -46,7 +47,12 @@ const CompLogin = () => {
         cleanForm()
         setInfo(res.data)
         console.table(res.data)
-        navigate('/')
+        if(res.data.user === 'admin'){
+          navigate('/')
+        }else{
+          navigate('/chpasswd')
+        }
+        window.location.reload(true)
       }
     } catch (error) {
       console.log(error.message)

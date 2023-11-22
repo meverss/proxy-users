@@ -21,7 +21,7 @@ const CompCreateUser = () => {
 
   return (
     <div className='container createUser'>
-      <h1 className='appTitle'>Crear nuevo Usuario</h1>
+      <h1 className='appTitle fw-bold mb-3'>Crear nuevo Usuario</h1>
       <form onSubmit={save}>
         <div className='input-group mb-3'>
           <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>

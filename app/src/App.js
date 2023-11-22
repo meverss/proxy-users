@@ -18,23 +18,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import CompPdf from './components/PrintPdf.js'
 import CompPageNotFound from './components/PageNotFound.js'
 
-
 function App() {
 
-  const lob = document.getElementById('logOut')
-  console.log(lob)
-  // if(document.getElementById('')){
-
-  // }else{
-
-  // }
-
-  const [isLogin, setIsLogin] = useState(true)
-  useEffect(()=>{
-    if(isLogin === true) console.log(document.getElementById('logOut'))
-    setIsLogin(false)
-  })
-  
   const logOut = async () => {
     await axios.get(`${SERVER}/logout`)
     window.location.reload(true)
@@ -44,17 +29,18 @@ function App() {
     <div className='App'>
       <nav className="navbar border-bottom" style={{ backgroundColor: '#555' }}>
         <div className="container-fluid">
-          <a className="navbar-brand">Usuarios del proxy</a>
-          <form className="d-flex" role="search">
-            {window.location.pathname === '/login' ? '' :
-              < button className="btn btn-outline-success" id='logOut' type="button" onClick={logOut}>Logout</button>
+          <a className="App-Title navbar-brand"><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></a>
+          <form className="d-flex" role="search" id='logOut'>
+            {window.location.pathname === '/' ?
+              < button className="btn" type="button" onClick={logOut}>Salir <SlLogout size='26px' /></button>
+              : ''
             }
           </form>
         </div>
       </nav >
       <br />
 
-      <BrowserRouter forceRefresh={true}>
+      <BrowserRouter basename='/' forceRefresh={true}>
         <Routes>
           <Route path='/' element={<CompShowUsers />} />
           <Route path='/login' element={<CompLogin />} />

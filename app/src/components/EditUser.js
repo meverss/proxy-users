@@ -79,7 +79,7 @@ const CompEditUser = () => {
   return (
     <>
       <div className='container editUser'>
-        <h1 className='appTitle'>Editar datos de {fullname}</h1>
+        <h1 className='appTitle fw-bold mb-3'>Editar datos de {fullname}</h1>
         <form onSubmit={updateUser}>
           <div className='input-group mb-3'>
             <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
