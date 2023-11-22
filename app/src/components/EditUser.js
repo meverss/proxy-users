@@ -78,51 +78,54 @@ const CompEditUser = () => {
 
   return (
     <>
-      <div className='container editUser'>
-        <h1 className='appTitle fw-bold mb-3'>Editar datos de {fullname}</h1>
-        <form onSubmit={updateUser}>
-          <div className='input-group mb-3'>
-            <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
-            <input
-              className='form-control'
-              placeholder={user}
-              onChange={(e) => setUser(e.target.value)}
-              type='text'
-            />
-          </div>
-          <div className='input-group mb-3'>
-            <span className='input-group-text' id='inputGroup-sizing-default'>Nombre y Apellidos</span>
-            <input
-              className='form-control'
-              placeholder={fullname}
-              onChange={(e) => setFullname(e.target.value)}
-              type='text'
-            />
-          </div>
-          <div className='input-group mb-3'>
-            <span className='input-group-text' id='passwd'>Contraseña</span>
-            <input
-              className='form-control'
-              placeholder='********'
-              onChange={(e) => setPassword(e.target.value)}
-              type='password'
-            />
-          </div>
-          <div className='form-switch' >
-            <input className='form-check-input' id='userState' type='checkbox' role='switch' onChange={checkState} /> &nbsp;
-            <label className='form-check-label' id='userStateLabel' htmlFor='flexSwitchCheckDefault' />
-          </div>
-          <div className='formButtons'>
-            <button
-              type='button' className='btn btn-secondary' onClick={() => navigate('/')}
-            >
-              Cancelar
-            </button>
-            <button type='submit' className='btn btn-success'>
-              Guardar
-            </button>
-          </div>
-        </form>
+      <div className='editBox '>
+        <div className='container editUser shadow-sm'>
+          <h1 className='appTitle fw-bold mb-3'>Editar datos de {fullname}</h1>
+          <form onSubmit={updateUser}>
+            <div className='input-group mb-3'>
+              <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
+              <input
+                className='form-control'
+                placeholder={user}
+                onChange={(e) => setUser(e.target.value)}
+                type='text'
+              />
+            </div>
+            <div className='input-group mb-3'>
+              <span className='input-group-text' id='inputGroup-sizing-default'>Nombre y Apellidos</span>
+              <input
+                className='form-control'
+                placeholder={fullname}
+                onChange={(e) => setFullname(e.target.value)}
+                type='text'
+              />
+            </div>
+            <div className='input-group mb-3'>
+              <span className='input-group-text' id='passwd'>Contraseña</span>
+              <input
+                className='form-control'
+                placeholder='********'
+                onChange={(e) => setPassword(e.target.value)}
+                type='password'
+              />
+            </div>
+            <div className='form-switch' >
+              <input className='form-check-input' id='userState' type='checkbox' role='switch' onChange={checkState} /> &nbsp;
+              <label className='form-check-label' id='userStateLabel' htmlFor='flexSwitchCheckDefault' />
+            </div>
+            <br />
+            <div className='formButtons'>
+              <button
+                type='button' className='btn btn-secondary' onClick={() => navigate('/')}
+              >
+                Cancelar
+              </button>
+              <button type='submit' className='btn btn-success'>
+                Guardar
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   )

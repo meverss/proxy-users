@@ -20,48 +20,53 @@ const CompCreateUser = () => {
   }
 
   return (
-    <div className='container createUser'>
-      <h1 className='appTitle fw-bold mb-3'>Crear nuevo Usuario</h1>
-      <form onSubmit={save}>
-        <div className='input-group mb-3'>
-          <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
-          <input
-            className='form-control'
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
-            type='text'
-          />
+    <>
+      <div className='createBox'>
+        <div className='container createUser shadow-sm'>
+          <h1 className='appTitle fw-bold mb-3'>Crear nuevo Usuario</h1>
+          <form onSubmit={save}>
+            <div className='input-group mb-3'>
+              <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
+              <input
+                className='form-control'
+                value={user}
+                onChange={(e) => setUser(e.target.value)}
+                type='text'
+              />
+            </div>
+            <div className='input-group mb-3'>
+              <span className='input-group-text' id='inputGroup-sizing-default'>Nombre y Apellidos</span>
+              <input
+                className='form-control'
+                value={fullname}
+                onChange={(e) => setFullname(e.target.value)}
+                type='text'
+              />
+            </div>
+            <div className='input-group mb-3'>
+              <span className='input-group-text' id='inputGroup-sizing-default'>Contraseña</span>
+              <input
+                className='form-control'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type='password'
+              />
+            </div>
+            <br />
+            <div className='formButtons'>
+              <button
+                type='button' className='btn btn-secondary' onClick={() => navigate('/')}
+              >
+                Cancelar
+              </button>
+              <button type='submit' className='btn btn-success'>
+                Guardar
+              </button>
+            </div>
+          </form>
         </div>
-        <div className='input-group mb-3'>
-          <span className='input-group-text' id='inputGroup-sizing-default'>Nombre y Apellidos</span>
-          <input
-            className='form-control'
-            value={fullname}
-            onChange={(e) => setFullname(e.target.value)}
-            type='text'
-          />
-        </div>
-        <div className='input-group mb-3'>
-          <span className='input-group-text' id='inputGroup-sizing-default'>Contraseña</span>
-          <input
-            className='form-control'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type='password'
-          />
-        </div>
-        <div className='formButtons'>
-          <button
-            type='button' className='btn btn-secondary' onClick={() => navigate('/')}
-          >
-            Cancelar
-          </button>
-          <button type='submit' className='btn btn-success'>
-            Guardar
-          </button>
-        </div>
-      </form>
-    </div>
+      </div>
+    </>
   )
 }
 

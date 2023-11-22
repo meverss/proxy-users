@@ -115,11 +115,24 @@ td p {
   align-items: center;
 }
 
-.usersTable {
+.usersTable, .editUser, .createUser {
   overflow-x: auto;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 3px;
+}
+
+.editBox, .createBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.editUser,
+.createUser {
+  padding: 20px;
+  margin: auto;
 }
 
 .table {

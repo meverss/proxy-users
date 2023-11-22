@@ -57,20 +57,20 @@ const CompShowusers = () => {
             <div className='row'>
               <div className='col'>
                 <h1 className='appTitle fw-bold mb-3'>Listado de usuarios</h1>
-                <div className='input-group mb-3'>
-                  <span className='input-group-text' id='basic-addon1'><SlMagnifier /></span>
+                <div className='input-group mb-3 shadow-sm'>
+                  <span className='input-group-text ' id='basic-addon1'><SlMagnifier /></span>
                   <input
                     className='form-control'
                     onChange={(e) => filterUsers(e.target.value)}
                     type='text'
                   />
                 </div>
-                <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
-                  <Link to='/create' className='new-record btn btn-outline-secondary me-md-2' style={{ borderRadius: '8px' }}><SlUserFollow size='22px' /> Nuevo</Link>
+                <div className='d-grid gap-2 d-md-flex justify-content-md-end '>
+                  <Link to='/create' className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle' style={{ borderRadius: '8px' }}><SlUserFollow size='22px' /> Nuevo</Link>
                 </div>
-                <div className='usersTable'>
+                <div className='usersTable shadow-sm p-3 mb-5 '>
                   <table className='table table-responsive table-sm table-hover'>
-                    <thead className='table-light' style={{backgroundColor: '#000'}}>
+                    <thead className='table' style={{backgroundColor: '#000'}}>
                       <tr>
                         <th scope='col'>Usuario</th>
                         <th scope='col'>Nombre y apellidos</th>

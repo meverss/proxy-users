@@ -39,7 +39,7 @@ const CompLogin = () => {
     }
 
     e.preventDefault()
-    
+
     try {
       axios.defaults.withCredentials = true
       const res = await axios.post(URI, { user: user, password: password })
@@ -56,7 +56,7 @@ const CompLogin = () => {
       }
     } catch (error) {
       console.log(error.message)
-      subTitle.innerHTML = `<span style="color: red">Usuario o contraseña incorrectos</span>`
+      subTitle.innerHTML = `<span style="color: red">Usuario o contraseã inválidos</span>`
       setTimeout(() => {
         subTitle.innerHTML = `Ingrese sus credenciales`
       }, 2000)
