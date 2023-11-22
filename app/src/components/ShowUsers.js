@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { BsJournalText, BsTrash } from 'react-icons/bs'
-import { SlUserFollow, SlUser, SlNote, SlTrash, SlLock } from "react-icons/sl";
+import { SlUserFollow } from "react-icons/sl";
 
 const PORT = 4000
 
@@ -10,14 +10,16 @@ export const SERVER = `http://localhost:${PORT}`
 
 const URI = `${SERVER}/users/`
 
+// window.location.reload(true)
+
 const CompShowusers = () => {
-  const [users, setusers] = useState([])
   const [auth, setAuth] = useState(false)
   const [username, setUsernam] = useState('')
+  const [users, setusers] = useState([])
   const navigate = useNavigate()
 
-  axios.defaults.withCredentials = true
   useEffect(() => {
+    axios.defaults.withCredentials = true
     const verifyUser = async () => {
       const res = await axios.get(SERVER)
       if (res.data.Status === 'success') {

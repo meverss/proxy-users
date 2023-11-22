@@ -6,15 +6,30 @@ import { SERVER } from './ShowUsers.js'
 const URI = `${SERVER}/users/`
 
 const CompEditUser = () => {
+  const [auth, setAuth] = useState(false)
+  const [username, setUsernam] = useState('')
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const [fullname, setFullname] = useState('')
   const [enabled, setEnabled] = useState('')
-
   const navigate = useNavigate()
+
   const { id } = useParams()
 
+  axios.defaults.withCredentials = true
   useEffect(() => {
+    const verifyUser = async () => {
+      const res = await axios.get(SERVER)
+      if (res.data.Status === 'success') {
+        setAuth(true)
+        setUsernam(res.data.fullname)
+        console.log(res.data.Status)
+      } else {
+        console.log('Error')
+        navigate('/login')
+      }
+    }
+    verifyUser()
     getUserById()
   }, [])
 

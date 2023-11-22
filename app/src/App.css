@@ -31,11 +31,9 @@
   margin-left: 20px;
 }
 
-/* @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-} */
+.navbar{
+  background-color: #333;
+}
 
 .titlebar {
   display: flex;
@@ -162,7 +160,7 @@ td p {
   align-items: center;
   max-width: 400px;
   max-height: 320px;
-  background-color: #333;
+  background-color: #444;
   margin-top: -100px;
 }
 

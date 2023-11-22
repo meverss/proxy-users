@@ -6,6 +6,7 @@ import { SERVER } from './ShowUsers.js'
 const URI = `${SERVER}/users/`
 
 const CompCreateUser = () => {
+  const [auth, setAuth] = useState(false)
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const [fullname, setFullname] = useState('')

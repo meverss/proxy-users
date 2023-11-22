@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken'
 
 const app = express()
 
+// Verify if user is autenticated
 const verifyUser = (req, res, next) => {
   const token = req.cookies.token
   if (!token) {
@@ -35,13 +36,16 @@ app.use(cors({
   credentials: true
 }))
 
+// Login & Logout
+app.post('/login', userLogin)
+app.get('/logout', (req, res) => {
+  res.clearCookie('token')
+  res.json({ Status: 'success' })
+})
+
 // Routes
 app.use('/users/search', searchUsers)
 app.use('/users', AppRoutes)
-
-// Login
-app.post('/login', userLogin)
-
 app.use('/error', (req, res) => {
   res.status(404).render('404error', { title: 'Error 404 - Page not found' })
 })
