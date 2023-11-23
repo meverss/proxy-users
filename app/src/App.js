@@ -32,7 +32,7 @@ function App() {
           <a className="App-Title navbar-brand"><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></a>
           <form className="d-flex" role="search" id='logOut'>
             {window.location.pathname === '/' ?
-              < button className="btn" type="button" onClick={logOut}>Salir <SlLogout size='26px' /></button>
+              < button className="btn" type="button" onClick={logOut}>Salir <SlLogout className='actionIcon' size='26px' /></button>
               : ''
             }
           </form>

@@ -25,7 +25,6 @@ const CompEditUser = () => {
         setUsernam(res.data.fullname)
         console.log(res.data.Status)
       } else {
-        console.log('Error')
         navigate('/login')
       }
     }

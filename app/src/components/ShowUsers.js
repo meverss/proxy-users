@@ -22,7 +22,6 @@ const CompShowusers = () => {
         setAuth(true)
         setUsernam(res.data.fullname)
       } else {
-        console.log('Error')
         navigate('/login')
         window.location.reload(true)
       }
@@ -70,7 +69,7 @@ const CompShowusers = () => {
                 </div>
                 <div className='usersTable shadow-sm p-3 mb-5 '>
                   <table className='table table-responsive table-sm table-hover'>
-                    <thead className='table' style={{backgroundColor: '#000'}}>
+                    <thead className='table' style={{ backgroundColor: '#000' }}>
                       <tr>
                         <th scope='col'>Usuario</th>
                         <th scope='col'>Nombre y apellidos</th>
@@ -89,8 +88,8 @@ const CompShowusers = () => {
                           <td><p> {user.updatedAt} </p></td>
                           <td> <p>{user.enabled === 1 ? <span style={{ color: 'green' }}>Activo</span> : <span style={{ color: 'red' }}>Inactivo</span>} </p></td>
                           <td className='actions'>
-                            <Link to={`/edit/${user.id}`} className='btn btn-sm '><BsJournalText size='26px' /></Link>
-                            <button className='btn btn-sm' onClick={() => deleteuser(user.id)}><BsTrash size='24px' /></button>
+                            <Link to={`/edit/${user.id}`} className='btn btn-sm '><BsJournalText className='actionIcon' size='26px' /></Link>
+                            <button className='btn btn-sm' onClick={() => deleteuser(user.id)}><BsTrash className='actionIcon' size='24px' /></button>
                           </td>
                         </tr>
                       ))}

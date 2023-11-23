@@ -158,6 +158,19 @@ td p {
   cursor: pointer;
 }
 
+.actionIcon {
+  transition: .2s;
+}
+
+.actionIcon:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.actionIcon:active {
+  transform: scale(1);
+}
+
 /* Login form */
 .mainContainer {
   display: flex;

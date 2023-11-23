@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken'
 const app = express()
 
 // Verify if user is autenticated
-const verifyUser = (req, res, next) => {
+export const verifyUser = (req, res, next) => {
   const token = req.cookies.token
   if (!token) {
     res.send({ message: 'User not autenticated' })
@@ -32,7 +32,7 @@ app.use(cookieParser())
 app.use(express.static('./static'))
 app.use(cors({
   origin: ['http://localhost:3000'],
-  methods: ['POST', 'GET', 'PATCH'],
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   credentials: true
 }))
 
@@ -44,8 +44,8 @@ app.get('/logout', (req, res) => {
 })
 
 // Routes
-app.use('/users/search', searchUsers)
-app.use('/users', AppRoutes)
+app.use('/users/search', verifyUser, searchUsers)
+app.use('/users', verifyUser, AppRoutes)
 app.use('/error', (req, res) => {
   res.status(404).render('404error', { title: 'Error 404 - Page not found' })
 })
