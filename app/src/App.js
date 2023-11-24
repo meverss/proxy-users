@@ -1,9 +1,9 @@
-import logo from '../src/images/squid.webp'
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
-import { Link } from 'react-router-dom';
 import { SlLogout } from "react-icons/sl";
-import { useState, useEffect } from 'react';
+// import { Link } from 'react-router-dom';
+// import { useState, useEffect } from 'react';
+// import logo from '../src/images/squid.webp'
 
 // Import Components
 import CompShowUsers from './components/ShowUsers.js'
@@ -30,9 +30,10 @@ function App() {
       <nav className="navbar border-bottom" style={{ backgroundColor: '#555' }}>
         <div className="container-fluid">
           <a className="App-Title navbar-brand"><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></a>
-          <form className="d-flex" role="search" id='logOut'>
+          <form className="d-inline-flex" role="search" id='logOut'>
+            <span className='userName' id='userName'></span>
             {window.location.pathname === '/' ?
-              < button className="btn" type="button" onClick={logOut}>Salir <SlLogout className='actionIcon' size='26px' /></button>
+              < button className="btn" id='logOut' type="button" onClick={logOut}><SlLogout className='actionIcon' size='26px' color='chocolate' /></button>
               : ''
             }
           </form>

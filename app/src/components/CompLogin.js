@@ -3,6 +3,7 @@ import { FaUser, FaUnlock, FaEye, FaEyeSlash } from "react-icons/fa6";
 import { SlUser, SlLock } from "react-icons/sl";
 import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
+import { SERVER } from './ShowUsers';
 
 const URI = 'http://localhost:4000/login'
 
@@ -11,8 +12,29 @@ const CompLogin = () => {
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const [auth, setAuth] = useState(false)
-  const [info, setInfo] = useState([])
   const navigate = useNavigate()
+
+  useEffect(() => {
+    axios.defaults.withCredentials = true
+    const verifyUser = async () => {
+      const res = await axios.get(SERVER)
+      if (res.data.Status === 'success') {
+        console.log(res)
+        navigate('/')
+        window.location.reload(true)
+      }
+    }
+    verifyUser()
+    // setToken()
+  }, [])
+
+
+  const setToken = () => {
+    const res = axios.patch(URI + '/tokenize', { user })
+    // alert(res.data.token)
+    alert(res.data)
+  }
+
 
   const showPassword = () => {
     const pwd = document.getElementById('pwdInput')
@@ -45,14 +67,15 @@ const CompLogin = () => {
       const res = await axios.post(URI, { user: user, password: password })
       if (res.status !== 404) {
         cleanForm()
-        setInfo(res.data)
         console.table(res.data)
-        if(res.data.user === 'admin'){
+        if (res.data.user === 'admin') {
           navigate('/')
-        }else{
+          setToken()
+        } else {
           navigate('/chpasswd')
         }
         window.location.reload(true)
+        document.getElementById('userName').innerHTML = res.data.fullname
       }
     } catch (error) {
       console.log(error.message)

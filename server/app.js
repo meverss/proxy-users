@@ -3,7 +3,7 @@ import cors from 'cors'
 import AppRoutes from './routes/routes.js'
 import { searchUsers } from './controllers/UsersController.js'
 import cookieParser from 'cookie-parser'
-import { userLogin } from './controllers/LoginController.js'
+import { addToken, userLogin } from './controllers/LoginController.js'
 import jwt from 'jsonwebtoken'
 
 const app = express()
@@ -31,17 +31,20 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(express.static('./static'))
 app.use(cors({
-  origin: ['http://localhost:3000'],
+  origin: ['http://localhost:3000', 'http://localhost:4000', 'http://192.168.228.14:3000'],
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   credentials: true
 }))
 
 // Login & Logout
 app.post('/login', userLogin)
+app.patch('/login/tokenize', addToken)
 app.get('/logout', (req, res) => {
   res.clearCookie('token')
+  res.clearCookie('user')
   res.json({ Status: 'success' })
 })
+
 
 // Routes
 app.use('/users/search', verifyUser, searchUsers)

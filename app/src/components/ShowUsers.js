@@ -10,7 +10,8 @@ const URI = `${SERVER}/users/`
 
 const CompShowusers = () => {
   const [auth, setAuth] = useState(false)
-  const [username, setUsernam] = useState('')
+  const [user, setUser] = useState('')
+  const [info, setInfo] = useState('')
   const [users, setusers] = useState([])
   const navigate = useNavigate()
 
@@ -20,7 +21,13 @@ const CompShowusers = () => {
       const res = await axios.get(SERVER)
       if (res.data.Status === 'success') {
         setAuth(true)
-        setUsernam(res.data.fullname)
+        // setUser(res.data.user)
+        // document.getElementById('userName').innerHTML = user
+
+        const regex = new RegExp(`(^| )token=([^;]+)`)
+        // console.log(document.cookie.match(regex)[0].split('=')[1])
+        // console.log(document.getElementById('userName'))
+        
       } else {
         navigate('/login')
         window.location.reload(true)
