@@ -22,7 +22,6 @@ const CompShowusers = () => {
       const res = await axios.get(SERVER)
       if (res.data.Status === 'success') {
         setAuth(true)
-        getName()
       } else {
         navigate('/login')
         window.location.reload(true)
@@ -34,11 +33,16 @@ const CompShowusers = () => {
   }, [])
 
   const getName = async () => {
-    const regex = new RegExp(`(^| )token=([^;]+)`)
-    const token = document.cookie.match(regex)[0].split('=')[1]
+    try {
+      const regex = new RegExp(`(^| )token=([^;]+)`)
+      const token = document.cookie.match(regex)[0].split('=')[1]
 
-    const res = await axios.get(URI + token)
-    document.getElementById('userName').innerHTML = res.data.fullname
+      const res = await axios.get(URI + token)
+        document.getElementById('userName').innerHTML = res.data.fullname
+
+    } catch (error) {
+      
+    }
   }
 
 

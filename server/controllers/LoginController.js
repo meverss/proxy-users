@@ -36,7 +36,7 @@ export const addToken = async (req, res) => {
   try {
     const [sql] = await db.query(`UPDATE passwd SET token = '${token}' WHERE user = ?`, [user])
     if (sql.affectedRows >= 1) {
-      res.json({token: token})
+      res.json({ token: token })
     } else {
       console.log('User not found')
       res.sendStatus(404)

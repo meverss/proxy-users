@@ -47,9 +47,9 @@ app.get('/logout', (req, res) => {
 
 
 // Routes
+app.use('/users', verifyUser, AppRoutes)
 app.get('/users/:token', getUserName)
 app.use('/users/search', verifyUser, searchUsers)
-app.use('/users', verifyUser, AppRoutes)
 app.use('/error', (req, res) => {
   res.status(404).render('404error', { title: 'Error 404 - Page not found' })
 })
