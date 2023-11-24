@@ -10,32 +10,39 @@ const URI = `${SERVER}/users/`
 
 const CompShowusers = () => {
   const [auth, setAuth] = useState(false)
-  const [user, setUser] = useState('')
+  const [username, setUserName] = useState('')
   const [info, setInfo] = useState('')
   const [users, setusers] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
+
     axios.defaults.withCredentials = true
     const verifyUser = async () => {
       const res = await axios.get(SERVER)
       if (res.data.Status === 'success') {
         setAuth(true)
-        // setUser(res.data.user)
-        // document.getElementById('userName').innerHTML = user
-
-        const regex = new RegExp(`(^| )token=([^;]+)`)
-        // console.log(document.cookie.match(regex)[0].split('=')[1])
-        // console.log(document.getElementById('userName'))
-        
+        getName()
       } else {
         navigate('/login')
         window.location.reload(true)
       }
     }
     verifyUser()
+    getName()
     getUsers()
   }, [])
+
+  const getName = async () => {
+    const regex = new RegExp(`(^| )token=([^;]+)`)
+    const token = document.cookie.match(regex)[0].split('=')[1]
+
+    const res = await axios.get(URI + token)
+    document.getElementById('userName').innerHTML = res.data.fullname
+  }
+
+
+
 
   // Procedure to show all users
   const getUsers = async () => {

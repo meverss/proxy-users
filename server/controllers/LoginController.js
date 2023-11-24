@@ -33,12 +33,9 @@ export const addToken = async (req, res) => {
   const { user } = req.body
   const token = req.cookies.token
 
-  console.log(user)
-  console.log(token)
   try {
     const [sql] = await db.query(`UPDATE passwd SET token = '${token}' WHERE user = ?`, [user])
     if (sql.affectedRows >= 1) {
-      console.log(`Updated user ${user}`)
       res.json({token: token})
     } else {
       console.log('User not found')

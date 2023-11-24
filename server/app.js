@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import AppRoutes from './routes/routes.js'
-import { searchUsers } from './controllers/UsersController.js'
+import { searchUsers, getUserName } from './controllers/UsersController.js'
 import cookieParser from 'cookie-parser'
 import { addToken, userLogin } from './controllers/LoginController.js'
 import jwt from 'jsonwebtoken'
@@ -47,6 +47,7 @@ app.get('/logout', (req, res) => {
 
 
 // Routes
+app.get('/users/:token', getUserName)
 app.use('/users/search', verifyUser, searchUsers)
 app.use('/users', verifyUser, AppRoutes)
 app.use('/error', (req, res) => {

@@ -25,16 +25,7 @@ const CompLogin = () => {
       }
     }
     verifyUser()
-    // setToken()
   }, [])
-
-
-  const setToken = () => {
-    const res = axios.patch(URI + '/tokenize', { user })
-    // alert(res.data.token)
-    alert(res.data)
-  }
-
 
   const showPassword = () => {
     const pwd = document.getElementById('pwdInput')
@@ -63,15 +54,21 @@ const CompLogin = () => {
     e.preventDefault()
 
     try {
+
+      const setToken = () => {
+        axios.patch(URI + '/tokenize', { user })
+      }
+
       axios.defaults.withCredentials = true
       const res = await axios.post(URI, { user: user, password: password })
       if (res.status !== 404) {
         cleanForm()
         console.table(res.data)
         if (res.data.user === 'admin') {
-          navigate('/')
           setToken()
+          navigate('/')
         } else {
+          setToken()
           navigate('/chpasswd')
         }
         window.location.reload(true)
