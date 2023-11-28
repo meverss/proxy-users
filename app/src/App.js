@@ -20,7 +20,25 @@ import CompPageNotFound from './components/PageNotFound.js'
 
 function App() {
 
+  // const getName = async () => {
+  //   try {
+  //     const regex = new RegExp(`(^| )token=([^;]+)`)
+  //     const token = document.cookie.match(regex)[0].split('=')[1]
+
+  //     const res = await axios.patch(`${SERVER}/logout`)
+  //     // document.getElementById('userName').innerHTML = res.data.fullname
+  //     console.log(res.data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+  const delToken = () => {
+    const res = axios.patch(`${SERVER}/logout`,)
+  }
+
   const logOut = async () => {
+    delToken()
     await axios.get(`${SERVER}/logout`)
     window.location.reload(true)
   }

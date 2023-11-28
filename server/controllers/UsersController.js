@@ -51,8 +51,10 @@ export const getOneUser = async (req, res) => {
 }
 
 export const getUserName = async (req, res) => {
-  const { token } = req.params
+  const token = req.cookies.token
 
+  console.log('lkjasdlkjasd')
+  console.log(token)
   try {
     const [sql] = await db.query(`SELECT fullname FROM passwd WHERE token = ?`, [token])
     if (sql != '') {
@@ -152,8 +154,15 @@ export const deleteUser = async (req, res) => {
 export const searchUsers = async (req, res) => {
   try {
     const { user } = req.query
-    const [sql] = await db.query(`SELECT * FROM passwd WHERE user like '%${user}%' OR fullname like '%${user}%'`)
-    res.json(sql)
+    const token = req.cookies.token
+
+    if (req.query.user !== '') {
+      const [sql] = await db.query(`SELECT * FROM passwd WHERE user like '%${user}%' OR fullname like '%${user}%'`)
+      res.json(sql[0])
+    } else {
+      const [sql] = await db.query(`SELECT * FROM passwd WHERE token = ?`, [token])
+      res.json(sql[0])
+    }
   } catch (error) {
     res.send(req.query)
     return res.status(500).json({

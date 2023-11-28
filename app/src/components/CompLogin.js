@@ -55,11 +55,11 @@ const CompLogin = () => {
 
     try {
 
-      const setToken = () => {
-        axios.patch(URI + '/tokenize', { user })
+      axios.defaults.withCredentials = true
+      const setToken = async () => {
+        await axios.patch(URI + '/tokenize', { user: user })
       }
 
-      axios.defaults.withCredentials = true
       const res = await axios.post(URI, { user: user, password: password })
       if (res.status !== 404) {
         cleanForm()

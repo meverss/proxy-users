@@ -3,7 +3,7 @@ import cors from 'cors'
 import AppRoutes from './routes/routes.js'
 import { searchUsers, getUserName } from './controllers/UsersController.js'
 import cookieParser from 'cookie-parser'
-import { addToken, userLogin } from './controllers/LoginController.js'
+import { addToken, deleteToken, userLogin } from './controllers/LoginController.js'
 import jwt from 'jsonwebtoken'
 
 const app = express()
@@ -17,7 +17,8 @@ export const verifyUser = (req, res, next) => {
     const TOKEN_KEY = 'x4TvnErxRETbVcqaLl5dqMI115eN1p5y'
     jwt.verify(token, TOKEN_KEY, (error, decode) => {
       if (error) {
-        return res.send({ message: 'Incorrect token' })
+        return res.send({error})
+        // return res.send({ message: 'Incorrect token' })
       } else {
         req.name = decode.name
         next()
@@ -38,17 +39,18 @@ app.use(cors({
 
 // Login & Logout
 app.post('/login', userLogin)
+app.patch('/logout', deleteToken)
 app.patch('/login/tokenize', addToken)
 app.get('/logout', (req, res) => {
   res.clearCookie('token')
-  res.clearCookie('user')
+  // res.clearCookie('user')
   res.json({ Status: 'success' })
 })
 
 
 // Routes
 app.use('/users', verifyUser, AppRoutes)
-app.get('/users/:token', getUserName)
+app.get('/users/whoami', verifyUser, getUserName)
 app.use('/users/search', verifyUser, searchUsers)
 app.use('/error', (req, res) => {
   res.status(404).render('404error', { title: 'Error 404 - Page not found' })

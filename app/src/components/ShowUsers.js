@@ -36,16 +36,21 @@ const CompShowusers = () => {
     try {
       const regex = new RegExp(`(^| )token=([^;]+)`)
       const token = document.cookie.match(regex)[0].split('=')[1]
-
-      const res = await axios.get(URI + token)
-        document.getElementById('userName').innerHTML = res.data.fullname
-
-    } catch (error) {
       
+      const res = await axios.get(URI)
+        document.getElementById('userName').innerHTML = res.data.fullname
+        // const data = res.data.token
+        // const user = data.map((token) => token = data.token)
+        // console.log(user)
+        users.map((user) => {
+          if(user.user == 'admin'){
+          console.log(user.user)
+          }
+        })
+    } catch (error) {
+      console.log(error)
     }
   }
-
-
 
 
   // Procedure to show all users

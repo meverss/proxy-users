@@ -47,3 +47,21 @@ export const addToken = async (req, res) => {
     })
   }
 }
+
+export const deleteToken = async (req, res) => {
+  const token = req.cookies.token
+
+  try {
+    const [sql] = await db.query(`UPDATE passwd SET token = NULL WHERE token = ?`, [token])
+    if (sql.affectedRows >= 1) {
+      res.json({ token: token })
+    } else {
+      console.log('User not found')
+      res.sendStatus(404)
+    }
+  } catch (error) {
+    return res.status(500).json({
+      message: `DELETE TOKEN: Something went wrong: ${error}`
+    })
+  }
+}
