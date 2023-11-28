@@ -11,7 +11,6 @@ const CompLogin = () => {
 
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
-  const [auth, setAuth] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {

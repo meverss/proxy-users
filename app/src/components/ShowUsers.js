@@ -43,7 +43,7 @@ const CompShowusers = () => {
         // const user = data.map((token) => token = data.token)
         // console.log(user)
         users.map((user) => {
-          if(user.user == 'admin'){
+          if(user.user === 'admin'){
           console.log(user.user)
           }
         })

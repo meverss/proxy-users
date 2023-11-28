@@ -3,29 +3,27 @@ import cors from 'cors'
 import AppRoutes from './routes/routes.js'
 import cookieParser from 'cookie-parser'
 import { addToken, deleteToken, userLogin } from './controllers/LoginController.js'
-import jwt from 'jsonwebtoken'
+import { verifyUser } from './controllers/LoginController.js'
 
 const app = express()
 
-// Verify if user is autenticated
-export const verifyUser = (req, res, next) => {
-  const token = req.cookies.token
-  if (!token) {
-    res.send({ message: 'User not autenticated' })
-  } else {
-    const TOKEN_KEY = process.env.SECRET
-    jwt.verify(token, TOKEN_KEY, (error, decode) => {
-      if (error) {
-        return res.send({ error })
-        // return res.send({ message: 'Incorrect token' })
-      } else {
-        req.user = decode.user
-        // console.log(token)
-        next()
-      }
-    })
-  }
-}
+// // Verify if user is autenticated
+// export const verifyUser = (req, res, next) => {
+//   const token = req.cookies.token
+//   if (!token) {
+//     res.send({ message: 'User not autenticated' })
+//   } else {
+//     const TOKEN_KEY = process.env.SECRET
+//     jwt.verify(token, TOKEN_KEY, (error, decode) => {
+//       if (error) {
+//         return res.send({ error })
+//       } else {
+//         req.user = decode.user
+//         next()
+//       }
+//     })
+//   }
+// }
 
 // Middlewares
 app.use(express.json())

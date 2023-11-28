@@ -1,27 +1,59 @@
 import { db } from '../database/db.js'
-import { getDate } from "./UsersController.js"
 import jwt from 'jsonwebtoken'
-import bcrypt, { hash } from 'bcrypt'
+import bcrypt from 'bcrypt'
 
-export const userLogin = async (req, res) => {
-  const { user, password } = req.body
-  const [sql] = await db.query(`SELECT * FROM passwd WHERE user = '${user}' AND enabled = 1`)
-  const {id, fullname} = sql[0]
-  const passwordHashed = bcrypt.hash(password, 10)
-
-  if (sql != '') {
-    // Create token
-    const TOKEN_KEY = process.env.SECRET
-    const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '1h' })
-
-    res.cookie('token', token)
-    res.json({ user: user })
+// Verify if user is autenticated
+export const verifyUser = (req, res, next) => {
+  const token = req.cookies.token
+  if (!token) {
+    res.send({ message: 'User not autenticated' })
   } else {
-    res.status(404).json({
-      message: 'Usuario o contraseña no incorrecta'
+    const TOKEN_KEY = process.env.SECRET
+    jwt.verify(token, TOKEN_KEY, (error, decode) => {
+      if (error) {
+        return res.send({ error })
+      } else {
+        req.user = decode.user
+        next()
+      }
     })
   }
 }
+
+export const userLogin = async (req, res) => {
+  const { user, password } = req.body
+
+  try {
+    const [sql] = await db.query(`SELECT * FROM passwd WHERE user = '${user}' AND enabled = 1`)
+
+    if (sql.length === 1) {
+      const { id, fullname } = sql[0]
+      const passwordHashed = sql[0].password
+
+      // Verify credentials and create token
+      const verifyPassword = await bcrypt.compare(password, passwordHashed)
+
+      if (verifyPassword) {
+        const TOKEN_KEY = process.env.SECRET
+        const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '1h' })
+        res.cookie('token', token)
+        res.json({ user: user })
+      } else {
+        console.log(verifyPassword)
+        res.status(404).json({
+          message: 'Usuario o contraseña incorrectos'
+        })
+      }
+    } else {
+      res.status(404).json({
+        message: 'Usuario o contraseña incorrectos'
+      })
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 
 export const addToken = (req, res) => {
   const { user } = req.body
@@ -50,7 +82,7 @@ export const deleteToken = async (req, res) => {
   try {
     const [sql] = await db.query(`UPDATE passwd SET token = NULL WHERE id = ?`, [userToken.id])
     if (sql.affectedRows >= 1) {
-      res.json({ message: 'Session closed'})
+      res.json({ message: 'Session closed' })
     } else {
       console.log('User not found')
       res.sendStatus(404)

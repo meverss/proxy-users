@@ -76,7 +76,6 @@ export const getUserName = async (req, res) => {
 export const createUser = async (req, res) => {
   const { user, password, fullname } = req.body
   const passwordHashed = await bcrypt.hash(password, 10)
-  console.log(passwordHashed)
 
   try {
     const [sql] = await db.query(`INSERT INTO passwd (user, password, fullname, createdAt, updatedAt) VALUES ('${user}', '${passwordHashed}', '${fullname}', '${getDate()}', '${getDate()}')`)
@@ -96,12 +95,15 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const { user, password, enabled, fullname } = req.body
+  const passwordHashed = await bcrypt.hash(password, 10)
   const { id } = req.params
 
+  console.log(passwordHashed)
+
   try {
-    const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), fullname = IFNULL(?, fullname), password = IFNULL(SHA1(?), password), enabled = IFNULL(?, enabled), updatedAt = '${getDate()}' WHERE id = ${id}`, [user, fullname, password, enabled])
+    const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), fullname = IFNULL(?, fullname), password = IFNULL(?, password), enabled = IFNULL(?, enabled), updatedAt = '${getDate()}' WHERE id = ${id}`, [user, fullname, passwordHashed, enabled])
     if (sql.affectedRows >= 1) {
-      console.log(`Updated user ${user}`)
+      console.log(`Updated user ${fullname}`)
       res.sendStatus(204)
     } else {
       console.log('Record not found')
