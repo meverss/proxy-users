@@ -51,7 +51,7 @@ function App() {
           <form className="d-inline-flex" role="search" id='logOut'>
             <span className='userName' id='userName'></span>
             {window.location.pathname === '/' ?
-              < button className="btn" id='logOut' type="button" onClick={logOut}><SlLogout className='actionIcon' size='26px' color='chocolate' /></button>
+              < button className="btn" id='btnLogOut' type="button" onClick={logOut}><SlLogout className='actionIcon' size='26px' color='chocolate' /></button>
               : ''
             }
           </form>

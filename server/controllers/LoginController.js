@@ -4,21 +4,16 @@ import jwt from 'jsonwebtoken'
 import sha1 from 'sha1'
 import bcrypt, { hash } from 'bcrypt'
 
-const salt = 10
-
 export const userLogin = async (req, res) => {
   const { user, password } = req.body
   const [sql] = await db.query(`SELECT * FROM passwd WHERE user = '${user}' AND password = '${sha1(password)}' AND enabled = 1`)
-
-  bcrypt.hash(password.toString(), salt, (err, hash) => {
-    if (err) { res.json({ message: 'Error hashing password' }) }
-    // console.log(hash)
-  })
+  const {id, fullname} = sql[0]
+  const passwordHashed = bcrypt.hash(password, 10)
 
   if (sql != '') {
     // Create token
-    const TOKEN_KEY = 'x4TvnErxRETbVcqaLl5dqMI115eN1p5y'  // This could be any string
-    const token = jwt.sign({ user }, TOKEN_KEY, { expiresIn: '1h' })
+    const TOKEN_KEY = process.env.SECRET
+    const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '1h' })
 
     res.cookie('token', token)
     res.json({ user: user })

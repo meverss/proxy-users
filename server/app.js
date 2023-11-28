@@ -14,13 +14,14 @@ export const verifyUser = (req, res, next) => {
   if (!token) {
     res.send({ message: 'User not autenticated' })
   } else {
-    const TOKEN_KEY = 'x4TvnErxRETbVcqaLl5dqMI115eN1p5y'
+    const TOKEN_KEY = process.env.SECRET
     jwt.verify(token, TOKEN_KEY, (error, decode) => {
       if (error) {
-        return res.send({error})
+        return res.send({ error })
         // return res.send({ message: 'Incorrect token' })
       } else {
-        req.name = decode.name
+        req.user = decode.user
+        // console.log(token)
         next()
       }
     })
