@@ -1,7 +1,6 @@
 import express from 'express'
 import cors from 'cors'
 import AppRoutes from './routes/routes.js'
-import { searchUsers, getUserName } from './controllers/UsersController.js'
 import cookieParser from 'cookie-parser'
 import { addToken, deleteToken, userLogin } from './controllers/LoginController.js'
 import jwt from 'jsonwebtoken'
@@ -51,8 +50,7 @@ app.get('/logout', (req, res) => {
 
 // Routes
 app.use('/users', verifyUser, AppRoutes)
-app.get('/users/whoami', verifyUser, getUserName)
-app.use('/users/search', verifyUser, searchUsers)
+
 app.use('/error', (req, res) => {
   res.status(404).render('404error', { title: 'Error 404 - Page not found' })
 })

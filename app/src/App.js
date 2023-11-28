@@ -50,7 +50,7 @@ function App() {
           <a className="App-Title navbar-brand"><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></a>
           <form className="d-inline-flex" role="search" id='logOut'>
             <span className='userName' id='userName'></span>
-            {window.location.pathname === '/' ?
+            {window.location.pathname !== '/login' ?
               < button className="btn" id='btnLogOut' type="button" onClick={logOut}><SlLogout className='actionIcon' size='26px' color='chocolate' /></button>
               : ''
             }
