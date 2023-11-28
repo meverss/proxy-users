@@ -6,7 +6,7 @@ import bcrypt, { hash } from 'bcrypt'
 
 export const userLogin = async (req, res) => {
   const { user, password } = req.body
-  const [sql] = await db.query(`SELECT * FROM passwd WHERE user = '${user}' AND password = '${sha1(password)}' AND enabled = 1`)
+  const [sql] = await db.query(`SELECT * FROM passwd WHERE user = '${user}' AND enabled = 1`)
   const {id, fullname} = sql[0]
   const passwordHashed = bcrypt.hash(password, 10)
 
