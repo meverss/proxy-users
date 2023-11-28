@@ -19,19 +19,16 @@ const CompPageNotFound = () => {
         const res = await axios.get(SERVER)
         if (res.data.Status === 'success') {
           setAuth(true)
-          console.log(res.data)
         } else {
           navigate('/login')
           window.location.reload(true)
         }
       }
       verifyUser()
-
     } catch (error) {
       console.log(error)
     }
   }, [])
-
 
   return (
     <>

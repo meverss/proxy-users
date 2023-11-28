@@ -2,14 +2,13 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
 import axios from 'axios';
 import { SlLogout } from "react-icons/sl";
-import { useNavigate } from 'react-router-dom'
 import { SERVER } from './components/ShowUsers.js';
 // import { Link } from 'react-router-dom';
-// import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 // import logo from '../src/images/squid.webp'
 
 // Import router
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import CompPdf from './components/PrintPdf.js'
 
 // Import Components
@@ -19,29 +18,36 @@ import CompEditUser from './components/EditUser.js'
 import CompLogin from './components/CompLogin.js'
 import CompPageNotFound from './components/PageNotFound.js'
 
+const URI = `${SERVER}/users/`
+
 function App() {
 
-  // const getName = async () => {
-  //   try {
-  //     const regex = new RegExp(`(^| )token=([^;]+)`)
-  //     const token = document.cookie.match(regex)[0].split('=')[1]
+  useEffect(() => {
+    getName()
 
-  //     const res = await axios.patch(`${SERVER}/logout`)
-  //     // document.getElementById('userName').innerHTML = res.data.fullname
-  //     console.log(res.data)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  })
+
+  const getName = async () => {
+    try {
+      const res = await axios.get(URI + 'whoami')
+      document.getElementById('userName').innerHTML = res.data.fullname
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const delToken = () => {
     const res = axios.patch(`${SERVER}/logout`,)
   }
 
   const logOut = async () => {
-    delToken()
-    await axios.get(`${SERVER}/logout`)
-    window.location.reload(true)
+    try {
+      delToken()
+      await axios.get(`${SERVER}/logout`)
+      window.location.reload(true)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -68,6 +74,7 @@ function App() {
           <Route path='/create' element={<CompCreateUser />} />
           <Route path='/edit/:id' element={<CompEditUser />} />
           <Route path='/error' element={<CompPageNotFound />} />
+          <Route path='*' element={<Navigate to="/" />} />
 
           {/* Cmponents */}
           <Route path='/pdf' Component={CompPdf} />

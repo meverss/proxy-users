@@ -1,5 +1,6 @@
 import { db } from '../database/db.js'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 // SETTING CUSTOM DATE
 export const getDate = () => {
@@ -53,23 +54,8 @@ export const getOneUser = async (req, res) => {
 
 export const getUserName = async (req, res) => {
   const token = req.cookies.token
-
-  console.log('lkjasdlkjasd')
-  console.log(token)
-  try {
-    const [sql] = await db.query(`SELECT fullname FROM passwd WHERE token = ?`, [token])
-    if (sql != '') {
-      res.json(sql[0])
-    } else {
-      res.status(404).json({
-        message: 'Token not found'
-      })
-    }
-  } catch (error) {
-    return res.status(500).json({
-      message: `GET FULLNAME: Something went wrong: ${error}`
-    })
-  }
+  const { user, fullname } = (jwt.decode(token))
+  res.json({ user: user, fullname: fullname })
 }
 
 

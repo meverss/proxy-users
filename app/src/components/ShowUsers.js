@@ -10,9 +10,8 @@ const URI = `${SERVER}/users/`
 
 const CompShowusers = () => {
   const [auth, setAuth] = useState(false)
-  const [username, setUserName] = useState('')
-  const [info, setInfo] = useState('')
   const [users, setusers] = useState([])
+  const [user, setUser] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -22,50 +21,41 @@ const CompShowusers = () => {
       const res = await axios.get(SERVER)
       if (res.data.Status === 'success') {
         setAuth(true)
+        return
       } else {
         navigate('/login')
         window.location.reload(true)
       }
     }
     verifyUser()
-    getName()
+    // getName()
     getUsers()
   }, [])
 
-  const getName = async () => {
-    try {
-      const regex = new RegExp(`(^| )token=([^;]+)`)
-      const token = document.cookie.match(regex)[0].split('=')[1]
-      
-      const res = await axios.get(URI)
-        document.getElementById('userName').innerHTML = res.data.fullname
-        // const data = res.data.token
-        // const user = data.map((token) => token = data.token)
-        // console.log(user)
-        users.map((user) => {
-          if(user.user === 'admin'){
-          console.log(user.user)
-          }
-        })
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const getName = async () => {
+  //   try {
+  //     const res = await axios.get(URI + 'whoami')
+  //     document.getElementById('userName').innerHTML = res.data.fullname
+  //     console.log(res.data)
+
+  //     setUser(res.data.user)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
 
-  // Procedure to show all users
   const getUsers = async () => {
     const res = await axios.get(URI)
     setusers(res.data)
+    console.log(user)
   }
 
-  // Procedure to search users
   const filterUsers = async (filter) => {
     const res = await axios.get(URI + `search?user=${filter}`)
     setusers(res.data)
   }
 
-  // Procedure to delete a user
   const deleteuser = async (id) => {
     await axios.delete(URI + id)
     getUsers()

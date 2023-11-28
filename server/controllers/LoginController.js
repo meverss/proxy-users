@@ -35,11 +35,10 @@ export const userLogin = async (req, res) => {
 
       if (verifyPassword) {
         const TOKEN_KEY = process.env.SECRET
-        const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '1h' })
+        const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '8h' })
         res.cookie('token', token)
         res.json({ user: user })
       } else {
-        console.log(verifyPassword)
         res.status(404).json({
           message: 'Usuario o contraseña incorrectos'
         })
@@ -77,10 +76,10 @@ export const addToken = (req, res) => {
 
 export const deleteToken = async (req, res) => {
   const token = req.cookies.token
-  const userToken = jwt.decode(token)
+  const { id } = jwt.decode(token)
 
   try {
-    const [sql] = await db.query(`UPDATE passwd SET token = NULL WHERE id = ?`, [userToken.id])
+    const [sql] = await db.query(`UPDATE passwd SET token = NULL WHERE id = ${id}`)
     if (sql.affectedRows >= 1) {
       res.json({ message: 'Session closed' })
     } else {

@@ -20,7 +20,6 @@ const CompCreateUser = () => {
         const res = await axios.get(SERVER)
         if (res.data.Status === 'success') {
           setAuth(true)
-          console.log(res.data)
           return
         } else {
           navigate('/login')
@@ -28,14 +27,11 @@ const CompCreateUser = () => {
         }
       }
       verifyUser()
-
     } catch (error) {
       console.log(error)
     }
   }, [])
 
-
-  // Procedure to save User
   const save = async (e) => {
     try {
       e.preventDefault()

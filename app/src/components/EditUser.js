@@ -24,7 +24,7 @@ const CompEditUser = () => {
         const res = await axios.get(SERVER)
         if (res.data.Status === 'success') {
           setAuth(true)
-          console.log(res.data)
+          return
         } else {
           navigate('/login')
           window.location.reload(true)
@@ -37,7 +37,6 @@ const CompEditUser = () => {
     }
   }, [])
 
-  // Procedure for updating User
   const updateUser = async (e) => {
     e.preventDefault()
     if (password === '') {

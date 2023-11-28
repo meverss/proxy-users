@@ -18,7 +18,6 @@ const CompLogin = () => {
     const verifyUser = async () => {
       const res = await axios.get(SERVER)
       if (res.data.Status === 'success') {
-        console.log(res)
         navigate('/')
         window.location.reload(true)
       }
@@ -62,7 +61,6 @@ const CompLogin = () => {
       const res = await axios.post(URI, { user: user, password: password })
       if (res.status !== 404) {
         cleanForm()
-        console.table(res.data)
         if (res.data.user === 'admin') {
           setToken()
           navigate('/')
@@ -74,7 +72,6 @@ const CompLogin = () => {
         document.getElementById('userName').innerHTML = res.data.fullname
       }
     } catch (error) {
-      console.log(error.message)
       subTitle.innerHTML = `<span style="color: red">Usuario o contraseã inválidos</span>`
       setTimeout(() => {
         subTitle.innerHTML = `Ingrese sus credenciales`

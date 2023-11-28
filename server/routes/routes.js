@@ -8,12 +8,12 @@ const router = Router()
 
 // Routes
 router.get('/', getAllUsers)
+router.get('/whoami', getUserName)
 router.get('/:id', getOneUser)
 router.post('/', createUser)
 router.patch('/:id', updateUser)
 router.patch('/:id/nopwd', updateUserNoPass)
 router.delete('/:id', deleteUser)
-router.get('/whoami', getUserName)
 router.use('/search', searchUsers)
 
 export default router

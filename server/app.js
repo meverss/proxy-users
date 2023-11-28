@@ -4,6 +4,7 @@ import AppRoutes from './routes/routes.js'
 import cookieParser from 'cookie-parser'
 import { addToken, deleteToken, userLogin } from './controllers/LoginController.js'
 import { verifyUser } from './controllers/LoginController.js'
+import { getUserName } from './controllers/UsersController.js'
 
 const app = express()
 
