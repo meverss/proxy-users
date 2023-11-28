@@ -1,7 +1,6 @@
 import { db } from '../database/db.js'
 import { getDate } from "./UsersController.js"
 import jwt from 'jsonwebtoken'
-import sha1 from 'sha1'
 import bcrypt, { hash } from 'bcrypt'
 
 export const userLogin = async (req, res) => {
@@ -24,12 +23,13 @@ export const userLogin = async (req, res) => {
   }
 }
 
-export const addToken = async (req, res) => {
+export const addToken = (req, res) => {
   const { user } = req.body
   const token = req.cookies.token
 
+
   try {
-    const [sql] = await db.query(`UPDATE passwd SET token = '${token}' WHERE user = ?`, [user])
+    const [sql] = db.query(`UPDATE passwd SET token = '${token}' WHERE user = ?`, [user])
     if (sql.affectedRows >= 1) {
       res.json({ token: token })
     } else {
@@ -45,11 +45,12 @@ export const addToken = async (req, res) => {
 
 export const deleteToken = async (req, res) => {
   const token = req.cookies.token
+  const userToken = jwt.decode(token)
 
   try {
-    const [sql] = await db.query(`UPDATE passwd SET token = NULL WHERE token = ?`, [token])
+    const [sql] = await db.query(`UPDATE passwd SET token = NULL WHERE id = ?`, [userToken.id])
     if (sql.affectedRows >= 1) {
-      res.json({ token: token })
+      res.json({ message: 'Session closed'})
     } else {
       console.log('User not found')
       res.sendStatus(404)

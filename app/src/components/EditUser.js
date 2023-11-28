@@ -18,18 +18,23 @@ const CompEditUser = () => {
 
   axios.defaults.withCredentials = true
   useEffect(() => {
-    const verifyUser = async () => {
-      const res = await axios.get(SERVER)
-      if (res.data.Status === 'success') {
-        setAuth(true)
-        setUsernam(res.data.fullname)
-        console.log(res.data.Status)
-      } else {
-        navigate('/login')
+    try {
+      axios.defaults.withCredentials = true
+      const verifyUser = async () => {
+        const res = await axios.get(SERVER)
+        if (res.data.Status === 'success') {
+          setAuth(true)
+          console.log(res.data)
+        } else {
+          navigate('/login')
+          window.location.reload(true)
+        }
       }
+      verifyUser()
+      getUserById()
+    } catch (error) {
+      console.log(error)
     }
-    verifyUser()
-    getUserById()
   }, [])
 
   // Procedure for updating User

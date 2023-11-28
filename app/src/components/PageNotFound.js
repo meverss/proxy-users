@@ -1,25 +1,45 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { SERVER } from './ShowUsers';
 
 const PORT = 4000
 
-const URI = `http://localhost:${PORT}/error`
+const URI = `${SERVER}/error`
 
 const CompPageNotFound = () => {
-  const [errorPage, setErrorPage] = useState('')
+
+  const [auth, setAuth] = useState(false)
+  const navigate = useNavigate()
+
   useEffect(() => {
-    getErrorPage()
+    try {
+      axios.defaults.withCredentials = true
+      const verifyUser = async () => {
+        const res = await axios.get(SERVER)
+        if (res.data.Status === 'success') {
+          setAuth(true)
+          console.log(res.data)
+        } else {
+          navigate('/login')
+          window.location.reload(true)
+        }
+      }
+      verifyUser()
+
+    } catch (error) {
+      console.log(error)
+    }
   }, [])
 
-  const getErrorPage = async () => {
-    const res = await axios.get(URI)
-    setErrorPage(res.data)
-  }
 
   return (
     <>
-      {errorPage}
+      {
+        auth ?
+          <h1>Nothing to do here...</h1>
+          : ''
+      }
     </>
   )
 }

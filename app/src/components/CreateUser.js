@@ -14,32 +14,43 @@ const CompCreateUser = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios.defaults.withCredentials = true
-    const verifyUser = async () => {
-      const res = await axios.get(SERVER)
-      if (res.data.Status === 'success') {
-        setAuth(true)
-      } else {
-        navigate('/login')
-        window.location.reload(true)
+    try {
+      axios.defaults.withCredentials = true
+      const verifyUser = async () => {
+        const res = await axios.get(SERVER)
+        if (res.data.Status === 'success') {
+          setAuth(true)
+          console.log(res.data)
+          return
+        } else {
+          navigate('/login')
+          window.location.reload(true)
+        }
       }
+      verifyUser()
+
+    } catch (error) {
+      console.log(error)
     }
-    verifyUser()
   }, [])
 
 
   // Procedure to save User
   const save = async (e) => {
-    e.preventDefault()
-    if (user === '' || fullname === '' || password === '') {
-      document.getElementById('message').innerHTML = 'Debe proporcionar todos los datos'
-      setTimeout(() => document.getElementById('message').innerHTML = '', 3000)
-    } else if (password !== vpassword) {
-      document.getElementById('message').innerHTML = 'Las contraseñas no coinciden'
-      setTimeout(() => document.getElementById('message').innerHTML = '', 3000)
-    } else {
-      await axios.post(URI, { user, password, fullname })
-      navigate('/')
+    try {
+      e.preventDefault()
+      if (user === '' || fullname === '' || password === '') {
+        document.getElementById('message').innerHTML = 'Debe proporcionar todos los datos'
+        setTimeout(() => document.getElementById('message').innerHTML = '', 3000)
+      } else if (password !== vpassword) {
+        document.getElementById('message').innerHTML = 'Las contraseñas no coinciden'
+        setTimeout(() => document.getElementById('message').innerHTML = '', 3000)
+      } else {
+        await axios.post(URI, { user, password, fullname })
+        navigate('/')
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 

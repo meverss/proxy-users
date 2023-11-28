@@ -79,7 +79,7 @@ export const createUser = async (req, res) => {
   console.log(passwordHashed)
 
   try {
-    const [sql] = await db.query(`INSERT INTO passwd (user, password, fullname, createdAt, updatedAt) VALUES ('${user}', '${passwordHashed}, '${fullname}', '${getDate()}', '${getDate()}')`)
+    const [sql] = await db.query(`INSERT INTO passwd (user, password, fullname, createdAt, updatedAt) VALUES ('${user}', '${passwordHashed}', '${fullname}', '${getDate()}', '${getDate()}')`)
     if (sql.insertId >= 0) {
       console.log(`Added new user ${fullname}`)
       res.sendStatus(204)

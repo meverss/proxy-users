@@ -56,8 +56,8 @@ const CompLogin = () => {
     try {
 
       axios.defaults.withCredentials = true
-      const setToken = async () => {
-        await axios.patch(URI + '/tokenize', { user: user })
+      const setToken = () => {
+        axios.patch(URI + '/tokenize', { user: user })
       }
 
       const res = await axios.post(URI, { user: user, password: password })
@@ -69,7 +69,7 @@ const CompLogin = () => {
           navigate('/')
         } else {
           setToken()
-          navigate('/chpasswd')
+          navigate('/error')
         }
         window.location.reload(true)
         document.getElementById('userName').innerHTML = res.data.fullname

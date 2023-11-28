@@ -1,21 +1,22 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
+import axios from 'axios';
 import { SlLogout } from "react-icons/sl";
+import { useNavigate } from 'react-router-dom'
+import { SERVER } from './components/ShowUsers.js';
 // import { Link } from 'react-router-dom';
 // import { useState, useEffect } from 'react';
 // import logo from '../src/images/squid.webp'
+
+// Import router
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import CompPdf from './components/PrintPdf.js'
 
 // Import Components
 import CompShowUsers from './components/ShowUsers.js'
 import CompCreateUser from './components/CreateUser.js'
 import CompEditUser from './components/EditUser.js'
 import CompLogin from './components/CompLogin.js'
-import axios from 'axios';
-import { SERVER } from './components/ShowUsers.js';
-
-// Import router
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import CompPdf from './components/PrintPdf.js'
 import CompPageNotFound from './components/PageNotFound.js'
 
 function App() {
@@ -61,12 +62,15 @@ function App() {
 
       <BrowserRouter basename='/' forceRefresh={true}>
         <Routes>
+          {/* Elements */}
           <Route path='/' element={<CompShowUsers />} />
           <Route path='/login' element={<CompLogin />} />
           <Route path='/create' element={<CompCreateUser />} />
           <Route path='/edit/:id' element={<CompEditUser />} />
+          <Route path='/error' element={<CompPageNotFound />} />
+
+          {/* Cmponents */}
           <Route path='/pdf' Component={CompPdf} />
-          <Route path='/error' Component={<CompPageNotFound />} />
         </Routes>
       </BrowserRouter>
 

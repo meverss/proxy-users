@@ -43,7 +43,6 @@ app.patch('/logout', deleteToken)
 app.patch('/login/tokenize', addToken)
 app.get('/logout', (req, res) => {
   res.clearCookie('token')
-  // res.clearCookie('user')
   res.json({ Status: 'success' })
 })
 
