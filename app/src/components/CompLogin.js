@@ -54,18 +54,12 @@ const CompLogin = () => {
     try {
 
       axios.defaults.withCredentials = true
-      const setToken = () => {
-        axios.patch(URI + '/tokenize', { user: user })
-      }
-
       const res = await axios.post(URI, { user: user, password: password })
       if (res.status !== 404) {
         cleanForm()
         if (res.data.user === 'admin') {
-          setToken()
           navigate('/')
         } else {
-          setToken()
           navigate('/error')
         }
         window.location.reload(true)

@@ -8,24 +8,6 @@ import { getUserName } from './controllers/UsersController.js'
 
 const app = express()
 
-// // Verify if user is autenticated
-// export const verifyUser = (req, res, next) => {
-//   const token = req.cookies.token
-//   if (!token) {
-//     res.send({ message: 'User not autenticated' })
-//   } else {
-//     const TOKEN_KEY = process.env.SECRET
-//     jwt.verify(token, TOKEN_KEY, (error, decode) => {
-//       if (error) {
-//         return res.send({ error })
-//       } else {
-//         req.user = decode.user
-//         next()
-//       }
-//     })
-//   }
-// }
-
 // Middlewares
 app.use(express.json())
 app.use(cookieParser())
@@ -38,8 +20,8 @@ app.use(cors({
 
 // Login & Logout
 app.post('/login', userLogin)
-app.patch('/logout', deleteToken)
-app.patch('/login/tokenize', addToken)
+// app.patch('/logout', deleteToken)
+// app.patch('/login/tokenize', addToken)
 app.get('/logout', (req, res) => {
   res.clearCookie('token')
   res.json({ Status: 'success' })

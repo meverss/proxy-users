@@ -50,11 +50,11 @@ const CompEditUser = () => {
   const getUserById = async () => {
     const stateSwitch = document.getElementById('userState')
     const stateLabel = document.getElementById('userStateLabel')
+
     const res = await axios.get(URI + id)
     setUser(res.data.user)
     setFullname(res.data.fullname)
     setEnabled(res.data.enabled)
-
     if (res.data.enabled === 1) {
       stateSwitch.checked = true
       stateLabel.innerHTML = 'Activo'
@@ -62,6 +62,7 @@ const CompEditUser = () => {
       stateSwitch.checked = false
       stateLabel.innerHTML = 'Inactivo'
     }
+
   }
 
   const checkState = () => {
@@ -79,6 +80,23 @@ const CompEditUser = () => {
     }
   }
 
+  const checkAdmin = () => {
+    const enableSwitch = document.getElementById('userState')
+    const enableSwitchLabel = document.getElementById('userStateLabel')
+    const userInput = document.getElementById('userInput')
+    const nameInput = document.getElementById('nameInput')
+    try {
+      if (user === 'admin') {
+        enableSwitch.style.display = 'none'
+        enableSwitchLabel.style.display = 'none'
+        userInput.disabled = true
+        nameInput.disabled = true
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <div className='editBox '>
@@ -88,6 +106,7 @@ const CompEditUser = () => {
             <div className='input-group mb-3'>
               <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
               <input
+                id='userInput'
                 className='form-control'
                 placeholder={user}
                 onChange={(e) => setUser(e.target.value)}
@@ -97,6 +116,7 @@ const CompEditUser = () => {
             <div className='input-group mb-3'>
               <span className='input-group-text' id='inputGroup-sizing-default'>Nombre y Apellidos</span>
               <input
+                id='nameInput'
                 className='form-control'
                 placeholder={fullname}
                 onChange={(e) => setFullname(e.target.value)}
@@ -113,7 +133,7 @@ const CompEditUser = () => {
               />
             </div>
             <div className='form-switch' >
-              <input className='form-check-input' id='userState' type='checkbox' role='switch' onChange={checkState} /> &nbsp;
+              <input className='form-check-input' id='userState' type='checkbox' role='switch' onLoad={checkAdmin()} onChange={checkState} /> &nbsp;
               <label className='form-check-label' id='userStateLabel' htmlFor='flexSwitchCheckDefault' />
             </div>
             <br />

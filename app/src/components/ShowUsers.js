@@ -32,23 +32,20 @@ const CompShowusers = () => {
     getUsers()
   }, [])
 
-  // const getName = async () => {
-  //   try {
-  //     const res = await axios.get(URI + 'whoami')
-  //     document.getElementById('userName').innerHTML = res.data.fullname
-  //     console.log(res.data)
+  const getName = async () => {
+    try {
+      const res = await axios.get(URI + 'whoami')
 
-  //     setUser(res.data.user)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+      setUser(res.data.user)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   const getUsers = async () => {
     const res = await axios.get(URI)
     setusers(res.data)
-    console.log(user)
   }
 
   const filterUsers = async (filter) => {
@@ -59,6 +56,17 @@ const CompShowusers = () => {
   const deleteuser = async (id) => {
     await axios.delete(URI + id)
     getUsers()
+  }
+
+  const checkAdmin = () => {
+    const deleteIcon = document.getElementById('deleteIcon')
+
+    try {
+      deleteIcon.style.opacity = 0
+      deleteIcon.disabled = true
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -95,14 +103,16 @@ const CompShowusers = () => {
                     <tbody>
                       {users.map((user) => (
                         <tr key={user.id} className='table-sm'>
-                          <td><p> {user.user}</p> </td>
+                          <td><p id='admUser'> {user.user}</p> </td>
                           <td><p> {user.fullname}</p> </td>
                           <td><p> {user.createdAt}</p> </td>
                           <td><p> {user.updatedAt} </p></td>
                           <td> <p>{user.enabled === 1 ? <span style={{ color: 'green' }}>Activo</span> : <span style={{ color: 'red' }}>Inactivo</span>} </p></td>
                           <td className='actions'>
-                            <Link to={`/edit/${user.id}`} className='btn btn-sm '><BsJournalText className='actionIcon' size='26px' /></Link>
-                            <button className='btn btn-sm' onClick={() => deleteuser(user.id)}><BsTrash className='actionIcon' size='24px' /></button>
+                            <Link to={`/edit/${user.id}`} className='btn btn-sm ' id='editIcon'><BsJournalText className='actionIcon' size='26px' /></Link>
+                            <button className='btn btn-sm' id='deleteIcon' onChange={user.user === 'lolo' ? checkAdmin()
+                              : null}
+                              onClick={user.user === 'admin' ? () => console.log(`Can't delete admin account`) : () => deleteuser(user.id)}><BsTrash className='actionIcon' size='24px' /></button>
                           </td>
                         </tr>
                       ))}
