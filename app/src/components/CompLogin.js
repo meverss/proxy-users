@@ -92,8 +92,8 @@ const CompLogin = () => {
                     <input type="text" className="form-control" id='userInput' name='userInput' list="datalistOptions" placeholder="Usuario" aria-label="Username" aria-describedby="basic-addon1" value={user}
                       onChange={(e) => { setUser(e.target.value.toLowerCase()) }} />
                     <datalist id="datalistOptions">
-                      <option value="admin" />
-                      <option value="marvin" />
+                      {/* <option value="admin" /> */}
+                      {/* <option value="marvin" /> */}
                     </datalist>
                   </div>
 

@@ -32,15 +32,15 @@ const CompShowusers = () => {
     getUsers()
   }, [])
 
-  const getName = async () => {
-    try {
-      const res = await axios.get(URI + 'whoami')
+  // const getName = async () => {
+  //   try {
+  //     const res = await axios.get(URI + 'whoami')
 
-      setUser(res.data.user)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //     setUser(res.data.user)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
 
   const getUsers = async () => {
@@ -49,8 +49,13 @@ const CompShowusers = () => {
   }
 
   const filterUsers = async (filter) => {
-    const res = await axios.get(URI + `search?user=${filter}`)
-    setusers(res.data)
+    try {
+      const res = await axios.get(URI + `search?user=${filter}`)
+      console.log(res.data)
+      setusers(res.data)      
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const deleteuser = async (id) => {
@@ -62,8 +67,10 @@ const CompShowusers = () => {
     const deleteIcon = document.getElementById('deleteIcon')
 
     try {
-      deleteIcon.style.opacity = 0
-      deleteIcon.disabled = true
+      if(deleteIcon){
+        deleteIcon.style.opacity = 0
+        deleteIcon.disabled = true
+      }
     } catch (error) {
       console.log(error)
     }

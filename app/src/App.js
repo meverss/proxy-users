@@ -3,9 +3,8 @@ import './App.css'
 import axios from 'axios';
 import { SlLogout } from "react-icons/sl";
 import { SERVER } from './components/ShowUsers.js';
-// import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-// import logo from '../src/images/squid.webp'
+import { SlUser } from "react-icons/sl"
 
 // Import router
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
@@ -30,7 +29,11 @@ function App() {
   const getName = async () => {
     try {
       const res = await axios.get(URI + 'whoami')
-      document.getElementById('userName').innerHTML = res.data.fullname
+      const userNameTag = document.getElementById('userName')
+      if (userNameTag && window.location.pathname !== '/login') {
+        userNameTag.innerHTML = res.data.fullname
+        
+      }
     } catch (error) {
       console.log(error)
     }
@@ -55,13 +58,13 @@ function App() {
       <nav className="navbar border-bottom" style={{ backgroundColor: '#555' }}>
         <div className="container-fluid">
           <a className="App-Title navbar-brand"><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></a>
-          <form className="d-inline-flex" role="search" id='logOut'>
+          <div className="sessionInfo d-inline-flex" role="search" id='logOut'>
             <span className='userName' id='userName'></span>
             {window.location.pathname !== '/login' ?
               < button className="btn" id='btnLogOut' type="button" onClick={logOut}><SlLogout className='actionIcon' size='26px' color='chocolate' /></button>
               : ''
             }
-          </form>
+          </div>
         </div>
       </nav >
       <br />
