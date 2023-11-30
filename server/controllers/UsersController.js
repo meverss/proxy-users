@@ -24,7 +24,7 @@ export const getDate = () => {
 export const getAllUsers = async (req, res) => {
   try {
     const [sql] = await db.query('SELECT * FROM passwd')
-    res.json(sql)
+    res.status(200).json(sql)
   } catch (error) {
     return res.status(500).json({
       message: `ALL USERS: Something went wrong: ${error}`
@@ -109,7 +109,7 @@ export const updateUserNoPass = async (req, res) => {
   try {
     const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), fullname = IFNULL(?, fullname), enabled = IFNULL(?, enabled), updatedAt = '${getDate()}' WHERE id = ${id}`, [user, fullname, enabled])
     if (sql.affectedRows >= 1) {
-      console.log(`Updated user ${user}`)
+      console.log(`Updated user ${fullname}`)
       res.sendStatus(204)
     } else {
       console.log('Record not found')
@@ -147,6 +147,24 @@ export const searchUsers = async (req, res) => {
     const { user } = req.query
     const [sql] = await db.query(`SELECT id, user, fullname, createdAt, updatedAt, enabled FROM passwd WHERE user like '%${user}%' OR fullname like '%${user}%'`)
     res.json(sql)
+  } catch (error) {
+    res.send(req.query)
+    return res.status(500).json({
+      message: `SEARCH USER: Something went wrong: ${error}`
+    })
+  }
+}
+
+export const searchAvailableUser = async (req, res) => {
+  try {
+    const { user } = req.query
+    console.log(req.query)
+    const [sql] = await db.query(`SELECT user FROM passwd WHERE user = '${user}'`)
+    if(sql.length === 0){
+      res.send({available: true})
+    }else{
+      res.send({ available: false })
+    }
   } catch (error) {
     res.send(req.query)
     return res.status(500).json({

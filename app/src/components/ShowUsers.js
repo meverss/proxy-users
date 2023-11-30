@@ -11,7 +11,6 @@ const URI = `${SERVER}/users/`
 const CompShowusers = () => {
   const [auth, setAuth] = useState(false)
   const [users, setusers] = useState([])
-  const [user, setUser] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -24,24 +23,11 @@ const CompShowusers = () => {
         return
       } else {
         navigate('/login')
-        window.location.reload(true)
       }
     }
     verifyUser()
-    // getName()
     getUsers()
-  }, [])
-
-  // const getName = async () => {
-  //   try {
-  //     const res = await axios.get(URI + 'whoami')
-
-  //     setUser(res.data.user)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
+  }, [navigate])
 
   const getUsers = async () => {
     const res = await axios.get(URI)
@@ -63,23 +49,10 @@ const CompShowusers = () => {
     getUsers()
   }
 
-  const checkAdmin = () => {
-    const deleteIcon = document.getElementById('deleteIcon')
-
-    try {
-      if(deleteIcon){
-        deleteIcon.style.opacity = 0
-        deleteIcon.disabled = true
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   return (
     <>
       {
-        auth ?
+        auth  ?
           <div className='container'>
             <div className='row'>
               <div className='col'>
@@ -117,9 +90,8 @@ const CompShowusers = () => {
                           <td> <p>{user.enabled === 1 ? <span style={{ color: 'green' }}>Activo</span> : <span style={{ color: 'red' }}>Inactivo</span>} </p></td>
                           <td className='actions'>
                             <Link to={`/edit/${user.id}`} className='btn btn-sm ' id='editIcon'><BsJournalText className='actionIcon' size='26px' /></Link>
-                            <button className='btn btn-sm' id='deleteIcon' onChange={user.user === 'lolo' ? checkAdmin()
-                              : null}
-                              onClick={user.user === 'admin' ? () => console.log(`Can't delete admin account`) : () => deleteuser(user.id)}><BsTrash className='actionIcon' size='24px' /></button>
+                            <button className='btn btn-sm' id='deleteIcon'
+                              onClick={user.user === 'admin' ? () => console.log(`Can't delete admin account`) : () => deleteuser(user.id)} disabled={user.user === 'admin' ? true : false}  ><BsTrash className='actionIcon' size='24px' /></button>
                           </td>
                         </tr>
                       ))}

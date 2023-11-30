@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { createUser, deleteUser, getAllUsers, getOneUser, updateUser, updateUserNoPass } from '../controllers/UsersController.js'
-import { searchUsers, getUserName } from '../controllers/UsersController.js'
+import { searchUsers, getUserName, createUser, deleteUser, getAllUsers, getOneUser, updateUser, updateUserNoPass, searchAvailableUser } from '../controllers/UsersController.js'
+// import { } from '../controllers/UsersController.js'
 
 const router = Router()
 
@@ -8,10 +8,11 @@ const router = Router()
 router.get('/', getAllUsers)
 router.post('/', createUser)
 router.get('/whoami', getUserName)
-router.use('/search', searchUsers)
+router.get('/search/available', searchAvailableUser)
+router.get('/search', searchUsers)
 router.get('/:id', getOneUser)
-router.patch('/:id', updateUser)
 router.patch('/:id/nopwd', updateUserNoPass)
+router.patch('/:id', updateUser)
 router.delete('/:id', deleteUser)
 
 export default router

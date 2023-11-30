@@ -4,7 +4,7 @@ import axios from 'axios';
 import { SlLogout } from "react-icons/sl";
 import { SERVER } from './components/ShowUsers.js';
 import { useState, useEffect } from 'react';
-import { SlUser } from "react-icons/sl"
+// import { SlUser } from "react-icons/sl"
 
 // Import router
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
@@ -20,32 +20,22 @@ import CompPageNotFound from './components/PageNotFound.js'
 const URI = `${SERVER}/users/`
 
 function App() {
-
+  const [user, setUser] = useState('')
   useEffect(() => {
     getName()
-
-  })
+  }, [])
 
   const getName = async () => {
     try {
       const res = await axios.get(URI + 'whoami')
-      const userNameTag = document.getElementById('userName')
-      if (userNameTag && window.location.pathname !== '/login') {
-        userNameTag.innerHTML = res.data.fullname
-        
-      }
+      setUser(res.data.fullname)
     } catch (error) {
       console.log(error)
     }
   }
 
-  const delToken = () => {
-    const res = axios.patch(`${SERVER}/logout`,)
-  }
-
   const logOut = async () => {
     try {
-      delToken()
       await axios.get(`${SERVER}/logout`)
       window.location.reload(true)
     } catch (error) {
@@ -59,7 +49,7 @@ function App() {
         <div className="container-fluid">
           <a className="App-Title navbar-brand"><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></a>
           <div className="sessionInfo d-inline-flex" role="search" id='logOut'>
-            <span className='userName' id='userName'></span>
+            <span className='userName' id='userName'>{user}</span>
             {window.location.pathname !== '/login' ?
               < button className="btn" id='btnLogOut' type="button" onClick={logOut}><SlLogout className='actionIcon' size='26px' color='chocolate' /></button>
               : ''
@@ -79,7 +69,7 @@ function App() {
           <Route path='/error' element={<CompPageNotFound />} />
           <Route path='*' element={<Navigate to="/" />} />
 
-          {/* Cmponents */}
+          {/* Components */}
           <Route path='/pdf' Component={CompPdf} />
         </Routes>
       </BrowserRouter>

@@ -27,7 +27,6 @@ const CompEditUser = () => {
           return
         } else {
           navigate('/login')
-          window.location.reload(true)
         }
       }
       verifyUser()
@@ -35,7 +34,7 @@ const CompEditUser = () => {
     } catch (error) {
       console.log(error)
     }
-  }, [])
+  }, [navigate])
 
   const updateUser = async (e) => {
     e.preventDefault()

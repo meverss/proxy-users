@@ -11,6 +11,8 @@ const CompCreateUser = () => {
   const [password, setPassword] = useState('')
   const [vpassword, setVPassword] = useState('')
   const [fullname, setFullname] = useState('')
+  const [available, setAvailable] = useState([])
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -23,19 +25,30 @@ const CompCreateUser = () => {
           return
         } else {
           navigate('/login')
-          window.location.reload(true)
         }
       }
       verifyUser()
     } catch (error) {
       console.log(error)
     }
-  }, [])
+  }, [navigate])
+
+  const searchAvailable = async (filter) => {
+    try {
+      const res = await axios.get(URI + `search/available?user=${filter}`)
+      setAvailable(res.data.available)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const save = async (e) => {
     try {
       e.preventDefault()
-      if (user === '' || fullname === '' || password === '') {
+      if(available === false){
+        document.getElementById('message').innerHTML = `El usuario ${user} ya existe`
+        setTimeout(() => document.getElementById('message').innerHTML = '', 3000)
+      }else if (user === '' || fullname === '' || password === '') {
         document.getElementById('message').innerHTML = 'Debe proporcionar todos los datos'
         setTimeout(() => document.getElementById('message').innerHTML = '', 3000)
       } else if (password !== vpassword) {
@@ -65,6 +78,7 @@ const CompCreateUser = () => {
                     className='form-control'
                     value={user}
                     onChange={(e) => setUser(e.target.value.toLowerCase())}
+                    onKeyUp={(e) => searchAvailable(e.target.value.toLowerCase())}
                     type='text'
                   />
                 </div>

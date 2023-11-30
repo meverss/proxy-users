@@ -19,11 +19,11 @@ const CompLogin = () => {
       const res = await axios.get(SERVER)
       if (res.data.Status === 'success') {
         navigate('/')
-        window.location.reload(true)
       }
     }
     verifyUser()
-  }, [])
+    focus()
+  }, [navigate])
 
   const showPassword = () => {
     const pwd = document.getElementById('pwdInput')
@@ -38,7 +38,7 @@ const CompLogin = () => {
   }
 
   const handleSubmit = async (e) => {
-    const userInput = document.getElementById('userInput')
+    const userInput = document.getElementById('userInputMod')
     const pawdInput = document.getElementById('pwdInput')
     const subTitle = document.getElementById('subTitle')
 
@@ -74,8 +74,18 @@ const CompLogin = () => {
     }
   }
 
+  const focus = () => {
+    const userInput = document.getElementById('userInput')
+    if (userInput) {
+      userInput.focus()
+      userInput.setAttribute('id', 'userInputMod')
+      return
+    }
+  }
+
   return (
     <>
+
       < div className='App'>
         <section className='vh-100 mainContainer'>
           <div className='container h-100 loginBox'>
@@ -89,12 +99,8 @@ const CompLogin = () => {
 
                   <div className="input-group mb-3">
                     <span className="input-group-text" id="basic-addon1"><SlUser className='formIcons' /></span>
-                    <input type="text" className="form-control" id='userInput' name='userInput' list="datalistOptions" placeholder="Usuario" aria-label="Username" aria-describedby="basic-addon1" value={user}
+                    <input type="text" className="form-control" id='userInput' name='userInput' placeholder="Usuario" aria-label="Username" aria-describedby="basic-addon1" value={user}
                       onChange={(e) => { setUser(e.target.value.toLowerCase()) }} />
-                    <datalist id="datalistOptions">
-                      {/* <option value="admin" /> */}
-                      {/* <option value="marvin" /> */}
-                    </datalist>
                   </div>
 
                   <div className="input-group mb-3">
@@ -111,6 +117,7 @@ const CompLogin = () => {
           </div >
         </section >
       </div >
+      {/* {focus()} */}
     </>
   )
 }

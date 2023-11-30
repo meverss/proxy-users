@@ -31,7 +31,7 @@
   margin-left: 20px;
 }
 
-.App-Title{
+.App-Title {
   color: #ccc;
   font-family: Bakbakone;
 }
@@ -43,11 +43,11 @@
   gap: 5px;
 }
 
-.userName{
+.userName {
   color: #bbb;
 }
 
-.navbar{
+.navbar {
   background-color: #333;
 }
 
@@ -126,14 +126,17 @@ td p {
   align-items: center;
 }
 
-.usersTable, .editUser, .createUser {
+.usersTable,
+.editUser,
+.createUser {
   overflow-x: auto;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 3px;
 }
 
-.editBox, .createBox {
+.editBox,
+.createBox {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -221,23 +224,25 @@ td p {
   cursor: pointer;
 }
 
-#showPwd:hover::after {
-  content: " " attr(color, "red");
-}
-
 .formIcons {
   color: #333;
 }
+
 .eye {
   color: #333;
   transition: .2s;
 }
+
 .eye:hover {
   color: #000;
-  transform: scale(1.2);
+  transform: scale(1.5);
 }
 
 .eye:active {
   color: #333;
   transform: scale(1);
+}
+
+#deleteIcon:disabled {
+  opacity: 0;
 }
