@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
+import './animate.css'
 import axios from 'axios';
 import { SlLogout } from "react-icons/sl";
 import { SERVER } from './components/ShowUsers.js';
@@ -22,17 +23,16 @@ const URI = `${SERVER}/users/`
 function App() {
   const [user, setUser] = useState('')
   useEffect(() => {
+    const getName = async () => {
+      try {
+        const res = await axios.get(URI + 'whoami')
+        setUser(res.data.fullname)
+      } catch (error) {
+        console.log(error)
+      }
+    }
     getName()
   }, [])
-
-  const getName = async () => {
-    try {
-      const res = await axios.get(URI + 'whoami')
-      setUser(res.data.fullname)
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   const logOut = async () => {
     try {

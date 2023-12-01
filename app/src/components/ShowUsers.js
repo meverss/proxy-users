@@ -8,9 +8,16 @@ const PORT = 4000
 export const SERVER = `http://localhost:${PORT}`
 const URI = `${SERVER}/users/`
 
+export const isAdmin = () => {
+  const userFullname = document.getElementById('userName')
+  if (userFullname && userFullname.innerHTML === 'Administrador') {
+    return true
+  }
+}
+
 const CompShowusers = () => {
-  const [auth, setAuth] = useState(false)
   const [users, setusers] = useState([])
+  const [message, setMessage] = useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -18,8 +25,7 @@ const CompShowusers = () => {
     axios.defaults.withCredentials = true
     const verifyUser = async () => {
       const res = await axios.get(SERVER)
-      if (res.data.Status === 'success') {
-        setAuth(true)
+      if (res.data.verified === true) {
         return
       } else {
         navigate('/login')
@@ -30,17 +36,21 @@ const CompShowusers = () => {
   }, [navigate])
 
   const getUsers = async () => {
-    const res = await axios.get(URI)
-    setusers(res.data)
+    try {
+      const res = await axios.get(URI)
+      setusers(res.data)
+    } catch (error) {
+      setMessage(error.response.data.message)
+      
+    }
   }
 
   const filterUsers = async (filter) => {
     try {
       const res = await axios.get(URI + `search?user=${filter}`)
-      console.log(res.data)
-      setusers(res.data)      
+      setusers(res.data)
     } catch (error) {
-      console.log(error)
+      console.log(error.response.data.message)
     }
   }
 
@@ -52,7 +62,7 @@ const CompShowusers = () => {
   return (
     <>
       {
-        auth  ?
+        isAdmin() ?
           <div className='container'>
             <div className='row'>
               <div className='col'>
@@ -101,7 +111,7 @@ const CompShowusers = () => {
               </div>
             </div>
           </div>
-          : ''
+          : <h3>{message}</h3>
       }
     </>
   )

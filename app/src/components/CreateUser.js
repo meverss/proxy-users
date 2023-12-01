@@ -2,15 +2,16 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SERVER } from './ShowUsers.js'
+import { isAdmin } from './ShowUsers.js'
 
 const URI = `${SERVER}/users/`
 
 const CompCreateUser = () => {
-  const [auth, setAuth] = useState(false)
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const [vpassword, setVPassword] = useState('')
   const [fullname, setFullname] = useState('')
+  const [message, setMessage] = useState('')
   const [available, setAvailable] = useState([])
 
   const navigate = useNavigate()
@@ -20,8 +21,7 @@ const CompCreateUser = () => {
       axios.defaults.withCredentials = true
       const verifyUser = async () => {
         const res = await axios.get(SERVER)
-        if (res.data.Status === 'success') {
-          setAuth(true)
+        if (res.data.verified === true) {
           return
         } else {
           navigate('/login')
@@ -31,7 +31,17 @@ const CompCreateUser = () => {
     } catch (error) {
       console.log(error)
     }
+
+    checkUser()
   }, [navigate])
+
+  const checkUser = async () => {
+    try {
+      const res = await axios.get(URI)
+    } catch (error) {
+      setMessage(error.response.data.message)
+    }
+  }
 
   const searchAvailable = async (filter) => {
     try {
@@ -45,10 +55,10 @@ const CompCreateUser = () => {
   const save = async (e) => {
     try {
       e.preventDefault()
-      if(available === false){
+      if (available === false) {
         document.getElementById('message').innerHTML = `El usuario ${user} ya existe`
         setTimeout(() => document.getElementById('message').innerHTML = '', 3000)
-      }else if (user === '' || fullname === '' || password === '') {
+      } else if (user === '' || fullname === '' || password === '') {
         document.getElementById('message').innerHTML = 'Debe proporcionar todos los datos'
         setTimeout(() => document.getElementById('message').innerHTML = '', 3000)
       } else if (password !== vpassword) {
@@ -66,7 +76,7 @@ const CompCreateUser = () => {
   return (
     <>
       {
-        auth ?
+        isAdmin() ?
           <div className='createBox'>
             <div className='container createUser shadow-sm'>
               <h1 className='appTitle fw-bold mb-3'>Crear nuevo Usuario</h1>
@@ -113,7 +123,7 @@ const CompCreateUser = () => {
                 <br />
                 <div className='formButtons'>
                   <button
-                    type='button' className='btn btn-secondary' onClick={() => { navigate('/'); window.location.reload(true) }}
+                    type='button' className='btn btn-secondary' onClick={() => { navigate('/') }}
                   >
                     Cancelar
                   </button>
@@ -124,7 +134,7 @@ const CompCreateUser = () => {
               </form>
             </div>
           </div>
-          : ''
+          : <h3>{message}</h3>
       }
 
     </>

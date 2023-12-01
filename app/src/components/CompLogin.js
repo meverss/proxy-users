@@ -17,24 +17,29 @@ const CompLogin = () => {
     axios.defaults.withCredentials = true
     const verifyUser = async () => {
       const res = await axios.get(SERVER)
-      if (res.data.Status === 'success') {
+      if (res.data.verified === true) {
         navigate('/')
       }
     }
     verifyUser()
     focus()
+    animForm()
   }, [navigate])
 
   const showPassword = () => {
     const pwd = document.getElementById('pwdInput')
-    const showPwd = document.getElementById('showPwd')
-
 
     if (pwd.type === 'password') {
       pwd.type = 'text'
     } else {
       pwd.type = 'password'
     }
+  }
+
+  const animForm = () => {
+    const form = document.getElementById('card')
+
+    form.classList.add("animate__animated", "animate__bounceIn");
   }
 
   const handleSubmit = async (e) => {
@@ -52,7 +57,6 @@ const CompLogin = () => {
     e.preventDefault()
 
     try {
-
       axios.defaults.withCredentials = true
       const res = await axios.post(URI, { user: user, password: password })
       if (res.status !== 404) {
@@ -60,13 +64,12 @@ const CompLogin = () => {
         if (res.data.user === 'admin') {
           navigate('/')
         } else {
-          navigate('/error')
+            navigate(`/edit/${res.data.id}`)
         }
         window.location.reload(true)
-        document.getElementById('userName').innerHTML = res.data.fullname
       }
     } catch (error) {
-      subTitle.innerHTML = `<span style="color: red">Usuario o contraseã inválidos</span>`
+      subTitle.innerHTML = `<span style="color: red">Usuario o contraseã incorrectos</span>`
       setTimeout(() => {
         subTitle.innerHTML = `Ingrese sus credenciales`
       }, 2000)
@@ -89,8 +92,8 @@ const CompLogin = () => {
       < div className='App'>
         <section className='vh-100 mainContainer'>
           <div className='container h-100 loginBox'>
-            <div className='card text-white' style={{ borderRadius: '1rem' }}>
-              <div className='card-body text-center'>
+            <div className='card text-white' id='card' style={{ borderRadius: '1rem' }}>
+              <div className='card-body text-center' >
 
                 <form className='container' id='loginForm' onSubmit={handleSubmit}>
 

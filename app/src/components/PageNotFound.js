@@ -17,11 +17,10 @@ const CompPageNotFound = () => {
       axios.defaults.withCredentials = true
       const verifyUser = async () => {
         const res = await axios.get(SERVER)
-        if (res.data.Status === 'success') {
+        if (res.data.verified === true) {
           setAuth(true)
         } else {
           navigate('/login')
-          window.location.reload(true)
         }
       }
       verifyUser()

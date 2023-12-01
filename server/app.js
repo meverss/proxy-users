@@ -2,9 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import AppRoutes from './routes/routes.js'
 import cookieParser from 'cookie-parser'
-import { addToken, deleteToken, userLogin } from './controllers/LoginController.js'
-import { verifyUser } from './controllers/LoginController.js'
-import { getUserName } from './controllers/UsersController.js'
+import { verifyUser, userLogin } from './controllers/LoginController.js'
 
 const app = express()
 
@@ -20,13 +18,10 @@ app.use(cors({
 
 // Login & Logout
 app.post('/login', userLogin)
-// app.patch('/logout', deleteToken)
-// app.patch('/login/tokenize', addToken)
 app.get('/logout', (req, res) => {
   res.clearCookie('token')
   res.json({ Status: 'success' })
 })
-
 
 // Routes
 app.use('/users', verifyUser, AppRoutes)
@@ -35,8 +30,10 @@ app.use('/error', (req, res) => {
   res.status(404).render('404error', { title: 'Error 404 - Page not found' })
 })
 
+// Verify user session
 app.use('/', verifyUser, (req, res) => {
-  res.json({ Status: 'success' })
+  const {id} = 
+  res.json({ verified: true })
 })
 
 app.use((req, res) => {

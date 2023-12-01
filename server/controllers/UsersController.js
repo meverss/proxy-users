@@ -22,9 +22,16 @@ export const getDate = () => {
 }
 
 export const getAllUsers = async (req, res) => {
+  const { token } = req.cookies
+  const { id } = jwt.decode(token)
+
   try {
     const [sql] = await db.query('SELECT * FROM passwd')
-    res.status(200).json(sql)
+    if (id == 1) {
+      res.json(sql)
+    } else {
+      res.status(401).json({ message: 'Usuario no autorizado' })
+    }
   } catch (error) {
     return res.status(500).json({
       message: `ALL USERS: Something went wrong: ${error}`
@@ -54,23 +61,31 @@ export const getOneUser = async (req, res) => {
 
 export const getUserName = async (req, res) => {
   const token = req.cookies.token
-  const { user, fullname } = (jwt.decode(token))
-  res.json({ user: user, fullname: fullname })
+  const { id, user, fullname } = (jwt.decode(token))
+  res.json({ id: id, user: user, fullname: fullname })
 }
 
 
 export const createUser = async (req, res) => {
   const { user, password, fullname } = req.body
+  const { token } = req.cookies
+  const { id } = jwt.decode(token)
+
   const passwordHashed = await bcrypt.hash(password, 10)
 
   try {
+    if (id == 1) {
     const [sql] = await db.query(`INSERT INTO passwd (user, password, fullname, createdAt, updatedAt) VALUES ('${user}', '${passwordHashed}', '${fullname}', '${getDate()}', '${getDate()}')`)
-    if (sql.insertId >= 0) {
-      console.log(`Added new user ${fullname}`)
-      res.sendStatus(204)
-    } else {
-      console.log('No records added')
-      res.sendStatus(501)
+      if (sql.insertId >= 0) {
+        console.log(`Added new user ${fullname}`)
+        res.sendStatus(204)
+      } else {
+        console.log('No records added')
+        res.sendStatus(501)
+      }
+    }else{
+      res.status(401).json({message: 'Usuario no autorizado'})
+      console.log(id)
     }
   } catch (error) {
     return res.status(500).json({
@@ -83,8 +98,6 @@ export const updateUser = async (req, res) => {
   const { user, password, enabled, fullname } = req.body
   const passwordHashed = await bcrypt.hash(password, 10)
   const { id } = req.params
-
-  console.log(passwordHashed)
 
   try {
     const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), fullname = IFNULL(?, fullname), password = IFNULL(?, password), enabled = IFNULL(?, enabled), updatedAt = '${getDate()}' WHERE id = ${id}`, [user, fullname, passwordHashed, enabled])
@@ -129,7 +142,7 @@ export const deleteUser = async (req, res) => {
     const [user] = await db.query(`SELECT (fullname) FROM passwd WHERE id = ${id}`)
     const [sql] = await db.query(`DELETE FROM passwd WHERE id = ${id}`)
     if (sql.affectedRows >= 1) {
-      console.log(`${user[0].fullname} has been deleted from Squid users`)
+      console.log(`User ${user[0].fullname} has been deleted`)
       res.sendStatus(204)
     } else {
       console.log('No records found')
@@ -158,11 +171,10 @@ export const searchUsers = async (req, res) => {
 export const searchAvailableUser = async (req, res) => {
   try {
     const { user } = req.query
-    console.log(req.query)
     const [sql] = await db.query(`SELECT user FROM passwd WHERE user = '${user}'`)
-    if(sql.length === 0){
-      res.send({available: true})
-    }else{
+    if (sql.length === 0) {
+      res.send({ available: true })
+    } else {
       res.send({ available: false })
     }
   } catch (error) {

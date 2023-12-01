@@ -22,7 +22,6 @@ export const verifyUser = (req, res, next) => {
 
 export const userLogin = async (req, res) => {
   const { user, password } = req.body
-
   try {
     const [sql] = await db.query(`SELECT * FROM passwd WHERE user = '${user}' AND enabled = 1`)
 
@@ -37,7 +36,7 @@ export const userLogin = async (req, res) => {
         const TOKEN_KEY = process.env.SECRET
         const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '10m' })
         res.cookie('token', token)
-        res.json({ user: user })
+        res.json({ id: id, user: user })
       } else {
         res.status(404).json({
           message: 'Usuario o contraseña incorrectos'
