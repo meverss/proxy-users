@@ -37,7 +37,7 @@ const CompCreateUser = () => {
 
   const checkUser = async () => {
     try {
-      const res = await axios.get(URI)
+      await axios.get(URI)
     } catch (error) {
       setMessage(error.response.data.message)
     }

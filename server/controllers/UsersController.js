@@ -43,14 +43,23 @@ export const getOneUser = async (req, res) => {
   const { id } = req.params
 
   try {
+    const { token } = req.cookies
+    const getAuthId = jwt.decode(token)
+    const authId = getAuthId.id
+    const authUser = getAuthId.user
+
     const [sql] = await db.query(`SELECT * FROM passwd WHERE id = ${id}`)
-    if (sql != '') {
-      res.json(sql[0])
+    if (authUser != 'admin' && authId != id) {
+      res.status(401).json({ message: 'No tiene permiso para editar este usuario', authUser: authUser, authId: authId })
     } else {
-      console.log('Record not found')
-      res.status(404).json({
-        message: 'Record not found'
-      })
+      if (sql != '') {
+        res.json(sql[0])
+      } else {
+        console.log('Record not found')
+        res.status(404).json({
+          message: 'Record not found'
+        })
+      }
     }
   } catch (error) {
     return res.status(500).json({
@@ -75,7 +84,7 @@ export const createUser = async (req, res) => {
 
   try {
     if (id == 1) {
-    const [sql] = await db.query(`INSERT INTO passwd (user, password, fullname, createdAt, updatedAt) VALUES ('${user}', '${passwordHashed}', '${fullname}', '${getDate()}', '${getDate()}')`)
+      const [sql] = await db.query(`INSERT INTO passwd (user, password, fullname, createdAt, updatedAt) VALUES ('${user}', '${passwordHashed}', '${fullname}', '${getDate()}', '${getDate()}')`)
       if (sql.insertId >= 0) {
         console.log(`Added new user ${fullname}`)
         res.sendStatus(204)
@@ -83,8 +92,8 @@ export const createUser = async (req, res) => {
         console.log('No records added')
         res.sendStatus(501)
       }
-    }else{
-      res.status(401).json({message: 'Usuario no autorizado'})
+    } else {
+      res.status(401).json({ message: 'Usuario no autorizado' })
       console.log(id)
     }
   } catch (error) {

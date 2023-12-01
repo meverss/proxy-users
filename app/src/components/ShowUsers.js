@@ -41,7 +41,6 @@ const CompShowusers = () => {
       setusers(res.data)
     } catch (error) {
       setMessage(error.response.data.message)
-      
     }
   }
 

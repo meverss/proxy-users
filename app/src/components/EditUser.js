@@ -7,8 +7,8 @@ import { isAdmin } from './ShowUsers.js'
 const URI = `${SERVER}/users/`
 
 const CompEditUser = () => {
-  const [auth, setAuth] = useState(false)
   const [user, setUser] = useState('')
+  const [authUser, setAuthUser] = useState('')
   const [password, setPassword] = useState('')
   const [fullname, setFullname] = useState('')
   const [enabled, setEnabled] = useState('')
@@ -23,7 +23,6 @@ const CompEditUser = () => {
       const verifyUser = async () => {
         const res = await axios.get(SERVER)
         if (res.data.verified === true) {
-          setAuth(true)
           return
         } else {
           navigate('/login')
@@ -43,27 +42,34 @@ const CompEditUser = () => {
     } else {
       await axios.patch(URI + id, { user, fullname, password, enabled })
     }
-    navigate('/')
+    authUser == 'admin' ? navigate('/') : logOut()
+
   }
 
   const getUserById = async () => {
+
     const stateSwitch = document.getElementById('userState')
     const stateLabel = document.getElementById('userStateLabel')
 
-    const res = await axios.get(URI + id)
-    setUser(res.data.user)
-    setFullname(res.data.fullname)
-    setEnabled(res.data.enabled)
-    if(isAdmin()){
-      if (res.data.enabled === 1) {
-        stateSwitch.checked = true
-        stateLabel.innerHTML = 'Activo'
-      } else {
-        stateSwitch.checked = false
-        stateLabel.innerHTML = 'Inactivo'
-      }
-    }
+    try {
+      const res = await axios.get(URI + id)
 
+      setUser(res.data.user)
+      setAuthUser(res.data.authUser)
+      setFullname(res.data.fullname)
+      setEnabled(res.data.enabled)
+      if (isAdmin()) {
+        if (res.data.enabled === 1) {
+          stateSwitch.checked = true
+          stateLabel.innerHTML = 'Activo'
+        } else {
+          stateSwitch.checked = false
+          stateLabel.innerHTML = 'Inactivo'
+        }
+      }
+    } catch (error) {
+      navigate(`/edit/${error.response.data.authId}`)
+    }
   }
 
   const checkState = () => {

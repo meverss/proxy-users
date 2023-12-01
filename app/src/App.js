@@ -44,37 +44,42 @@ function App() {
   }
 
   return (
-    <div className='App'>
-      <nav className="navbar border-bottom" style={{ backgroundColor: '#555' }}>
-        <div className="container-fluid">
-          <a className="App-Title navbar-brand"><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></a>
-          <div className="sessionInfo d-inline-flex" role="search" id='logOut'>
-            <span className='userName' id='userName'>{user}</span>
-            {window.location.pathname !== '/login' ?
-              < button className="btn" id='btnLogOut' type="button" onClick={logOut}><SlLogout className='actionIcon' size='26px' color='chocolate' /></button>
-              : ''
-            }
+
+    <>
+      <div className='App'>
+        <nav className="navbar border-bottom" style={{ backgroundColor: '#555' }}>
+          <div className="container-fluid">
+            <h2 className="App-Title navbar-brand"><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></h2>
+            <div className="sessionInfo d-inline-flex" role="search" id='logOut'>
+              <span className='userName' id='userName'>{user}</span>
+              {window.location.pathname !== '/login' ?
+                < button className="btn" id='btnLogOut' type="button" onClick={logOut}><SlLogout className='actionIcon' size='26px' color='chocolate' /></button>
+                : ''
+              }
+            </div>
           </div>
-        </div>
-      </nav >
-      <br />
+        </nav >
+        <br />
 
-      <BrowserRouter basename='/' forceRefresh={true}>
-        <Routes>
-          {/* Elements */}
-          <Route path='/' element={<CompShowUsers />} />
-          <Route path='/login' element={<CompLogin />} />
-          <Route path='/create' element={<CompCreateUser />} />
-          <Route path='/edit/:id' element={<CompEditUser />} />
-          <Route path='/error' element={<CompPageNotFound />} />
-          <Route path='*' element={<Navigate to="/" />} />
+        <BrowserRouter basename='/' forceRefresh={true}>
+          <Routes>
+            {/* Elements */}
+            <Route path='/' element={<CompShowUsers />} />
+            <Route path='/login' element={<CompLogin />} />
+            <Route path='/create' element={<CompCreateUser />} />
 
-          {/* Components */}
-          <Route path='/pdf' Component={CompPdf} />
-        </Routes>
-      </BrowserRouter>
+            <Route path='/edit/:id' element={<CompEditUser />} />
+            <Route path='/error' element={<CompPageNotFound />} />
+            <Route path='*' element={<Navigate to="/" />} />
 
-    </div >
+            {/* Components */}
+            <Route path='/pdf' Component={CompPdf} />
+          </Routes>
+        </BrowserRouter>
+
+      </div >
+
+    </>
   )
 }
 
