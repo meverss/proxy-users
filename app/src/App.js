@@ -48,7 +48,7 @@ function App() {
 
     <>
       <div className='App'>
-        <nav className="navbar border-bottom" style={{ backgroundColor: '#555' }}>
+        <nav className="navbar border-bottom">
           <div className="container-fluid">
             <div className='Title'>
               <p className="App-Title "><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></p>

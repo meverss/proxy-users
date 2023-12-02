@@ -64,12 +64,12 @@ const CompLogin = () => {
         if (res.data.user === 'admin') {
           navigate('/')
         } else {
-            navigate(`/edit/${res.data.id}`)
+          navigate(`/edit/${res.data.id}`)
         }
         window.location.reload(true)
       }
     } catch (error) {
-      subTitle.innerHTML = `<span style="color: red">Usuario o contraseã incorrectos</span>`
+      subTitle.innerHTML = `<span style="color: chocolate">Usuario o contraseã incorrectos</span>`
       setTimeout(() => {
         subTitle.innerHTML = `Ingrese sus credenciales`
       }, 2000)

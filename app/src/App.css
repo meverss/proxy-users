@@ -53,11 +53,11 @@
 }
 
 .userName {
-  color: #bbb;
+  color: #eee;
 }
 
 .navbar {
-  background-color: #333;
+  background-color: #02518c;
 }
 
 .titlebar {
@@ -117,8 +117,6 @@ td p {
 }
 
 .actions {
-  /* display: flex; */
-  /* justify-content: center; */
   gap: 5px;
   height: auto;
 }
@@ -139,7 +137,7 @@ td p {
 .editUser,
 .createUser {
   overflow-x: auto;
-  border: 1px solid #ddd;
+  border: 1px solid #bbb;
   border-radius: 5px;
   padding: 3px;
 }
@@ -171,10 +169,6 @@ td p {
   display: flex;
   justify-content: left;
   padding-left: 45px;
-}
-
-.form-check-input:active {
-  --form-check-input-checked-color: red;
 }
 
 .form-check-input:hover {
@@ -218,8 +212,10 @@ td p {
   align-items: center;
   max-width: 400px;
   max-height: 320px;
-  background-color: #444;
+  background-color: #02518c;
   margin-top: -100px;
+  box-shadow: 0 0.5rem 2rem #555;
+  ;
 }
 
 .card-body {

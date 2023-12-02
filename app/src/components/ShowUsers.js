@@ -70,7 +70,7 @@ const CompShowusers = () => {
               <div className='col'>
                 <h1 className='appTitle fw-bold mb-3'>Listado de usuarios</h1>
                 <div className='input-group mb-3 shadow-sm'>
-                  <span className='input-group-text ' id='basic-addon1'><SlMagnifier /></span>
+                  <span className='input-group-text ' id='search'><SlMagnifier /></span>
                   <input
                     className='form-control'
                     onChange={(e) => filterUsers(e.target.value)}
