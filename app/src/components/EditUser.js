@@ -2,13 +2,14 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { SERVER } from './ShowUsers.js'
-import { isAdmin } from './ShowUsers.js'
+// import { isAdmin } from './ShowUsers.js'
 
 const URI = `${SERVER}/users/`
 
 const CompEditUser = () => {
   const [user, setUser] = useState('')
   const [authUser, setAuthUser] = useState('')
+  const [admin, setAdmin] = useState(false)
   const [password, setPassword] = useState('')
   const [fullname, setFullname] = useState('')
   const [enabled, setEnabled] = useState('')
@@ -42,7 +43,7 @@ const CompEditUser = () => {
     } else {
       await axios.patch(URI + id, { user, fullname, password, enabled })
     }
-    authUser == 'admin' ? navigate('/') : logOut()
+    authUser === 'admin' ? navigate('/') : logOut()
 
   }
 
@@ -57,13 +58,18 @@ const CompEditUser = () => {
       setAuthUser(res.data.authUser)
       setFullname(res.data.fullname)
       setEnabled(res.data.enabled)
-      if (isAdmin()) {
-        if (res.data.enabled === 1) {
-          stateSwitch.checked = true
-          stateLabel.innerHTML = 'Activo'
-        } else {
-          stateSwitch.checked = false
-          stateLabel.innerHTML = 'Inactivo'
+      if (res.data.authUser === 'admin') {
+        setAdmin(true)
+        try {
+          if (res.data.enabled === 1) {
+            stateSwitch.checked = true
+            stateLabel.innerHTML = 'Activo'
+          } else {
+            stateSwitch.checked = false
+            stateLabel.innerHTML = 'Inactivo'
+          }
+        } catch (error) {
+          console.log(error)
         }
       }
     } catch (error) {
@@ -87,7 +93,6 @@ const CompEditUser = () => {
   }
 
   const checkAdmin = () => {
-    isAdmin()
     const enableSwitch = document.getElementById('userState')
     const enableSwitchLabel = document.getElementById('userStateLabel')
     const userInput = document.getElementById('userInput')
@@ -127,7 +132,7 @@ const CompEditUser = () => {
                 placeholder={user}
                 onChange={(e) => setUser(e.target.value)}
                 type='text'
-                disabled={isAdmin() ? false : true}
+                disabled={admin ? false : true}
               />
             </div>
             <div className='input-group mb-3'>
@@ -138,7 +143,7 @@ const CompEditUser = () => {
                 placeholder={fullname}
                 onChange={(e) => setFullname(e.target.value)}
                 type='text'
-                disabled={isAdmin() ? false : true}
+                disabled={admin ? false : true}
               />
             </div>
             <div className='input-group mb-3'>
@@ -150,18 +155,14 @@ const CompEditUser = () => {
                 type='password'
               />
             </div>
-            {
-              isAdmin() ?
-                <div className='form-switch' >
-                  <input className='form-check-input' id='userState' type='checkbox' role='switch' onLoad={checkAdmin()} onChange={checkState} /> &nbsp;
-                  <label className='form-check-label' id='userStateLabel' htmlFor='flexSwitchCheckDefault' />
-                </div>
-                : ''
-            }
+            <div className='form-switch' >
+              <input className='form-check-input' id='userState' type='checkbox' role='switch' onLoad={checkAdmin()} onChange={checkState} disabled={admin ? false : true} /> &nbsp;
+              <label className='form-check-label' id='userStateLabel' htmlFor='flexSwitchCheckDefault' />
+            </div>
             <br />
             <div className='formButtons'>
               <button
-                type='button' className='btn btn-secondary' onClick={isAdmin() ? () => navigate(' /') : logOut}
+                type='button' className='btn btn-secondary' onClick={admin ? () => navigate(' /') : logOut}
               >
                 Cancelar
               </button>

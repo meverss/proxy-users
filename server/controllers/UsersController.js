@@ -23,14 +23,14 @@ export const getDate = () => {
 
 export const getAllUsers = async (req, res) => {
   const { token } = req.cookies
-  const { id } = jwt.decode(token)
+  const { id, fullname } = jwt.decode(token)
 
   try {
     const [sql] = await db.query('SELECT * FROM passwd')
     if (id == 1) {
       res.json(sql)
     } else {
-      res.status(401).json({ message: 'Usuario no autorizado' })
+      res.status(401).json({ message: 'Usuario no autorizado', admin: false})
     }
   } catch (error) {
     return res.status(500).json({

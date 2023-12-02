@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { BsJournalText, BsTrash } from 'react-icons/bs'
 import { SlUserFollow, SlMagnifier } from "react-icons/sl";
+import unathorized from '../images/401.webp'
 
 const PORT = 4000
 export const SERVER = `http://localhost:${PORT}`
@@ -11,13 +12,15 @@ const URI = `${SERVER}/users/`
 export const isAdmin = () => {
   const userFullname = document.getElementById('userName')
   if (userFullname && userFullname.innerHTML === 'Administrador') {
+
+    console.log('I see you..')
     return true
   }
 }
 
 const CompShowusers = () => {
   const [users, setusers] = useState([])
-  const [message, setMessage] = useState('')
+  const [admin, setAdmin] = useState(true)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -40,7 +43,7 @@ const CompShowusers = () => {
       const res = await axios.get(URI)
       setusers(res.data)
     } catch (error) {
-      setMessage(error.response.data.message)
+      setAdmin(error.response.data.admin)
     }
   }
 
@@ -61,7 +64,7 @@ const CompShowusers = () => {
   return (
     <>
       {
-        isAdmin() ?
+        admin ?
           <div className='container'>
             <div className='row'>
               <div className='col'>
@@ -110,7 +113,12 @@ const CompShowusers = () => {
               </div>
             </div>
           </div>
-          : <h3>{message}</h3>
+          :
+          <>
+            <div className='unauthCont'>
+              <img className='unauthImage' src={unathorized}></img>
+            </div>
+          </>
       }
     </>
   )
