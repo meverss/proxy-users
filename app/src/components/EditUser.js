@@ -53,7 +53,6 @@ const CompEditUser = () => {
 
     try {
       const res = await axios.get(URI + id)
-
       setUser(res.data.user)
       setAuthUser(res.data.authUser)
       setFullname(res.data.fullname)

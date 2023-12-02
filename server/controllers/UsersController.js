@@ -53,7 +53,7 @@ export const getOneUser = async (req, res) => {
       res.status(401).json({ message: 'No tiene permiso para editar este usuario', authUser: authUser, authId: authId })
     } else {
       if (sql != '') {
-        res.json(sql[0])
+        res.json({...sql[0], authUser: authUser})
       } else {
         console.log('Record not found')
         res.status(404).json({

@@ -31,9 +31,18 @@
   margin-left: 20px;
 }
 
-.App-Title {
+.Title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.Title p {
   color: #ccc;
-  font-family: Bakbakone;
+  font-size: 14pt;
+  font-family: Solitreo;
+  margin: 5px;
 }
 
 .sessionInfo {

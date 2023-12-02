@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.js'
 import './App.css'
 import './animate.css'
 import axios from 'axios';
@@ -49,7 +50,9 @@ function App() {
       <div className='App'>
         <nav className="navbar border-bottom" style={{ backgroundColor: '#555' }}>
           <div className="container-fluid">
-            <h2 className="App-Title navbar-brand"><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></h2>
+            <div className='Title'>
+              <p className="App-Title "><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></p>
+            </div>
             <div className="sessionInfo d-inline-flex" role="search" id='logOut'>
               <span className='userName' id='userName'>{user}</span>
               {window.location.pathname !== '/login' ?
