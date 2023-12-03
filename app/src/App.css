@@ -19,6 +19,8 @@
 * {
   font-family: Hack;
   overflow: hidden;
+  padding: 0;
+  margin: 0;
 }
 
 .App {
@@ -215,7 +217,6 @@ td p {
   background-color: #02518c;
   margin-top: -100px;
   box-shadow: 0 0.5rem 2rem #555;
-  ;
 }
 
 .card-body {
@@ -270,4 +271,22 @@ td p {
 
 .form-check-input:disabled {
   display: none;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  gap: 30px;
+  align-items: center;
+  background-color: #333;
+  width: 100%;
+  padding: 10px;
+}
+
+.footer p {
+  height: 100%;
+  margin: 0;
+  color: #eee
 }

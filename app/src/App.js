@@ -6,7 +6,6 @@ import axios from 'axios';
 import { SlLogout } from "react-icons/sl";
 import { SERVER } from './components/ShowUsers.js';
 import { useState, useEffect } from 'react';
-// import { SlUser } from "react-icons/sl"
 
 // Import router
 import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom'
