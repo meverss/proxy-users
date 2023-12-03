@@ -2,11 +2,10 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { SERVER } from './ShowUsers.js'
-// import { isAdmin } from './ShowUsers.js'
 
 const URI = `${SERVER}/users/`
 
-const CompEditUser = () => {
+const CompEditUser = ({ getname }) => {
   const [user, setUser] = useState('')
   const [authUser, setAuthUser] = useState('')
   const [admin, setAdmin] = useState(false)
@@ -24,6 +23,10 @@ const CompEditUser = () => {
       const verifyUser = async () => {
         const res = await axios.get(SERVER)
         if (res.data.verified === true) {
+          if (res.data.id === 1) {
+            setAdmin(true)
+          }
+          getname(res.data.fullname)
           return
         } else {
           navigate('/login')
@@ -59,7 +62,6 @@ const CompEditUser = () => {
       setFullname(res.data.fullname)
       setEnabled(res.data.enabled)
       if (res.data.authUser === 'admin') {
-        setAdmin(true)
         try {
           if (res.data.enabled === 1) {
             stateSwitch.checked = true
@@ -122,7 +124,7 @@ const CompEditUser = () => {
     <>
       <div className='editBox '>
         <div className='container editUser shadow-sm'>
-          <h1 className='appTitle fw-bold mb-3'>Editar datos de {fullname}</h1>
+          <h1 className='appTitle fw-bold mb-3'>Editar los datos de {fullname}</h1>
           <form onSubmit={updateUser}>
             <div className='input-group mb-3'>
               <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
@@ -162,7 +164,7 @@ const CompEditUser = () => {
             <br />
             <div className='formButtons'>
               <button
-                type='button' className='btn btn-secondary' onClick={admin ? () => navigate(' /') : logOut}
+                type='button' className='btn btn-secondary' onClick={admin ? () => navigate('/') : logOut}
               >
                 Cancelar
               </button>

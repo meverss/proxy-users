@@ -3,6 +3,7 @@ import cors from 'cors'
 import AppRoutes from './routes/routes.js'
 import cookieParser from 'cookie-parser'
 import { verifyUser, userLogin } from './controllers/LoginController.js'
+import jwt from 'jsonwebtoken'
 
 const app = express()
 
@@ -32,8 +33,9 @@ app.use('/error', (req, res) => {
 
 // Verify user session
 app.use('/', verifyUser, (req, res) => {
-  const {id} = 
-  res.json({ verified: true })
+  const { token } = req.cookies
+  const { id, fullname } = jwt.decode(token)
+  res.json({ verified: true, id: id, fullname: fullname })
 })
 
 app.use((req, res) => {

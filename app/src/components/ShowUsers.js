@@ -9,26 +9,20 @@ const PORT = 4000
 export const SERVER = `http://localhost:${PORT}`
 const URI = `${SERVER}/users/`
 
-export const isAdmin = () => {
-  const userFullname = document.getElementById('userName')
-  if (userFullname && userFullname.innerHTML === 'Administrador') {
-
-    console.log('I see you..')
-    return true
-  }
-}
-
-const CompShowusers = () => {
+const CompShowusers = ({ getname }) => {
   const [users, setusers] = useState([])
-  const [admin, setAdmin] = useState(true)
+  const [admin, setAdmin] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
-
     axios.defaults.withCredentials = true
     const verifyUser = async () => {
       const res = await axios.get(SERVER)
       if (res.data.verified === true) {
+        if (res.data.id === 1) {
+          setAdmin(true)
+        }
+        getname(res.data.fullname)
         return
       } else {
         navigate('/login')
@@ -36,14 +30,15 @@ const CompShowusers = () => {
     }
     verifyUser()
     getUsers()
+   
   }, [navigate])
+
 
   const getUsers = async () => {
     try {
       const res = await axios.get(URI)
       setusers(res.data)
     } catch (error) {
-      setAdmin(error.response.data.admin)
     }
   }
 
@@ -116,7 +111,7 @@ const CompShowusers = () => {
           :
           <>
             <div className='unauthCont'>
-              <img className='unauthImage' src={unathorized}></img>
+              <img className='unauthImage animate__animated animate__fadeIn' src={unathorized} alt='Unathorized'></img>
             </div>
           </>
       }

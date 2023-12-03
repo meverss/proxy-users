@@ -30,7 +30,7 @@ export const getAllUsers = async (req, res) => {
     if (id == 1) {
       res.json(sql)
     } else {
-      res.status(401).json({ message: 'Usuario no autorizado', admin: false})
+      res.status(401).json({ message: 'Usuario no autorizado'})
     }
   } catch (error) {
     return res.status(500).json({
@@ -93,7 +93,7 @@ export const createUser = async (req, res) => {
         res.sendStatus(501)
       }
     } else {
-      res.status(401).json({ message: 'Usuario no autorizado' })
+      res.status(401).json({ message: 'Usuario no autorizado'})
       console.log(id)
     }
   } catch (error) {

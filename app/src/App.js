@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 // import { SlUser } from "react-icons/sl"
 
 // Import router
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom'
 import CompPdf from './components/PrintPdf.js'
 
 // Import Components
@@ -17,28 +17,26 @@ import CompShowUsers from './components/ShowUsers.js'
 import CompCreateUser from './components/CreateUser.js'
 import CompEditUser from './components/EditUser.js'
 import CompLogin from './components/CompLogin.js'
-import CompPageNotFound from './components/PageNotFound.js'
+import CompPageNotFound from './components/CompPageNotFound.js'
 
 const URI = `${SERVER}/users/`
 
-function App() {
+const App = () => {
   const [user, setUser] = useState('')
+
   useEffect(() => {
-    const getName = async () => {
-      try {
-        const res = await axios.get(URI + 'whoami')
-        setUser(res.data.fullname)
-      } catch (error) {
-        console.log(error)
-      }
-    }
     getName()
   }, [])
 
+  const getName = (name) => {
+    setUser(name)
+  }
+
   const logOut = async () => {
+
     try {
+      window.location.pathname = '/'
       await axios.get(`${SERVER}/logout`)
-      window.location.reload(true)
     } catch (error) {
       console.log(error)
     }
@@ -55,27 +53,24 @@ function App() {
             </div>
             <div className="sessionInfo d-inline-flex" role="search" id='logOut'>
               <span className='userName' id='userName'>{user}</span>
-              {window.location.pathname !== '/login' ?
+              {user !== undefined ?
                 < button className="btn" id='btnLogOut' type="button" onClick={logOut}><SlLogout className='actionIcon' size='26px' color='chocolate' /></button>
-                : ''
+                : null
               }
             </div>
           </div>
         </nav >
         <br />
 
-        <BrowserRouter basename='/' forceRefresh={true}>
+        <BrowserRouter forceRefresh={true}>
           <Routes>
-            {/* Elements */}
-            <Route path='/' element={<CompShowUsers />} />
+            <Route path='/' element={<CompShowUsers getname={getName} />} />
             <Route path='/login' element={<CompLogin />} />
-            <Route path='/create' element={<CompCreateUser />} />
+            <Route path='/create' element={<CompCreateUser getname={getName} />} />
+            <Route path='/edit/:id' element={<CompEditUser getname={getName} />} />
+            <Route path='/error' element={<CompPageNotFound getname={getName} />} />
+            <Route path='*' element={<Navigate to="/error" />} />
 
-            <Route path='/edit/:id' element={<CompEditUser />} />
-            <Route path='/error' element={<CompPageNotFound />} />
-            <Route path='*' element={<Navigate to="/" />} />
-
-            {/* Components */}
             <Route path='/pdf' Component={CompPdf} />
           </Routes>
         </BrowserRouter>

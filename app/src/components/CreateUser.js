@@ -2,16 +2,17 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SERVER } from './ShowUsers.js'
-import { isAdmin } from './ShowUsers.js'
+// import { isAdmin } from './ShowUsers.js'
+import unathorized from '../images/401.webp'
 
 const URI = `${SERVER}/users/`
 
-const CompCreateUser = () => {
+const CompCreateUser = ({ getname }) => {
   const [user, setUser] = useState('')
+  const [admin, setAdmin] = useState(false)
   const [password, setPassword] = useState('')
   const [vpassword, setVPassword] = useState('')
   const [fullname, setFullname] = useState('')
-  const [message, setMessage] = useState('')
   const [available, setAvailable] = useState([])
 
   const navigate = useNavigate()
@@ -22,6 +23,10 @@ const CompCreateUser = () => {
       const verifyUser = async () => {
         const res = await axios.get(SERVER)
         if (res.data.verified === true) {
+          if (res.data.id === 1) {
+            setAdmin(true)
+          }
+          getname(res.data.fullname)
           return
         } else {
           navigate('/login')
@@ -33,13 +38,12 @@ const CompCreateUser = () => {
     }
 
     checkUser()
-  }, [navigate])
+  }, [navigate, getname])
 
   const checkUser = async () => {
     try {
       await axios.get(URI)
     } catch (error) {
-      setMessage(error.response.data.message)
     }
   }
 
@@ -76,7 +80,7 @@ const CompCreateUser = () => {
   return (
     <>
       {
-        isAdmin() ?
+        admin ?
           <div className='createBox'>
             <div className='container createUser shadow-sm'>
               <h1 className='appTitle fw-bold mb-3'>Crear nuevo Usuario</h1>
@@ -134,9 +138,13 @@ const CompCreateUser = () => {
               </form>
             </div>
           </div>
-          : <h3>{message}</h3>
+          :
+          <>
+            <div className='unauthCont'>
+              <img className='unauthImage animate__animated animate__fadeIn' src={unathorized} alt='Unathorized'></img>
+            </div>
+          </>
       }
-
     </>
   )
 }

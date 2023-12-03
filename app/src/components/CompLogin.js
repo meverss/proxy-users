@@ -8,7 +8,6 @@ import { SERVER } from './ShowUsers';
 const URI = 'http://localhost:4000/login'
 
 const CompLogin = () => {
-
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
@@ -66,10 +65,9 @@ const CompLogin = () => {
         } else {
           navigate(`/edit/${res.data.id}`)
         }
-        window.location.reload(true)
       }
     } catch (error) {
-      subTitle.innerHTML = `<span style="color: chocolate">Usuario o contraseã incorrectos</span>`
+      subTitle.innerHTML = `<span style="color: yellow">Usuario o contraseña incorrectos</span>`
       setTimeout(() => {
         subTitle.innerHTML = `Ingrese sus credenciales`
       }, 2000)
@@ -120,7 +118,6 @@ const CompLogin = () => {
           </div >
         </section >
       </div >
-      {/* {focus()} */}
     </>
   )
 }
