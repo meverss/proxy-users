@@ -10,6 +10,7 @@ const CompEditUser = ({ getname }) => {
   const [authUser, setAuthUser] = useState('')
   const [admin, setAdmin] = useState(false)
   const [password, setPassword] = useState('')
+  const [vpassword, setVPassword] = useState('')
   const [fullname, setFullname] = useState('')
   const [enabled, setEnabled] = useState('')
   const navigate = useNavigate()
@@ -38,17 +39,6 @@ const CompEditUser = ({ getname }) => {
       console.log(error)
     }
   }, [navigate])
-
-  const updateUser = async (e) => {
-    e.preventDefault()
-    if (password === '') {
-      await axios.patch(URI + id + '/nopwd', { user, fullname, enabled })
-    } else {
-      await axios.patch(URI + id, { user, fullname, password, enabled })
-    }
-    authUser === 'admin' ? navigate('/') : logOut()
-
-  }
 
   const getUserById = async () => {
 
@@ -120,11 +110,28 @@ const CompEditUser = ({ getname }) => {
     }
   }
 
+  const updateUser = async (e) => {
+    const message = document.getElementById('message')
+
+    e.preventDefault()
+    if (password !== vpassword) {
+      document.getElementById('message').innerHTML = 'Las contraseñas no coinciden'
+      setTimeout(() => message.innerHTML = `&nbsp;`, 3000)
+    } else if (password === '' && vpassword === '') {
+      await axios.patch(URI + id + '/nopwd', { user, fullname, enabled })
+      authUser === 'admin' ? navigate('/') : logOut()
+    } else if (password === vpassword){
+      await axios.patch(URI + id, { user, fullname, password, enabled })
+      authUser === 'admin' ? navigate('/') : logOut()
+    }
+  }
+
   return (
     <>
       <div className='editBox '>
         <div className='container editUser shadow-sm'>
           <h1 className='appTitle fw-bold mb-3'>Editar los datos de {fullname}</h1>
+          <p className='message' id='message' style={{ color: 'red' }}>&nbsp;</p>
           <form onSubmit={updateUser}>
             <div className='input-group mb-3'>
               <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
@@ -154,6 +161,15 @@ const CompEditUser = ({ getname }) => {
                 className='form-control'
                 placeholder='********'
                 onChange={(e) => setPassword(e.target.value)}
+                type='password'
+              />
+            </div>
+            <div className='input-group mb-3'>
+              <span className='input-group-text' id='inputVPasswd'>Verificacar</span>
+              <input
+                className='form-control'
+                placeholder='********'
+                onChange={(e) => { setVPassword(e.target.value) }}
                 type='password'
               />
             </div>

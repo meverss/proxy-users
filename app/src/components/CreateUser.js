@@ -61,13 +61,13 @@ const CompCreateUser = ({ getname }) => {
       e.preventDefault()
       if (available === false) {
         document.getElementById('message').innerHTML = `El usuario ${user} ya existe`
-        setTimeout(() => document.getElementById('message').innerHTML = '', 3000)
+        setTimeout(() => document.getElementById('message').innerHTML = `&nbsp;`, 3000)
       } else if (user === '' || fullname === '' || password === '') {
         document.getElementById('message').innerHTML = 'Debe proporcionar todos los datos'
-        setTimeout(() => document.getElementById('message').innerHTML = '', 3000)
+        setTimeout(() => document.getElementById('message').innerHTML = `&nbsp;`, 3000)
       } else if (password !== vpassword) {
         document.getElementById('message').innerHTML = 'Las contraseñas no coinciden'
-        setTimeout(() => document.getElementById('message').innerHTML = '', 3000)
+        setTimeout(() => document.getElementById('message').innerHTML = `&nbsp;`, 3000)
       } else {
         await axios.post(URI, { user, password, fullname })
         navigate('/')
@@ -84,7 +84,7 @@ const CompCreateUser = ({ getname }) => {
           <div className='createBox'>
             <div className='container createUser shadow-sm'>
               <h1 className='appTitle fw-bold mb-3'>Crear nuevo Usuario</h1>
-              <p className='message' id='message' style={{ color: 'red' }}></p>
+              <p className='message' id='message' style={{ color: 'red' }}>&nbsp;</p>
               <form onSubmit={save}>
                 <div className='input-group mb-3'>
                   <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
@@ -115,7 +115,7 @@ const CompCreateUser = ({ getname }) => {
                   />
                 </div>
                 <div className='input-group mb-3'>
-                  <span className='input-group-text' id='inputVPasswd'>Conf. Contraseña</span>
+                  <span className='input-group-text' id='inputVPasswd'>Verificacar</span>
                   <input
                     className='form-control'
                     value={vpassword}
