@@ -8,7 +8,7 @@ import { SERVER } from './components/ShowUsers.js';
 import { useState, useEffect } from 'react';
 
 // Import router
-import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate} from 'react-router-dom'
 import CompPdf from './components/PrintPdf.js'
 
 // Import Components
@@ -17,8 +17,6 @@ import CompCreateUser from './components/CreateUser.js'
 import CompEditUser from './components/EditUser.js'
 import CompLogin from './components/CompLogin.js'
 import CompPageNotFound from './components/CompPageNotFound.js'
-
-const URI = `${SERVER}/users/`
 
 const App = () => {
   const [user, setUser] = useState('')

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { FaUser, FaUnlock, FaEye, FaEyeSlash } from "react-icons/fa6";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { SlUser, SlLock } from "react-icons/sl";
 import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
@@ -10,6 +10,7 @@ const URI = 'http://localhost:4000/login'
 const CompLogin = () => {
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
+  const [viewpassword, setViewPassword] = useState(<FaEye className='eye' />)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -30,8 +31,10 @@ const CompLogin = () => {
 
     if (pwd.type === 'password') {
       pwd.type = 'text'
+      setViewPassword(<FaEyeSlash className='eye' />)
     } else {
       pwd.type = 'password'
+      setViewPassword(<FaEye className='eye' />)
     }
   }
 
@@ -107,10 +110,10 @@ const CompLogin = () => {
                   <div className="input-group mb-3">
                     <span className="input-group-text"><SlLock className='formIcons' /></span>
                     <input type="password" className="form-control" id='pwdInput' name='pwdInput' placeholder='Contraseña' aria-label="Amount (to the nearest dollar)" value={password} onChange={(e) => setPassword(e.target.value)} />
-                    <span className="input-group-text" id="showPwd" onClick={showPassword}><FaEye className='eye' /></span>
+                    <span className="input-group-text" id="showPwd" onClick={showPassword}>{viewpassword}</span>
                   </div>
 
-                  <button className='btn btn-success px-5' type='submit'>Login</button>
+                  <button className='btnLogin btn btn-success px-5' type='submit'>Login</button>
 
                 </form>
               </div>

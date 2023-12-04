@@ -224,10 +224,15 @@ td p {
   justify-content: center;
   align-items: center;
   height: 500px;
+  padding: 20px;
 }
 
 #showPwd:hover {
   cursor: pointer;
+}
+
+.btnLogin {
+  margin: 10px;
 }
 
 .formIcons {

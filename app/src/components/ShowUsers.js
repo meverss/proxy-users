@@ -40,6 +40,7 @@ const CompShowusers = ({ getname }) => {
 
   const getUsers = async () => {
     try {
+      console.log(window.location.pathname)
       const res = await axios.get(URI)
       setusers(res.data)
       setTotal(res.data.length)
