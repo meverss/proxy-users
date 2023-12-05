@@ -1,3 +1,6 @@
+CREATE USER 'squidadmin'@'localhost' IDENTIFIED BY 'squidadmin';
+GRANT ALL ON squid.* TO 'squidadmin'@'localhost';
+
 CREATE DATABASE IF NOT EXISTS squid;
 USE squid;
 CREATE TABLE IF NOT EXISTS passwd (
@@ -16,11 +19,8 @@ INSERT INTO `passwd` (`id`, `user`, `password`, `enabled`, `fullname`, `createdA
 -- Show ALL Users
 SELECT * FROM passwd;
 
--- Filter by USER or FULLNAME
-SELECT * FROM passwd WHERE user = 'marvin' OR fullname like '%marvin%'
-
 -- Show table structure
-DESCRIBE squid;
+-- DESCRIBE squid;
 
-CREATE USER 'marvin'@'localhost' IDENTIFIED BY 'mes2**';
-GRANT ALL ON [nombre de base de dato].[nombre de tabla] TO '[nombre usuario]'@'origen acceso';
+-- Filter by USER or FULLNAME
+-- SELECT * FROM passwd WHERE user = 'marvin' OR fullname like '%marvin%'
