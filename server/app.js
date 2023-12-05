@@ -6,13 +6,15 @@ import { verifyUser, userLogin } from './controllers/LoginController.js'
 import jwt from 'jsonwebtoken'
 
 const app = express()
+const whiteList = 
 
 // Middlewares
 app.use(express.json())
+app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
 app.use(express.static('./static'))
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://192.168.219.14:3000', 'http://192.168.219.14:4000'],
+  origin: ['http://localhost:3000', 'http://localhost:4000', 'http://192.168.219.14:3000', 'http://192.168.219.14:4000'],
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   credentials: true
 }))

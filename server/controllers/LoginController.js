@@ -16,6 +16,10 @@ export const verifyUser = (req, res, next) => {
         req.user = decode.user
         next()
       }
+      // res.header('Cache-Control', 'max-age=7776000')
+      // res.header('Pragma', 'no-cache')
+      // res.header('Expires', '-1')
+      // res.header('Access-Control-Allow-Origin','http://localhost:3000')
     })
   }
 }
@@ -35,7 +39,7 @@ export const userLogin = async (req, res) => {
       if (verifyPassword) {
         const TOKEN_KEY = process.env.SECRET
         const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '1h' })
-        res.cookie('token', token)
+        res.setHeader('set-cookie', `token=${token}; secure; SameSite=none`)
         res.json({ id: id, user: user })
       } else {
         res.status(404).json({
