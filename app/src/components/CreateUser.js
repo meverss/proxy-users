@@ -115,7 +115,7 @@ const CompCreateUser = ({ getname }) => {
                   />
                 </div>
                 <div className='input-group mb-3'>
-                  <span className='input-group-text' id='inputVPasswd'>Verificacar</span>
+                  <span className='input-group-text' id='inputVPasswd'>Verificación</span>
                   <input
                     className='form-control'
                     value={vpassword}

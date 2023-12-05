@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { SERVER } from './ShowUsers.js'
+import { FaEye, FaEyeSlash } from "react-icons/fa6"
 
 const URI = `${SERVER}/users/`
 
@@ -11,6 +12,8 @@ const CompEditUser = ({ getname }) => {
   const [admin, setAdmin] = useState(false)
   const [password, setPassword] = useState('')
   const [vpassword, setVPassword] = useState('')
+  const [viewpassword, setViewPassword] = useState(<FaEye className='eye' />)
+  const [viewpassword2, setViewPassword2] = useState(<FaEye className='eye' />)
   const [fullname, setFullname] = useState('')
   const [enabled, setEnabled] = useState('')
   const navigate = useNavigate()
@@ -120,9 +123,31 @@ const CompEditUser = ({ getname }) => {
     } else if (password === '' && vpassword === '') {
       await axios.patch(URI + id + '/nopwd', { user, fullname, enabled })
       authUser === 'admin' ? navigate('/') : logOut()
-    } else if (password === vpassword){
+    } else if (password === vpassword) {
       await axios.patch(URI + id, { user, fullname, password, enabled })
       authUser === 'admin' ? navigate('/') : logOut()
+    }
+  }
+
+  const showPassword = () => {
+    const pwd = document.getElementById('pwdInput')
+    if (pwd.type === 'password') {
+      pwd.type = 'text'
+      setViewPassword(<FaEyeSlash className='eye' />)
+    } else {
+      pwd.type = 'password'
+      setViewPassword(<FaEye className='eye' />)
+    }
+  }
+
+  const showVPassword = () => {
+    const pwd = document.getElementById('pwdVInput')
+    if (pwd.type === 'password') {
+      pwd.type = 'text'
+      setViewPassword2(<FaEyeSlash className='eye' />)
+    } else {
+      pwd.type = 'password'
+      setViewPassword2(<FaEye className='eye' />)
     }
   }
 
@@ -155,23 +180,23 @@ const CompEditUser = ({ getname }) => {
                 disabled={admin ? false : true}
               />
             </div>
-            <div className='input-group mb-3'>
-              <span className='input-group-text' id='passwd'>Contraseña</span>
-              <input
-                className='form-control'
+            <div className="input-group mb-3">
+              <span className="input-group-text">Contraseña</span>
+              <input id='pwdInput' name='pwdInput'
+                type="password"
+                className="form-control"
                 placeholder='********'
-                onChange={(e) => setPassword(e.target.value)}
-                type='password'
-              />
+                onChange={(e) => setPassword(e.target.value)} />
+              <span className="input-group-text" id="showPwd" onClick={showPassword}>{viewpassword}</span>
             </div>
-            <div className='input-group mb-3'>
-              <span className='input-group-text' id='inputVPasswd'>Verificacar</span>
-              <input
-                className='form-control'
+            <div className="input-group mb-3">
+              <span className="input-group-text"> Verificación</span>
+              <input id='pwdVInput' name='pwdVInput'
+                type="password"
+                className="form-control"
                 placeholder='********'
-                onChange={(e) => { setVPassword(e.target.value) }}
-                type='password'
-              />
+                onChange={(e) => setVPassword(e.target.value)} />
+              <span className="input-group-text" id="showPwd" onClick={showVPassword}>{viewpassword2}</span>
             </div>
             <div className='form-switch' >
               <input className='form-check-input' id='userState' type='checkbox' role='switch' onLoad={checkAdmin()} onChange={checkState} disabled={admin ? false : true} /> &nbsp;

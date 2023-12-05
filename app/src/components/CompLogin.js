@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { FaEye, FaEyeSlash } from "react-icons/fa6";
-import { SlUser, SlLock } from "react-icons/sl";
+import { FaEye, FaEyeSlash } from "react-icons/fa6"
+import { SlUser, SlLock } from "react-icons/sl"
 import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
-import { SERVER } from './ShowUsers';
+import { SERVER } from './ShowUsers'
 
 const URI = 'http://localhost:4000/login'
 
