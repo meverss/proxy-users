@@ -51,7 +51,7 @@ const App = () => {
             <div className="sessionInfo d-inline-flex" role="search" id='logOut'>
               <span className='userName' id='userName'>{user}</span>
               {user !== undefined ?
-                < button className="btn" id='btnLogOut' type="button" onClick={logOut}><SlLogout className='actionIcon' size='26px' color='chocolate' /></button>
+                < button className="btn" id='btnLogOut' type="button" onClick={logOut}><SlLogout className='logOut actionIcon' size='26px' color='chocolate' /></button>
                 : null
               }
             </div>
