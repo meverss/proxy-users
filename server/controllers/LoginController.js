@@ -38,6 +38,7 @@ export const userLogin = async (req, res) => {
 
       if (verifyPassword) {
         const TOKEN_KEY = process.env.SECRET
+        const origin = req.header('origin')
         const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '1h' })
         res.setHeader('set-cookie', `token=${token}; secure; SameSite=none`)
         res.json({ id: id, user: user })

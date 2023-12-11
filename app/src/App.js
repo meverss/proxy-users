@@ -8,7 +8,7 @@ import { SERVER } from './components/ShowUsers.js';
 import { useState, useEffect } from 'react';
 
 // Import router
-import { BrowserRouter, Route, Routes, Navigate} from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import CompPdf from './components/PrintPdf.js'
 
 // Import Components
@@ -32,8 +32,11 @@ const App = () => {
   const logOut = async () => {
 
     try {
-      window.location.pathname = '/'
-      await axios.get(`${SERVER}/logout`)
+      await axios.get(`${SERVER}/logout`, {
+        withCredentials: true,
+        credentials: 'include'
+      })
+        window.location.pathname = '/login'
     } catch (error) {
       console.log(error)
     }

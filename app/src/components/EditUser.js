@@ -41,7 +41,7 @@ const CompEditUser = ({ getname }) => {
     } catch (error) {
       console.log(error)
     }
-  }, [navigate])
+  }, [])
 
   const getUserById = async () => {
 
@@ -155,7 +155,8 @@ const CompEditUser = ({ getname }) => {
     <>
       <div className='editBox '>
         <div className='container editUser shadow-sm'>
-          <h1 className='appTitle fw-bold mb-3'>Editar los datos de {fullname}</h1>
+          <h1 className='sessionTitle fw-bold mb-3'>Editar los datos de </h1>
+          <h1 className='sessionTitle fw-bold mb-3'>{fullname}</h1>
           <p className='message' id='message' style={{ color: 'red' }}>&nbsp;</p>
           <form onSubmit={updateUser}>
             <div className='input-group mb-3'>
@@ -199,8 +200,8 @@ const CompEditUser = ({ getname }) => {
               <span className="input-group-text" id="showPwd" onClick={showVPassword}>{viewpassword2}</span>
             </div>
             <div className='form-switch' >
-              <input className='form-check-input' id='userState' type='checkbox' role='switch' onLoad={checkAdmin()} onChange={checkState} disabled={admin ? false : true} /> &nbsp;
-              <label className='form-check-label' id='userStateLabel' htmlFor='flexSwitchCheckDefault' />
+              <input className='form-check-input' id='userState' name='userState' type='checkbox' role='switch' onLoad={checkAdmin()} onChange={checkState} disabled={admin ? false : true} /> &nbsp;
+              <label className='form-check-label' id='userStateLabel' htmlFor='userState' />
             </div>
             <br />
             <div className='formButtons'>

@@ -2,13 +2,13 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SERVER } from './ShowUsers.js'
-// import { isAdmin } from './ShowUsers.js'
 import unathorized from '../images/401.webp'
 
 const URI = `${SERVER}/users/`
 
 const CompCreateUser = ({ getname }) => {
   const [user, setUser] = useState('')
+  const [id, setId] = useState('')
   const [admin, setAdmin] = useState(false)
   const [password, setPassword] = useState('')
   const [vpassword, setVPassword] = useState('')
@@ -26,6 +26,7 @@ const CompCreateUser = ({ getname }) => {
           if (res.data.id === 1) {
             setAdmin(true)
           }
+          setId(res.data.id)
           getname(res.data.fullname)
           return
         } else {
@@ -38,7 +39,7 @@ const CompCreateUser = ({ getname }) => {
     }
 
     checkUser()
-  }, [navigate, getname])
+  }, [getname])
 
   const checkUser = async () => {
     try {
@@ -141,7 +142,7 @@ const CompCreateUser = ({ getname }) => {
           :
           <>
             <div className='unauthCont'>
-              <img className='unauthImage animate__animated animate__fadeIn' src={unathorized} alt='Unathorized'></img>
+              <a href={`/edit/${id}`} ><img className='unauthImage animate__animated animate__fadeIn' src={unathorized} alt='Unathorized'></img></a>
             </div>
           </>
       }

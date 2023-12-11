@@ -12,10 +12,11 @@ const URI = `${SERVER}/users/`
 
 const CompShowusers = ({ getname }) => {
   const [users, setusers] = useState([])
+  const [admin, setAdmin] = useState(false)
+  const [id, setId] = useState('')
   const [total, setTotal] = useState('')
   const [active, setActive] = useState('')
   const [inactive, setInactive] = useState('')
-  const [admin, setAdmin] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const CompShowusers = ({ getname }) => {
         if (res.data.id === 1) {
           setAdmin(true)
         }
+        setId(res.data.id)
         getname(res.data.fullname)
         return
       } else {
@@ -35,7 +37,7 @@ const CompShowusers = ({ getname }) => {
     verifyUser()
     getUsers()
 
-  }, [navigate])
+  }, [])
 
 
   const getUsers = async () => {
@@ -72,7 +74,7 @@ const CompShowusers = ({ getname }) => {
             <div className='container'>
               <div className='row'>
                 <div className='col'>
-                  <h1 className='appTitle fw-bold mb-3'>Listado de usuarios</h1>
+                  <h1 className='sessionTitle fw-bold mb-3'>Listado de usuarios</h1>
                   <div className='input-group mb-3'>
                     <span className='input-group-text ' id='search'><SlMagnifier /></span>
                     <input
@@ -126,7 +128,7 @@ const CompShowusers = ({ getname }) => {
           :
           <>
             <div className='unauthCont'>
-              <img className='unauthImage animate__animated animate__fadeIn' src={unathorized} alt='Unathorized'></img>
+              <a href={`/edit/${id}`} ><img className='unauthImage animate__animated animate__fadeIn' src={unathorized} alt='Unathorized'></img></a>
             </div>
           </>
       }

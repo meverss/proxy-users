@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import { SERVER } from './ShowUsers'
 
-const URI = 'http://localhost:4000/login'
+const URI = `${SERVER}/login`
 
 const CompLogin = () => {
   const [user, setUser] = useState('')
@@ -24,7 +24,7 @@ const CompLogin = () => {
     verifyUser()
     focus()
     animForm()
-  }, [navigate])
+  }, [])
 
   const showPassword = () => {
     const pwd = document.getElementById('pwdInput')

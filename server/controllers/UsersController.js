@@ -1,6 +1,7 @@
 import { db } from '../database/db.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { SERVERIP } from '../config.js'
 
 // SETTING CUSTOM DATE
 export const getDate = () => {
@@ -21,7 +22,21 @@ export const getDate = () => {
   return dd + '-' + mm + '-' + yyyy + '.' + hh + ':' + min + ':' + sec
 }
 
+export const ACCEPTED_ORIGINS = [
+  'http://localhost:3000',
+  `http://${SERVERIP}:3000`
+]
+
+const handleCors = (req, res) => {
+  const origin = req.header('origin')
+  if (ACCEPTED_ORIGINS.includes(origin) || !origin) {
+    res.header('Access-Control-Allow-Origin', origin)
+    res.header('Access-Control-Allow-Methods', 'GET, POST PATCH, DELETE')
+  }
+}
+
 export const getAllUsers = async (req, res) => {
+  
   const { token } = req.cookies
   const { id, fullname } = jwt.decode(token)
 
@@ -30,7 +45,7 @@ export const getAllUsers = async (req, res) => {
     if (id == 1) {
       res.json(sql)
     } else {
-      res.status(401).json({ message: 'Usuario no autorizado'})
+      res.status(401).json({ message: 'Usuario no autorizado' })
     }
   } catch (error) {
     return res.status(500).json({
@@ -40,8 +55,8 @@ export const getAllUsers = async (req, res) => {
 }
 
 export const getOneUser = async (req, res) => {
+  
   const { id } = req.params
-
   try {
     const { token } = req.cookies
     const getAuthId = jwt.decode(token)
@@ -53,7 +68,7 @@ export const getOneUser = async (req, res) => {
       res.status(401).json({ message: 'No tiene permiso para editar este usuario', authUser: authUser, authId: authId })
     } else {
       if (sql != '') {
-        res.json({...sql[0], authUser: authUser})
+        res.json({ ...sql[0], authUser: authUser })
       } else {
         console.log('Record not found')
         res.status(404).json({
@@ -69,6 +84,7 @@ export const getOneUser = async (req, res) => {
 }
 
 export const getUserName = async (req, res) => {
+  
   const token = req.cookies.token
   const { id, user, fullname } = (jwt.decode(token))
   res.json({ id: id, user: user, fullname: fullname })
@@ -76,6 +92,7 @@ export const getUserName = async (req, res) => {
 
 
 export const createUser = async (req, res) => {
+  
   const { user, password, fullname } = req.body
   const { token } = req.cookies
   const { id } = jwt.decode(token)
@@ -93,7 +110,7 @@ export const createUser = async (req, res) => {
         res.sendStatus(501)
       }
     } else {
-      res.status(401).json({ message: 'Usuario no autorizado'})
+      res.status(401).json({ message: 'Usuario no autorizado' })
       console.log(id)
     }
   } catch (error) {
@@ -104,6 +121,7 @@ export const createUser = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
+  
   const { user, password, enabled, fullname } = req.body
   const passwordHashed = await bcrypt.hash(password, 10)
   const { id } = req.params
@@ -125,6 +143,7 @@ export const updateUser = async (req, res) => {
 }
 
 export const updateUserNoPass = async (req, res) => {
+  
   const { user, enabled, fullname } = req.body
   const { id } = req.params
 
@@ -145,6 +164,7 @@ export const updateUserNoPass = async (req, res) => {
 }
 
 export const deleteUser = async (req, res) => {
+  
   const { id } = req.params
 
   try {
@@ -165,6 +185,7 @@ export const deleteUser = async (req, res) => {
 }
 
 export const searchUsers = async (req, res) => {
+  
   try {
     const { user } = req.query
     const [sql] = await db.query(`SELECT id, user, fullname, createdAt, updatedAt, enabled FROM passwd WHERE user like '%${user}%' OR fullname like '%${user}%'`)
@@ -178,6 +199,7 @@ export const searchUsers = async (req, res) => {
 }
 
 export const searchAvailableUser = async (req, res) => {
+  
   try {
     const { user } = req.query
     const [sql] = await db.query(`SELECT user FROM passwd WHERE user = '${user}'`)
