@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static('./static'))
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:4000', 'http://192.168.147.14:3000', 'http://192.168.147.14:4000'],
+  origin: ['http://localhost:3000', 'http://localhost:4000', 'http://192.168.147.14:3000'],
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   credentials: true
 }))

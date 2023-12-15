@@ -29,7 +29,6 @@ html {
 .App {
   text-align: center;
   width: 100%;
-  height: 100vh;
 }
 
 .App-logo {
@@ -64,7 +63,18 @@ html {
 }
 
 .navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
   background-color: #02518c;
+  z-index: 99999;
+}
+
+.mainTools {
+  position: sticky;
+  top: 0;
+  box-shadow: 0px -35px 0px #fff;
+  z-index: 1000;
 }
 
 .titlebar {
@@ -111,6 +121,7 @@ td p {
 .sessionTitle {
   font-size: calc(10px + 2vmin);
   color: #222;
+  padding-top: 20px;
 }
 
 .actions {
@@ -133,10 +144,14 @@ td p {
 .usersTable,
 .editUser,
 .createUser {
-  overflow-x: auto;
   border: 1px solid #bbb;
   border-radius: 5px;
   padding: 3px;
+}
+
+.usersTable {
+  overflow: auto;
+  max-height: 600px;
 }
 
 .editBox,
@@ -154,6 +169,7 @@ td p {
 }
 
 .table {
+  overflow: auto;
   min-width: 900px;
 }
 
@@ -300,5 +316,9 @@ td p {
 
   .userName {
     display: none;
+  }
+
+  .usersTable {
+    max-height: 290px;
   }
 }

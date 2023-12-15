@@ -74,18 +74,20 @@ const CompShowusers = ({ getname }) => {
             <div className='container'>
               <div className='row'>
                 <div className='col'>
-                  <h1 className='sessionTitle fw-bold mb-3'>Listado de usuarios</h1>
-                  <div className='input-group mb-3'>
-                    <span className='input-group-text ' id='search'><SlMagnifier /></span>
-                    <input
-                      className='form-control'
-                      onChange={(e) => filterUsers(e.target.value)}
-                      type='text'
-                    />
-                  </div>
-                  <div className='d-grid gap-2 d-md-flex justify-content-md-end '>
-                    <Link to='/create' className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle' style={{ borderRadius: '8px' }}><SlUserFollow size='22px' /> Nuevo</Link>
-                  </div>
+                  <section className='mainTools'>
+                    <h1 className='sessionTitle fw-bold mb-3'>Listado de usuarios</h1>
+                    <div className='input-group mb-3'>
+                      <span className='input-group-text ' id='search'><SlMagnifier /></span>
+                      <input
+                        className='form-control'
+                        onChange={(e) => filterUsers(e.target.value)}
+                        type='text'
+                      />
+                    </div>
+                    <div className='d-grid gap-2 d-md-flex justify-content-md-end '>
+                      <Link to='/create' className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle' style={{ borderRadius: '8px' }}><SlUserFollow size='22px' /> Nuevo</Link>
+                    </div>
+                  </section>
                   <div className='usersTable shadow-sm p-3 mb-5 '>
                     <table className='table table-responsive table-sm table-hover'>
                       <thead className='table' style={{ backgroundColor: '#000' }}>
