@@ -22,22 +22,6 @@ export const getDate = () => {
   return dd + '-' + mm + '-' + yyyy + '.' + hh + ':' + min + ':' + sec
 }
 
-export const ACCEPTED_ORIGINS = [
-  'http://localhost:3000',
-  `http://${SERVERIP}:3000`,
-  `http://${SERVERIP}:4000`
-]
-
-export const handleCors = (req, res) => {
-  const origin = req.header('origin')
-  if (ACCEPTED_ORIGINS.includes(origin) || !origin) {
-    res.header('Access-Control-Allow-Credentials', true)
-    res.header('Access-Control-Allow-Headers', 'content-type')
-    res.header('Access-Control-Allow-Origin', origin)
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE')
-  }
-}
-
 const passAuth = (req) =>{
   const auth = req.get('authorization')
   if (auth && auth.toLowerCase().startsWith('bearer')) {

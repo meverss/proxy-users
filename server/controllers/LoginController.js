@@ -1,7 +1,6 @@
 import { db } from '../database/db.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-import { ACCEPTED_ORIGINS, handleCors } from './UsersController.js'
 
 // Verify if user is autenticated
 export const verifyUser = (req, res, next) => {
@@ -9,7 +8,7 @@ export const verifyUser = (req, res, next) => {
   const token = (auth.split(' '))[1]
 
   if (!token) {
-    res.send({ message: 'usuario no autenticado' })
+    res.send({ message: 'Usuario no autenticado' })
   } else {
     const TOKEN_KEY = process.env.SECRET
     jwt.verify(token, TOKEN_KEY, (error, decode) => {
@@ -37,7 +36,7 @@ export const userLogin = async (req, res) => {
 
       if (verifyPassword) {
         const TOKEN_KEY = process.env.SECRET
-        const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '10m' })
+        const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '1h' })
 
         res.json({ id: id, user: user, fullname: fullname, token: token })
       } else {

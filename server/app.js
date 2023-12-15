@@ -4,7 +4,6 @@ import AppRoutes from './routes/routes.js'
 import cookieParser from 'cookie-parser'
 import { verifyUser, userLogin } from './controllers/LoginController.js'
 import jwt from 'jsonwebtoken'
-import { ACCEPTED_ORIGINS, handleCors } from './controllers/UsersController.js'
 
 const app = express()
 app.disable('x-powered-by')
