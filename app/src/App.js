@@ -20,11 +20,12 @@ import CompPageNotFound from './components/CompPageNotFound.js'
 
 const App = () => {
   const [user, setUser] = useState('')
+  const [token, setToken] = useState('')
 
   useEffect(() => {
     getName()
   }, [])
-
+  
   const getName = (name) => {
     setUser(name)
   }
@@ -32,11 +33,8 @@ const App = () => {
   const logOut = async () => {
 
     try {
-      await axios.get(`${SERVER}/logout`, {
-        withCredentials: true,
-        credentials: 'include'
-      })
-        window.location.pathname = '/login'
+      sessionStorage.clear()
+      window.location.pathname = '/login'
     } catch (error) {
       console.log(error)
     }
@@ -66,9 +64,9 @@ const App = () => {
           <Routes>
             <Route path='/' element={<CompShowUsers getname={getName} />} />
             <Route path='/login' element={<CompLogin />} />
-            <Route path='/create' element={<CompCreateUser getname={getName} />} />
-            <Route path='/edit/:id' element={<CompEditUser getname={getName} />} />
-            <Route path='/error' element={<CompPageNotFound getname={getName} />} />
+            <Route path='/create' element={<CompCreateUser getname={getName}  />} />
+            <Route path='/edit/:id' element={<CompEditUser getname={getName}  />} />
+            <Route path='/error' element={<CompPageNotFound getname={getName}  />} />
             <Route path='*' element={<Navigate to="/error" />} />
 
             <Route path='/pdf' Component={CompPdf} />

@@ -1,12 +1,15 @@
 import { db } from '../database/db.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import { ACCEPTED_ORIGINS, handleCors } from './UsersController.js'
 
 // Verify if user is autenticated
 export const verifyUser = (req, res, next) => {
-  const token = req.cookies.token
+  const auth = req.get('authorization')
+  const token = (auth.split(' '))[1]
+
   if (!token) {
-    res.send({ message: 'User not autenticated' })
+    res.send({ message: 'usuario no autenticado' })
   } else {
     const TOKEN_KEY = process.env.SECRET
     jwt.verify(token, TOKEN_KEY, (error, decode) => {
@@ -16,10 +19,6 @@ export const verifyUser = (req, res, next) => {
         req.user = decode.user
         next()
       }
-      // res.header('Cache-Control', 'max-age=7776000')
-      // res.header('Pragma', 'no-cache')
-      // res.header('Expires', '-1')
-      // res.header('Access-Control-Allow-Origin','http://localhost:3000')
     })
   }
 }
@@ -38,17 +37,16 @@ export const userLogin = async (req, res) => {
 
       if (verifyPassword) {
         const TOKEN_KEY = process.env.SECRET
-        const origin = req.header('origin')
-        const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '1h' })
-        res.setHeader('set-cookie', `token=${token}; secure; SameSite=none`)
-        res.json({ id: id, user: user })
+        const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '10m' })
+
+        res.json({ id: id, user: user, fullname: fullname, token: token })
       } else {
-        res.status(404).json({
+        res.status(401).json({
           message: 'Usuario o contraseña incorrectos'
         })
       }
     } else {
-      res.status(404).json({
+      res.status(401).json({
         message: 'Usuario o contraseña incorrectos'
       })
     }
@@ -57,16 +55,16 @@ export const userLogin = async (req, res) => {
   }
 }
 
-
 export const addToken = (req, res) => {
+  // handleCors(req, res)
   const { user } = req.body
   const token = req.cookies.token
-
 
   try {
     const [sql] = db.query(`UPDATE passwd SET token = '${token}' WHERE user = ?`, [user])
     if (sql.affectedRows >= 1) {
       res.json({ token: token })
+      console.log({ token: token })
     } else {
       console.log('User not found')
       res.sendStatus(404)
@@ -79,6 +77,8 @@ export const addToken = (req, res) => {
 }
 
 export const deleteToken = async (req, res) => {
+  // handleCors(req, res)
+
   const token = req.cookies.token
   const { id } = jwt.decode(token)
 

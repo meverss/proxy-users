@@ -4,7 +4,7 @@ import AppRoutes from './routes/routes.js'
 import cookieParser from 'cookie-parser'
 import { verifyUser, userLogin } from './controllers/LoginController.js'
 import jwt from 'jsonwebtoken'
-import { ACCEPTED_ORIGINS } from './controllers/UsersController.js'
+import { ACCEPTED_ORIGINS, handleCors } from './controllers/UsersController.js'
 
 const app = express()
 app.disable('x-powered-by')
@@ -35,19 +35,11 @@ app.use('/error', verifyUser, (req, res) => {
 
 // Verify user session
 app.use('/', verifyUser, (req, res) => {
-  const { token } = req.cookies
+  const auth = (req.headers.authorization).split(' ')
+  const token = auth[1]
   const { id, fullname } = jwt.decode(token)
-  res.json({ verified: true, id: id, fullname: fullname })
+  res.json({ verified: true, id: id, fullname: fullname, token: token })
 })
-// app.options('/', (req, res) => {
-//   const origin = req.header('origin')
-//   if (ACCEPTED_ORIGINS.includes(origin) || !origin) {
-//     res.header('Access-Control-Allow-Origin', origin)
-//     res.header('Access-Control-Allow-Methods', 'GET, POST PATCH, DELETE')
-//   }
-//   res.sendStatus(200)
-// })
-
 
 app.use((req, res) => {
   if (req.url === '/') {

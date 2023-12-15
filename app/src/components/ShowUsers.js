@@ -3,12 +3,11 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill, BsGear } from 'react-icons/bs'
 import { SlUserFollow, SlMagnifier } from "react-icons/sl";
-
 import unathorized from '../images/401.webp'
 
-const PORT = 4000
-export const SERVER = `http://localhost:${PORT}`
+export const SERVER = `http://192.168.147.14:4000`
 const URI = `${SERVER}/users/`
+const token = sessionStorage.getItem("token")
 
 const CompShowusers = ({ getname }) => {
   const [users, setusers] = useState([])
@@ -19,10 +18,13 @@ const CompShowusers = ({ getname }) => {
   const [inactive, setInactive] = useState('')
   const navigate = useNavigate()
 
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  axios.defaults.withCredentials = true
+
   useEffect(() => {
-    axios.defaults.withCredentials = true
     const verifyUser = async () => {
       const res = await axios.get(SERVER)
+
       if (res.data.verified === true) {
         if (res.data.id === 1) {
           setAdmin(true)
@@ -36,9 +38,7 @@ const CompShowusers = ({ getname }) => {
     }
     verifyUser()
     getUsers()
-
   }, [])
-
 
   const getUsers = async () => {
     try {

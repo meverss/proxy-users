@@ -24,41 +24,56 @@ export const getDate = () => {
 
 export const ACCEPTED_ORIGINS = [
   'http://localhost:3000',
-  `http://${SERVERIP}:3000`
+  `http://${SERVERIP}:3000`,
+  `http://${SERVERIP}:4000`
 ]
 
-const handleCors = (req, res) => {
+export const handleCors = (req, res) => {
   const origin = req.header('origin')
   if (ACCEPTED_ORIGINS.includes(origin) || !origin) {
+    res.header('Access-Control-Allow-Credentials', true)
+    res.header('Access-Control-Allow-Headers', 'content-type')
     res.header('Access-Control-Allow-Origin', origin)
-    res.header('Access-Control-Allow-Methods', 'GET, POST PATCH, DELETE')
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE')
+  }
+}
+
+const passAuth = (req) =>{
+  const auth = req.get('authorization')
+  if (auth && auth.toLowerCase().startsWith('bearer')) {
+    return true
   }
 }
 
 export const getAllUsers = async (req, res) => {
-  
-  const { token } = req.cookies
-  const { id, fullname } = jwt.decode(token)
-
-  try {
-    const [sql] = await db.query('SELECT * FROM passwd')
-    if (id == 1) {
-      res.json(sql)
-    } else {
-      res.status(401).json({ message: 'Usuario no autorizado' })
+  if (passAuth(req)) {
+    const auth = req.get('authorization')
+    const token = (auth.split(' '))[1]
+    const { id } = jwt.decode(token)
+    try {
+      const [sql] = await db.query('SELECT * FROM passwd')
+      if (id == 1) {
+        res.setHeader('Authorization', `Bearer ${token}`)
+        res.json(sql)
+      } else {
+        res.status(401).json({ message: 'Usuario no autorizado' })
+      }
+    } catch (error) {
+      return res.status(500).json({
+        message: `ALL USERS: Something went wrong: ${error}`
+      })
     }
-  } catch (error) {
-    return res.status(500).json({
-      message: `ALL USERS: Something went wrong: ${error}`
-    })
+  } else {
+    res.status(401).json({ message: 'Token incorrecto' })
   }
 }
 
 export const getOneUser = async (req, res) => {
-  
   const { id } = req.params
   try {
-    const { token } = req.cookies
+    const auth = (req.headers.authorization).split(' ')
+    const token = auth[1]
+
     const getAuthId = jwt.decode(token)
     const authId = getAuthId.id
     const authUser = getAuthId.user
@@ -84,17 +99,18 @@ export const getOneUser = async (req, res) => {
 }
 
 export const getUserName = async (req, res) => {
-  
-  const token = req.cookies.token
+  const auth = (req.headers.authorization).split(' ')
+  const token = auth[1]
+
   const { id, user, fullname } = (jwt.decode(token))
   res.json({ id: id, user: user, fullname: fullname })
 }
 
-
 export const createUser = async (req, res) => {
-  
   const { user, password, fullname } = req.body
-  const { token } = req.cookies
+  const auth = (req.headers.authorization).split(' ')
+  const token = auth[1]
+
   const { id } = jwt.decode(token)
 
   const passwordHashed = await bcrypt.hash(password, 10)
@@ -121,7 +137,6 @@ export const createUser = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
-  
   const { user, password, enabled, fullname } = req.body
   const passwordHashed = await bcrypt.hash(password, 10)
   const { id } = req.params
@@ -143,7 +158,6 @@ export const updateUser = async (req, res) => {
 }
 
 export const updateUserNoPass = async (req, res) => {
-  
   const { user, enabled, fullname } = req.body
   const { id } = req.params
 
@@ -164,7 +178,6 @@ export const updateUserNoPass = async (req, res) => {
 }
 
 export const deleteUser = async (req, res) => {
-  
   const { id } = req.params
 
   try {
@@ -185,7 +198,6 @@ export const deleteUser = async (req, res) => {
 }
 
 export const searchUsers = async (req, res) => {
-  
   try {
     const { user } = req.query
     const [sql] = await db.query(`SELECT id, user, fullname, createdAt, updatedAt, enabled FROM passwd WHERE user like '%${user}%' OR fullname like '%${user}%'`)
@@ -199,7 +211,6 @@ export const searchUsers = async (req, res) => {
 }
 
 export const searchAvailableUser = async (req, res) => {
-  
   try {
     const { user } = req.query
     const [sql] = await db.query(`SELECT user FROM passwd WHERE user = '${user}'`)

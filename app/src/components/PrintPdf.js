@@ -2,6 +2,8 @@ import React from 'react'
 import { Page, Text, View, Font, Image, Document, StyleSheet, PDFViewer, PDFDownloadLink } from '@react-pdf/renderer'
 // import CompShowBlogs from './ShowBlogs.js'
 
+const token = sessionStorage.getItem("token")
+
 const CompPdf = () => {
   const Quixote = () => (
     <Document>

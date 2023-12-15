@@ -4,12 +4,17 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { SERVER } from './ShowUsers';
 
+const token = sessionStorage.getItem("token")
+
 
 const CompPageNotFound = () => {
   const [id, setId] = useState('')
   const navigate = useNavigate()
+  
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  axios.defaults.withCredentials = true
+  
   useEffect(() => {
-    axios.defaults.withCredentials = true
     const verifyUser = async () => {
       const res = await axios.get(SERVER)
       if (res.data.verified === true) {

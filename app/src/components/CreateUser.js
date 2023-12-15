@@ -5,6 +5,7 @@ import { SERVER } from './ShowUsers.js'
 import unathorized from '../images/401.webp'
 
 const URI = `${SERVER}/users/`
+const token = sessionStorage.getItem("token")
 
 const CompCreateUser = ({ getname }) => {
   const [user, setUser] = useState('')
@@ -17,9 +18,11 @@ const CompCreateUser = ({ getname }) => {
 
   const navigate = useNavigate()
 
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  axios.defaults.withCredentials = true
+
   useEffect(() => {
     try {
-      axios.defaults.withCredentials = true
       const verifyUser = async () => {
         const res = await axios.get(SERVER)
         if (res.data.verified === true) {
@@ -70,6 +73,7 @@ const CompCreateUser = ({ getname }) => {
         document.getElementById('message').innerHTML = 'Las contraseñas no coinciden'
         setTimeout(() => document.getElementById('message').innerHTML = `&nbsp;`, 3000)
       } else {
+
         await axios.post(URI, { user, password, fullname })
         navigate('/')
       }

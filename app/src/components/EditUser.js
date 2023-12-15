@@ -5,6 +5,7 @@ import { SERVER } from './ShowUsers.js'
 import { FaEye, FaEyeSlash } from "react-icons/fa6"
 
 const URI = `${SERVER}/users/`
+const token = sessionStorage.getItem("token")
 
 const CompEditUser = ({ getname }) => {
   const [user, setUser] = useState('')
@@ -20,10 +21,11 @@ const CompEditUser = ({ getname }) => {
 
   const { id } = useParams()
 
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   axios.defaults.withCredentials = true
+
   useEffect(() => {
     try {
-      axios.defaults.withCredentials = true
       const verifyUser = async () => {
         const res = await axios.get(SERVER)
         if (res.data.verified === true) {
@@ -44,7 +46,6 @@ const CompEditUser = ({ getname }) => {
   }, [])
 
   const getUserById = async () => {
-
     const stateSwitch = document.getElementById('userState')
     const stateLabel = document.getElementById('userStateLabel')
 
@@ -106,7 +107,7 @@ const CompEditUser = ({ getname }) => {
 
   const logOut = async () => {
     try {
-      await axios.get(`${SERVER}/logout`)
+      sessionStorage.clear()
       window.location.reload(true)
     } catch (error) {
       console.log(error)
@@ -117,6 +118,7 @@ const CompEditUser = ({ getname }) => {
     const message = document.getElementById('message')
 
     e.preventDefault()
+
     if (password !== vpassword) {
       document.getElementById('message').innerHTML = 'Las contraseñas no coinciden'
       setTimeout(() => message.innerHTML = `&nbsp;`, 3000)
