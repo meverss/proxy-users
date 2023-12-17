@@ -165,8 +165,8 @@ export const deleteUser = async (req, res) => {
   const { id } = req.params
 
   try {
-    const [user] = await db.query(`SELECT (fullname) FROM passwd WHERE id = ${id}`)
-    const [sql] = await db.query(`DELETE FROM passwd WHERE id = ${id}`)
+    const [user] = await db.query(`SELECT (fullname) FROM passwd WHERE id = '${id}'`)
+    const [sql] = await db.query(`DELETE FROM passwd WHERE id = '${id}'`)
     if (sql.affectedRows >= 1) {
       console.log(`User ${user[0].fullname} has been deleted`)
       res.sendStatus(204)

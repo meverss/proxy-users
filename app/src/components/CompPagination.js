@@ -6,8 +6,8 @@ const CompPagination = ({ usersPerPage, currentPage, setCurrentPage, totalUsers 
     Pages.push(i)
   }
 
-  const goToPage = (p) => {
-    setCurrentPage(p)
+  const goToPage = (page) => {
+    setCurrentPage(page)
   }
 
   const previusPage = () => {
@@ -18,7 +18,7 @@ const CompPagination = ({ usersPerPage, currentPage, setCurrentPage, totalUsers 
   }
 
   return (
-    <nav>
+    <nav className='paginationBar'>
       <ul className="pagination justify-content-center">
         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
           <a className="page-link" onClick={previusPage}>Anterior</a>

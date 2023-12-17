@@ -42,7 +42,7 @@ const CompCreateUser = ({ getname }) => {
     }
 
     checkUser()
-  }, [getname])
+  }, [getname, navigate])
 
   const checkUser = async () => {
     try {

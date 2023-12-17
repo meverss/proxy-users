@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill, BsGear } from 'react-icons/bs'
 import { SlUserFollow, SlMagnifier } from "react-icons/sl";
 import CompPagination from './CompPagination';
-import unathorized from '../images/401.webp'
+import unauthorized from '../images/401.webp'
 
 export const SERVER = `http://192.168.196.14:4000`
 const URI = `${SERVER}/users/`
@@ -46,13 +46,14 @@ const CompShowusers = ({ getname }) => {
     }
     verifyUser()
     getUsers()
-  }, [])
+  }, [getname, navigate])
 
   const getUsers = async () => {
     try {
       const res = await axios.get(URI)
       setusers(res.data)
       setTotalUsers(res.data.length)
+      if (window.innerWidth <= 450) setUsersPerPage(7)
       setActive(res.data.filter(user => user.enabled === 1).length)
       setInactive(res.data.filter(user => user.enabled === 0).length)
 
@@ -79,7 +80,7 @@ const CompShowusers = ({ getname }) => {
     return (
       <>
         <div className='unauthCont'>
-          <a href={`/edit/${id}`} ><img className='unauthImage animate__animated animate__fadeIn' src={unathorized} alt='Unathorized'></img></a>
+          <a href={`/edit/${id}`} ><img className='unauthImage animate__animated animate__fadeIn' src={unauthorized} alt='Unathorized'></img></a>
         </div>
       </>
     )
@@ -88,7 +89,7 @@ const CompShowusers = ({ getname }) => {
   return (
     <>
       {
-        admin ?
+        admin && totalUsers > 0 ?
           <>
             <div className='container'>
               <div className='row'>
@@ -133,7 +134,7 @@ const CompShowusers = ({ getname }) => {
                                 onClick={user.user === 'admin' ? () => console.log(`Can't delete admin account`) : () => deleteuser(user.id)} disabled={user.user === 'admin' ? true : false}  ><BsTrash className='actionIcon' size='24px' /></button>
                             </td>
                           </tr>
-                        )).slice(firstIndex, lastIndex) }
+                        )).slice(firstIndex, lastIndex)}
                       </tbody>
                     </table>
                   </div>

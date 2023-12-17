@@ -328,11 +328,18 @@ td p {
     top: 16px;
   }
 
+  .sessionTitle {
+    margin-top: -22px;
+  }
   .userName {
     display: none;
   }
 
   .usersTable {
-    max-height: 360px;
+    height: 378px;
+  }
+
+  .paginationBar{
+    margin-top: -25px;
   }
 }
