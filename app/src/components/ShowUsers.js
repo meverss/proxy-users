@@ -34,7 +34,7 @@ const CompShowusers = ({ getname }) => {
       const res = await axios.get(SERVER)
 
       if (res.data.verified === true) {
-        if (res.data.id === 1) {
+        if (res.data.id === '5MWtG6KkG4GPO-unt12kj') {
           setAdmin(true)
         }
         setId(res.data.id)
@@ -133,7 +133,7 @@ const CompShowusers = ({ getname }) => {
                                 onClick={user.user === 'admin' ? () => console.log(`Can't delete admin account`) : () => deleteuser(user.id)} disabled={user.user === 'admin' ? true : false}  ><BsTrash className='actionIcon' size='24px' /></button>
                             </td>
                           </tr>
-                        )).slice(firstIndex, lastIndex)}
+                        )).slice(firstIndex, lastIndex) }
                       </tbody>
                     </table>
                   </div>

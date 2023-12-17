@@ -26,7 +26,7 @@ const CompCreateUser = ({ getname }) => {
       const verifyUser = async () => {
         const res = await axios.get(SERVER)
         if (res.data.verified === true) {
-          if (res.data.id === 1) {
+          if (res.data.id === '5MWtG6KkG4GPO-unt12kj') {
             setAdmin(true)
           }
           setId(res.data.id)

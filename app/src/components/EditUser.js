@@ -29,7 +29,7 @@ const CompEditUser = ({ getname }) => {
       const verifyUser = async () => {
         const res = await axios.get(SERVER)
         if (res.data.verified === true) {
-          if (res.data.id === 1) {
+          if (res.data.id === '5MWtG6KkG4GPO-unt12kj') {
             setAdmin(true)
           }
           getname(res.data.fullname)
@@ -166,7 +166,7 @@ const CompEditUser = ({ getname }) => {
               <input
                 id='userInput'
                 className='form-control'
-                placeholder={user}
+                value={user}
                 onChange={(e) => setUser(e.target.value)}
                 type='text'
                 disabled={admin ? false : true}
@@ -177,7 +177,7 @@ const CompEditUser = ({ getname }) => {
               <input
                 id='nameInput'
                 className='form-control'
-                placeholder={fullname}
+                value={fullname}
                 onChange={(e) => setFullname(e.target.value)}
                 type='text'
                 disabled={admin ? false : true}

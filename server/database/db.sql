@@ -4,7 +4,7 @@ GRANT ALL ON squid.* TO 'squidadmin'@'localhost';
 CREATE DATABASE IF NOT EXISTS squid;
 USE squid;
 CREATE TABLE IF NOT EXISTS passwd (
-    id INT(11) AUTO_INCREMENT,
+    id VARCHAR(21) DEFAULT NULL,
     user VARCHAR(45) DEFAULT NULL,
     password VARCHAR(160) DEFAULT NULL,
     enabled INT(1) DEFAULT 1,
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS passwd (
     PRIMARY KEY (id)
 );
 
-INSERT INTO `passwd` (`id`, `user`, `password`, `enabled`, `fullname`, `createdAt`, `updatedAt`) VALUES (1, 'admin', '$2b$10$BzyIKob.3yg9GZK.mL2ZlusDz450Gh8wC4OynNU68L2YruwFl9eFS', '1', 'Administrador', NULL, NULL);
+INSERT INTO `passwd` (`id`, `user`, `password`, `enabled`, `fullname`, `createdAt`, `updatedAt`) VALUES ('5MWtG6KkG4GPO-unt12kj', 'admin', '$2b$10$BzyIKob.3yg9GZK.mL2ZlusDz450Gh8wC4OynNU68L2YruwFl9eFS', '1', 'Administrador', NULL, NULL);
 
 -- Show ALL Users
 SELECT * FROM passwd;

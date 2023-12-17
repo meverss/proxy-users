@@ -1,7 +1,7 @@
 import { db } from '../database/db.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { SERVERIP } from '../config.js'
+import { nanoid } from 'nanoid'
 
 // SETTING CUSTOM DATE
 export const getDate = () => {
@@ -35,8 +35,8 @@ export const getAllUsers = async (req, res) => {
     const token = (auth.split(' '))[1]
     const { id } = jwt.decode(token)
     try {
-      const [sql] = await db.query('SELECT * FROM passwd')
-      if (id == 1) {
+      const [sql] = await db.query('SELECT * FROM passwd ORDER BY createdAt')
+      if (id === '5MWtG6KkG4GPO-unt12kj') {
         res.json(sql)
       } else {
         res.status(401).json({ message: 'Usuario no autorizado' })
@@ -61,7 +61,7 @@ export const getOneUser = async (req, res) => {
     const authId = getAuthId.id
     const authUser = getAuthId.user
 
-    const [sql] = await db.query(`SELECT * FROM passwd WHERE id = ${id}`)
+    const [sql] = await db.query(`SELECT * FROM passwd WHERE id = '${id}'`)
     if (authUser != 'admin' && authId != id) {
       res.status(401).json({ message: 'No tiene permiso para editar este usuario', authUser: authUser, authId: authId })
     } else {
@@ -99,8 +99,9 @@ export const createUser = async (req, res) => {
   const passwordHashed = await bcrypt.hash(password, 10)
 
   try {
-    if (id == 1) {
-      const [sql] = await db.query(`INSERT INTO passwd (user, password, fullname, createdAt, updatedAt) VALUES ('${user}', '${passwordHashed}', '${fullname}', '${getDate()}', '${getDate()}')`)
+    if (id === '5MWtG6KkG4GPO-unt12kj') {
+      const userID = nanoid()
+      const [sql] = await db.query(`INSERT INTO passwd (id, user, password, fullname, createdAt, updatedAt) VALUES ('${userID}', '${user}', '${passwordHashed}', '${fullname}', '${getDate()}', '${getDate()}')`)
       if (sql.insertId >= 0) {
         console.log(`Added new user ${fullname}`)
         res.sendStatus(204)
@@ -125,7 +126,7 @@ export const updateUser = async (req, res) => {
   const { id } = req.params
 
   try {
-    const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), fullname = IFNULL(?, fullname), password = IFNULL(?, password), enabled = IFNULL(?, enabled), updatedAt = '${getDate()}' WHERE id = ${id}`, [user, fullname, passwordHashed, enabled])
+    const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), fullname = IFNULL(?, fullname), password = IFNULL(?, password), enabled = IFNULL(?, enabled), updatedAt = '${getDate()}' WHERE id = '${id}'`, [user, fullname, passwordHashed, enabled])
     if (sql.affectedRows >= 1) {
       console.log(`Updated user ${fullname}`)
       res.sendStatus(204)
@@ -145,7 +146,7 @@ export const updateUserNoPass = async (req, res) => {
   const { id } = req.params
 
   try {
-    const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), fullname = IFNULL(?, fullname), enabled = IFNULL(?, enabled), updatedAt = '${getDate()}' WHERE id = ${id}`, [user, fullname, enabled])
+    const [sql] = await db.query(`UPDATE passwd SET user = IFNULL(?, user), fullname = IFNULL(?, fullname), enabled = IFNULL(?, enabled), updatedAt = '${getDate()}' WHERE id = '${id}'`, [user, fullname, enabled])
     if (sql.affectedRows >= 1) {
       console.log(`Updated user ${fullname}`)
       res.sendStatus(204)
@@ -183,7 +184,7 @@ export const deleteUser = async (req, res) => {
 export const searchUsers = async (req, res) => {
   try {
     const { user } = req.query
-    const [sql] = await db.query(`SELECT id, user, fullname, createdAt, updatedAt, enabled FROM passwd WHERE user like '%${user}%' OR fullname like '%${user}%'`)
+    const [sql] = await db.query(`SELECT id, user, fullname, createdAt, updatedAt, enabled FROM passwd WHERE user like '%${user}%' OR fullname like '%${user}%' ORDER BY createdAt`)
     res.json(sql)
   } catch (error) {
     res.send(req.query)

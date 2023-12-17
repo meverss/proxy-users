@@ -157,7 +157,7 @@ td p {
 
 .usersTable {
   overflow-x: auto;
-  max-height: 480px;
+  height: 472px;
   margin-top: 30px;
 }
 
@@ -312,6 +312,9 @@ td p {
   margin-top: 50px;
 }
 
+.footer {
+  z-index: 9999;
+}
 .footer p {
   height: 100%;
   margin: 0;
@@ -330,6 +333,6 @@ td p {
   }
 
   .usersTable {
-    max-height: 58vh;
+    max-height: 360px;
   }
 }
