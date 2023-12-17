@@ -38,7 +38,7 @@ export const userLogin = async (req, res) => {
         const TOKEN_KEY = process.env.SECRET
         const token = jwt.sign({ id, user, fullname }, TOKEN_KEY, { expiresIn: '1h' })
 
-        res.json({ id: id, user: user, fullname: fullname, token: token })
+        res.json({ id: id, user: user, fullname: fullname, token })
       } else {
         res.status(401).json({
           message: 'Usuario o contraseña incorrectos'

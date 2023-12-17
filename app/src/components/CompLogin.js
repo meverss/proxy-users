@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { SERVER } from './ShowUsers'
 
 const URI = `${SERVER}/login`
-const token = sessionStorage.getItem("token")
+const token = localStorage.getItem("token")
 
 const CompLogin = () => {
   const [user, setUser] = useState('')
@@ -18,7 +18,6 @@ const CompLogin = () => {
   axios.defaults.withCredentials = true
 
   useEffect(() => {
-    axios.defaults.headers.common['Authorization'] = `Baerer ${token}`
     const verifyUser = async () => {
       const res = await axios.get(SERVER)
       if (res.data.verified === true) {
@@ -65,7 +64,7 @@ const CompLogin = () => {
     try {
       const res = await axios.post(URI, { user: user, password: password })
       if (res.status !== 401) {
-        sessionStorage.setItem("token", res.data.token)
+        localStorage.setItem("token", res.data.token)
         cleanForm()
         if (res.data.user === 'admin') {
           navigate('/')

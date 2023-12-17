@@ -37,7 +37,6 @@ export const getAllUsers = async (req, res) => {
     try {
       const [sql] = await db.query('SELECT * FROM passwd')
       if (id == 1) {
-        res.setHeader('Authorization', `Bearer ${token}`)
         res.json(sql)
       } else {
         res.status(401).json({ message: 'Usuario no autorizado' })

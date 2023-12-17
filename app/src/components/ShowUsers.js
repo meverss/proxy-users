@@ -3,20 +3,29 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill, BsGear } from 'react-icons/bs'
 import { SlUserFollow, SlMagnifier } from "react-icons/sl";
+import CompPagination from './CompPagination';
 import unathorized from '../images/401.webp'
 
-export const SERVER = `http://192.168.147.14:4000`
+export const SERVER = `http://192.168.196.14:4000`
 const URI = `${SERVER}/users/`
-const token = sessionStorage.getItem("token")
+const token = localStorage.getItem("token")
 
 const CompShowusers = ({ getname }) => {
   const [users, setusers] = useState([])
   const [admin, setAdmin] = useState(false)
   const [id, setId] = useState('')
-  const [total, setTotal] = useState('')
   const [active, setActive] = useState('')
   const [inactive, setInactive] = useState('')
+
+  const [currentPage, setCurrentPage] = useState(1)
+  // const [totalPages, setTotalPages] = useState()
+  const [usersPerPage, setUsersPerPage] = useState(10)
+  const [totalUsers, setTotalUsers] = useState()
+
   const navigate = useNavigate()
+
+  const lastIndex = currentPage * usersPerPage
+  const firstIndex = lastIndex - usersPerPage
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   axios.defaults.withCredentials = true
@@ -44,7 +53,7 @@ const CompShowusers = ({ getname }) => {
     try {
       const res = await axios.get(URI)
       setusers(res.data)
-      setTotal(res.data.length)
+      setTotalUsers(res.data.length)
       setActive(res.data.filter(user => user.enabled === 1).length)
       setInactive(res.data.filter(user => user.enabled === 0).length)
 
@@ -56,6 +65,7 @@ const CompShowusers = ({ getname }) => {
     try {
       const res = await axios.get(URI + `search?user=${filter}`)
       setusers(res.data)
+      setTotalUsers(res.data.length)
     } catch (error) {
       console.log(error.response.data.message)
     }
@@ -64,6 +74,16 @@ const CompShowusers = ({ getname }) => {
   const deleteuser = async (id) => {
     await axios.delete(URI + id)
     getUsers()
+  }
+
+  const CompNoAuth = () => {
+    return (
+      <>
+        <div className='unauthCont'>
+          <a href={`/edit/${id}`} ><img className='unauthImage animate__animated animate__fadeIn' src={unathorized} alt='Unathorized'></img></a>
+        </div>
+      </>
+    )
   }
 
   return (
@@ -114,25 +134,26 @@ const CompShowusers = ({ getname }) => {
                                 onClick={user.user === 'admin' ? () => console.log(`Can't delete admin account`) : () => deleteuser(user.id)} disabled={user.user === 'admin' ? true : false}  ><BsTrash className='actionIcon' size='24px' /></button>
                             </td>
                           </tr>
-                        ))}
+                        )).slice(firstIndex, lastIndex)}
                       </tbody>
                     </table>
                   </div>
+                  <CompPagination
+                    usersPerPage={usersPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    totalUsers={totalUsers}
+                  />
                 </div>
               </div>
             </div>
             <div className='footer'>
-              <p><BsFillPeopleFill /> Total: {total}</p>
+              <p><BsFillPeopleFill /> Total: {totalUsers}</p>
               <p><BsFillPersonCheckFill /> Activos: {active}</p>
               <p><BsFillPersonXFill /> Inactivos: {inactive}</p>
             </div>
           </>
-          :
-          <>
-            <div className='unauthCont'>
-              <a href={`/edit/${id}`} ><img className='unauthImage animate__animated animate__fadeIn' src={unathorized} alt='Unathorized'></img></a>
-            </div>
-          </>
+          : <CompNoAuth />
       }
     </>
   )

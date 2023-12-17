@@ -33,7 +33,7 @@ const App = () => {
   const logOut = async () => {
 
     try {
-      sessionStorage.clear()
+      localStorage.removeItem('token')
       window.location.pathname = '/login'
     } catch (error) {
       console.log(error)

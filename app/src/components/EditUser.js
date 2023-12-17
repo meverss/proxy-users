@@ -5,7 +5,7 @@ import { SERVER } from './ShowUsers.js'
 import { FaEye, FaEyeSlash } from "react-icons/fa6"
 
 const URI = `${SERVER}/users/`
-const token = sessionStorage.getItem("token")
+const token = localStorage.getItem("token")
 
 const CompEditUser = ({ getname }) => {
   const [user, setUser] = useState('')
@@ -107,7 +107,7 @@ const CompEditUser = ({ getname }) => {
 
   const logOut = async () => {
     try {
-      sessionStorage.clear()
+      localStorage.removeItem('token')
       window.location.reload(true)
     } catch (error) {
       console.log(error)

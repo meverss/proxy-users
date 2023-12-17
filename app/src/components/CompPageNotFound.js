@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { SERVER } from './ShowUsers';
 
-const token = sessionStorage.getItem("token")
+const token = localStorage.getItem("token")
 
 
 const CompPageNotFound = () => {

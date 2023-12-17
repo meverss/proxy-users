@@ -5,7 +5,7 @@ import { SERVER } from './ShowUsers.js'
 import unathorized from '../images/401.webp'
 
 const URI = `${SERVER}/users/`
-const token = sessionStorage.getItem("token")
+const token = localStorage.getItem("token")
 
 const CompCreateUser = ({ getname }) => {
   const [user, setUser] = useState('')
