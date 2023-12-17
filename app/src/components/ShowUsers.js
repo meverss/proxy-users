@@ -18,7 +18,6 @@ const CompShowusers = ({ getname }) => {
   const [inactive, setInactive] = useState('')
 
   const [currentPage, setCurrentPage] = useState(1)
-  // const [totalPages, setTotalPages] = useState()
   const [usersPerPage, setUsersPerPage] = useState(10)
   const [totalUsers, setTotalUsers] = useState()
 
