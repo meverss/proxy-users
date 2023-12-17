@@ -14,6 +14,8 @@ const CompShowusers = ({ getname }) => {
   const [users, setusers] = useState([])
   const [admin, setAdmin] = useState(false)
   const [id, setId] = useState('')
+  const [selectedId, setSelectedId] = useState('')
+  const [selectedUser, setSelectedUser] = useState('')
   const [active, setActive] = useState('')
   const [inactive, setInactive] = useState('')
 
@@ -130,8 +132,10 @@ const CompShowusers = ({ getname }) => {
                             <td> <p>{user.enabled === 1 ? <span style={{ color: 'green' }}>Activo</span> : <span style={{ color: 'red' }}>Inactivo</span>} </p></td>
                             <td className='actions'>
                               <Link to={`/edit/${user.id}`} className='btn btn-sm ' id='editIcon'><BsGear className='actionIcon' size='26px' /></Link>
-                              <button className='btn btn-sm' id='deleteIcon'
-                                onClick={user.user === 'admin' ? () => console.log(`Can't delete admin account`) : () => deleteuser(user.id)} disabled={user.user === 'admin' ? true : false}  ><BsTrash className='actionIcon' size='24px' /></button>
+                              <button className='btn btn-sm' id='deleteIcon' data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                onClick={user.user === 'admin' ? () => console.log(`Can't delete admin account`) : () => {
+                                  setSelectedId(user.id); setSelectedUser(user.user)
+                                }} disabled={user.user === 'admin' ? true : false}  ><BsTrash className='actionIcon' size='24px' /></button>
                             </td>
                           </tr>
                         )).slice(firstIndex, lastIndex)}
@@ -147,6 +151,26 @@ const CompShowusers = ({ getname }) => {
                 </div>
               </div>
             </div>
+            
+            {/* Delete user Modal */}
+            <div className="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="true" tabIndex="-1" aria-hidden="true">
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h1 className="modal-title fs-5" id="exampleModalLabel">Eliminar usuario</h1>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div className="modal-body">
+                    Seguro que desea borrar el usuario {selectedUser}?
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={() => deleteuser(selectedId)}>Eliminar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className='footer'>
               <p><BsFillPeopleFill /> Total: {totalUsers}</p>
               <p><BsFillPersonCheckFill /> Activos: {active}</p>
