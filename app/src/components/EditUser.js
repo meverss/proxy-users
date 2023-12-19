@@ -3,12 +3,15 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { SERVER } from './ShowUsers.js'
 import { FaEye, FaEyeSlash } from "react-icons/fa6"
+import { ValidateDataType } from './Validators.js';
 
 const URI = `${SERVER}/users/`
 const token = localStorage.getItem("token")
 
-const CompEditUser = ({ getname }) => {
+const CompEditUser = ({ getname, isvalid }) => {
   const [user, setUser] = useState('')
+  const [seluser, setSelUser] = useState('')
+  const [selfullname, setSelFullName] = useState('')
   const [authUser, setAuthUser] = useState('')
   const [admin, setAdmin] = useState(false)
   const [password, setPassword] = useState('')
@@ -40,10 +43,25 @@ const CompEditUser = ({ getname }) => {
       }
       verifyUser()
       getUserById()
+      focus()
     } catch (error) {
       console.log(error)
     }
   }, [])
+
+  ValidateDataType('.form-control', seluser, selfullname)
+
+  const focus = () => {
+    try {
+      // console.log(document.getElementById('userInput'))
+      document.getElementById('userInput').focus()
+
+      // document.getElementById('userInput').setAttribute('id', 'userInputNew')
+
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   const getUserById = async () => {
     const stateSwitch = document.getElementById('userState')
@@ -52,8 +70,10 @@ const CompEditUser = ({ getname }) => {
     try {
       const res = await axios.get(URI + id)
       setUser(res.data.user)
+      setSelUser(res.data.user)
       setAuthUser(res.data.authUser)
       setFullname(res.data.fullname)
+      setSelFullName(res.data.fullname)
       setEnabled(res.data.enabled)
       if (res.data.authUser === 'admin') {
         try {
@@ -160,16 +180,18 @@ const CompEditUser = ({ getname }) => {
           <h1 className='sessionTitle fw-bold mb-3'>Editar los datos de </h1>
           <h1 className='sessionTitle fw-bold mb-3'>{fullname}</h1>
           <p className='message' id='message' style={{ color: 'red' }}>&nbsp;</p>
-          <form onSubmit={updateUser}>
+          <form id='editUser' onSubmit={updateUser}>
             <div className='input-group mb-3'>
               <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
               <input
                 id='userInput'
+                name='user'
                 className='form-control'
                 value={user}
                 onChange={(e) => setUser(e.target.value)}
                 type='text'
                 disabled={admin ? false : true}
+                data-frminfo='user'
               />
             </div>
             <div className='input-group mb-3'>
@@ -181,12 +203,14 @@ const CompEditUser = ({ getname }) => {
                 onChange={(e) => setFullname(e.target.value)}
                 type='text'
                 disabled={admin ? false : true}
+                data-frminfo='fullname'
               />
             </div>
             <div className="input-group mb-3">
               <span className="input-group-text">Contraseña</span>
               <input id='pwdInput' name='pwdInput'
                 type="password"
+                data-frminfo='password'
                 className="form-control"
                 placeholder='********'
                 onChange={(e) => setPassword(e.target.value)} />
@@ -196,6 +220,7 @@ const CompEditUser = ({ getname }) => {
               <span className="input-group-text"> Verificación</span>
               <input id='pwdVInput' name='pwdVInput'
                 type="password"
+                data-frminfo='password'
                 className="form-control"
                 placeholder='********'
                 onChange={(e) => setVPassword(e.target.value)} />

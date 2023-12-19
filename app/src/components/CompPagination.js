@@ -18,7 +18,7 @@ const CompPagination = ({ usersPerPage, currentPage, setCurrentPage, totalUsers 
   }
 
   return (
-    <nav className='paginationBar'>
+    <nav className='paginationBar is-rounded'>
       <ul className="pagination justify-content-center">
         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
           <a className="page-link" onClick={previusPage}>Anterior</a>

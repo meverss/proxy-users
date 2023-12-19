@@ -138,7 +138,9 @@ const CompShowusers = ({ getname }) => {
                                 }} disabled={user.user === 'admin' ? true : false}  ><BsTrash className='actionIcon' size='24px' /></button>
                             </td>
                           </tr>
-                        )).slice(firstIndex, lastIndex)}
+                        )).sort((a, b) => {
+                          return a.user - b.user
+                        }).slice(firstIndex, lastIndex)}
                       </tbody>
                     </table>
                   </div>
@@ -151,7 +153,7 @@ const CompShowusers = ({ getname }) => {
                 </div>
               </div>
             </div>
-            
+
             {/* Delete user Modal */}
             <div className="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="true" tabIndex="-1" aria-hidden="true">
               <div className="modal-dialog modal-dialog-centered">
@@ -161,7 +163,7 @@ const CompShowusers = ({ getname }) => {
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div className="modal-body">
-                    Seguro que desea borrar el usuario {selectedUser}?
+                    Seguro que desea borrar el usuario <b>{selectedUser}</b>?
                   </div>
                   <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
