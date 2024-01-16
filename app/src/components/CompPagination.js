@@ -27,20 +27,20 @@ const CompPagination = ({ usersPerPage, currentPage, setCurrentPage, totalUsers 
     <nav className='paginationBar is-rounded'>
       <ul className="pagination justify-content-center">
         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-          <a className="page-link" onClick={previusPage}>Anterior</a>
+          <a className="page-link" onClick={firstPage}>{`<`}</a>
         </li>
-        <li>
-          <a className="page-link" onClick={firstPage}>{`<<`}</a>
+        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+          <a className="page-link" onClick={previusPage}>{`<<`}</a>
         </li>
         {Pages.map((page) => (
           <li key={page} className={`page-item ${page === currentPage ? 'active' : ''}`} onClick={() => goToPage(page)}><a className="page-link" >{page}</a></li>
         ))
         }
-        <li>
-          <a className="page-link" onClick={lastPage}>{`>>`}</a>
+        <li className={`page-item ${currentPage === Pages.length ? 'disabled' : ''}`}>
+          <a className="page-link" onClick={nextPage}>{`>>`}</a>
         </li>
         <li className={`page-item ${currentPage === Pages.length ? 'disabled' : ''}`}>
-          <a className="page-link" onClick={nextPage}>Siguiente</a>
+          <a className="page-link" onClick={lastPage}>{`>`}</a>
         </li>
       </ul>
     </nav>
