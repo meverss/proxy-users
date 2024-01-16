@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import AppRoutes from './routes/routes.js'
-import {userLogin } from './controllers/LoginController.js'
+import { userLogin } from './controllers/LoginController.js'
 import { verifyUser } from './middlewares/verifyUser.js'
 import jwt from 'jsonwebtoken'
 
@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('./static'))
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:4000', 'http://192.168.196.14:3000'],
+  origin: ['http://localhost:3000', 'http://localhost:4000', 'http://192.168.237.14:3000'],
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   credentials: true
 }))

@@ -1,11 +1,11 @@
-export const ValidateDataType = (formField, user, fullname) => {
+export const ValidateAll = (formField, user, fullname) => {
   const fields = document.querySelectorAll(`${formField}`);
   const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/
   const validPhone = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
   const validUser = /^[0-9a-zA-Z]{3,16}$/
-  const validUserFullName = /^[A-Z a-záéíóúÁÉÍÓÚ]{3,100}$/
+  const validUserFullName = /^[A-Z a-z.áéíóúÁÉÍÓÚ]{3,100}$/
   const validPassword = /^(?=.*[0-9])(?=.*[!@#$£%^&*,.;:~])(?=.*[A-Z])[a-zA-Z0-9!@#$£%^&*,.;:~]{6,16}$/
-  
+
   // fields.forEach((field) => {
   //   switch (field.dataset.frminfo) {
   //     case "email":
@@ -29,12 +29,13 @@ export const ValidateDataType = (formField, user, fullname) => {
           if (!validUser.test(e.value)) {
             e.classList.add("wrong", "animate__animated", "animate__shakeX")
             e.value = ""
-            e.placeholder = "Identificador de usuario inválido"
+            e.placeholder = "Proporcione un usuario válido"
             setTimeout(() => {
               e.classList.remove("wrong", "animate__animated", "animate__shakeX")
             }, 1000);
             setTimeout(() => {
               e.value = user
+              e.placeholder = ''
             }, 3500)
           }
         })
@@ -44,12 +45,13 @@ export const ValidateDataType = (formField, user, fullname) => {
           if (!validUserFullName.test(e.value)) {
             e.classList.add("wrong", "animate__animated", "animate__shakeX");
             e.value = ""
-            e.placeholder = "Nombre de usuario inválido"
+            e.placeholder = "Proporcione un nombre válido"
             setTimeout(() => {
               e.classList.remove("wrong", "animate__animated", "animate__shakeX")
             }, 1000);
             setTimeout(() => {
               e.value = fullname
+              e.placeholder = ''
             }, 3500);
           }
         })

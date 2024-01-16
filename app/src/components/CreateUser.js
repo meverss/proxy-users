@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SERVER } from './ShowUsers.js'
 import unathorized from '../images/401.webp'
+import { ValidateAll } from './Validators.js'
 
 const URI = `${SERVER}/users/`
 const token = localStorage.getItem("token")
@@ -43,6 +44,8 @@ const CompCreateUser = ({ getname }) => {
 
     checkUser()
   }, [getname, navigate])
+
+  ValidateAll('.form-control', null, null)
 
   const checkUser = async () => {
     try {
@@ -99,6 +102,7 @@ const CompCreateUser = ({ getname }) => {
                     onChange={(e) => setUser(e.target.value.toLowerCase())}
                     onKeyUp={(e) => searchAvailable(e.target.value.toLowerCase())}
                     type='text'
+                    data-frminfo='user'
                   />
                 </div>
                 <div className='input-group mb-3'>
@@ -108,6 +112,7 @@ const CompCreateUser = ({ getname }) => {
                     value={fullname}
                     onChange={(e) => setFullname(e.target.value)}
                     type='text'
+                    data-frminfo='fullname'
                   />
                 </div>
                 <div className='input-group mb-3'>
@@ -115,8 +120,10 @@ const CompCreateUser = ({ getname }) => {
                   <input
                     className='form-control'
                     value={password}
+                    placeholder='********'
                     onChange={(e) => setPassword(e.target.value)}
                     type='password'
+                    data-frminfo='password'
                   />
                 </div>
                 <div className='input-group mb-3'>
@@ -124,8 +131,10 @@ const CompCreateUser = ({ getname }) => {
                   <input
                     className='form-control'
                     value={vpassword}
+                    placeholder='********'
                     onChange={(e) => { setVPassword(e.target.value) }}
                     type='password'
+                    data-frminfo='password'
                   />
                 </div>
 

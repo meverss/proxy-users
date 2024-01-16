@@ -6,7 +6,7 @@ import { SlUserFollow, SlMagnifier } from "react-icons/sl";
 import CompPagination from './CompPagination';
 import unauthorized from '../images/401.webp'
 
-export const SERVER = `http://192.168.196.14:4000`
+export const SERVER = `http://192.168.237.14:4000`
 const URI = `${SERVER}/users/`
 const token = localStorage.getItem("token")
 
@@ -47,6 +47,7 @@ const CompShowusers = ({ getname }) => {
       }
     }
     verifyUser()
+    displayCheck()
     getUsers()
   }, [getname, navigate])
 
@@ -63,11 +64,18 @@ const CompShowusers = ({ getname }) => {
     }
   }
 
+
+  const displayCheck = () =>{
+    if (window.innerHeight <= 768) setUsersPerPage(7)
+  }
+
   const filterUsers = async (filter) => {
     try {
       const res = await axios.get(URI + `search?user=${filter}`)
-      setusers(res.data)
-      setTotalUsers(res.data.length)
+      if(res.data.length !== 0){
+        setusers(res.data)
+        setTotalUsers(res.data.length)
+      }
     } catch (error) {
       console.log(error.response.data.message)
     }

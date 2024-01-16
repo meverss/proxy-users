@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { SERVER } from './ShowUsers.js'
 import { FaEye, FaEyeSlash } from "react-icons/fa6"
-import { ValidateDataType } from './Validators.js';
+import { ValidateAll } from './Validators.js';
 
 const URI = `${SERVER}/users/`
 const token = localStorage.getItem("token")
@@ -43,25 +43,12 @@ const CompEditUser = ({ getname, isvalid }) => {
       }
       verifyUser()
       getUserById()
-      focus()
     } catch (error) {
       console.log(error)
     }
   }, [])
 
-  ValidateDataType('.form-control', seluser, selfullname)
-
-  const focus = () => {
-    try {
-      // console.log(document.getElementById('userInput'))
-      document.getElementById('userInput').focus()
-
-      // document.getElementById('userInput').setAttribute('id', 'userInputNew')
-
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  ValidateAll('.form-control', seluser, selfullname)
 
   const getUserById = async () => {
     const stateSwitch = document.getElementById('userState')
@@ -138,7 +125,7 @@ const CompEditUser = ({ getname, isvalid }) => {
     const message = document.getElementById('message')
 
     e.preventDefault()
-
+    
     if (password !== vpassword) {
       document.getElementById('message').innerHTML = 'Las contraseñas no coinciden'
       setTimeout(() => message.innerHTML = `&nbsp;`, 3000)
@@ -178,7 +165,7 @@ const CompEditUser = ({ getname, isvalid }) => {
       <div className='editBox '>
         <div className='container editUser shadow-sm'>
           <h1 className='sessionTitle fw-bold mb-3'>Editar los datos de </h1>
-          <h1 className='sessionTitle fw-bold mb-3'>{fullname}</h1>
+          <h1 className='sessionTitle fw-bold mb-3'>{selfullname}</h1>
           <p className='message' id='message' style={{ color: 'red' }}>&nbsp;</p>
           <form id='editUser' onSubmit={updateUser}>
             <div className='input-group mb-3'>
@@ -217,7 +204,7 @@ const CompEditUser = ({ getname, isvalid }) => {
               <span className="input-group-text" id="showPwd" onClick={showPassword}>{viewpassword}</span>
             </div>
             <div className="input-group mb-3">
-              <span className="input-group-text"> Verificación</span>
+              <span className="input-group-text"> Confirmar&nbsp;</span>
               <input id='pwdVInput' name='pwdVInput'
                 type="password"
                 data-frminfo='password'

@@ -187,7 +187,6 @@ export const searchUsers = async (req, res) => {
     const [sql] = await db.query(`SELECT id, user, fullname, createdAt, updatedAt, enabled FROM passwd WHERE user like '%${user}%' OR fullname like '%${user}%' ORDER BY createdAt`)
     res.json(sql)
   } catch (error) {
-    res.send(req.query)
     return res.status(500).json({
       message: `SEARCH USER: Something went wrong: ${error}`
     })

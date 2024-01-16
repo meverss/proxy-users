@@ -365,3 +365,19 @@ td p {
     margin-top: -25px;
   }
 }
+
+@media screen and (max-height: 768px) {
+  .usersTable {
+    height: 378px;
+  }
+
+  .sessionTitle {
+    margin-top: -22px;
+    font-size: 24px;
+  }
+
+.row .col {
+  margin-top: -25px;
+}
+
+}
