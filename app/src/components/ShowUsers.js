@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill, BsGear } from 'react-icons/bs'
-import { SlUserFollow, SlMagnifier } from "react-icons/sl";
+import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill} from 'react-icons/bs'
+import { SlUserFollow, SlMagnifier, SlSettings } from "react-icons/sl";
 import CompPagination from './CompPagination';
 import unauthorized from '../images/401.webp'
 
@@ -139,7 +139,7 @@ const CompShowusers = ({ getname }) => {
                             <td><p> {user.updatedAt} </p></td>
                             <td> <p>{user.enabled === 1 ? <span style={{ color: 'green' }}>Activo</span> : <span style={{ color: 'red' }}>Inactivo</span>} </p></td>
                             <td className='actions'>
-                              <Link to={`/edit/${user.id}`} className='btn btn-sm ' id='editIcon'><BsGear className='actionIcon' size='26px' /></Link>
+                              <Link to={`/edit/${user.id}`} className='btn btn-sm ' id='editIcon'><SlSettings className='actionIcon' size='26px' /></Link>
                               <button className='btn btn-sm' id='deleteIcon' data-bs-toggle="modal" data-bs-target="#deleteModal"
                                 onClick={user.user === 'admin' ? () => console.log(`Can't delete admin account`) : () => {
                                   setSelectedId(user.id); setSelectedUser(user.user)
