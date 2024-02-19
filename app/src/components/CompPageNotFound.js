@@ -2,21 +2,20 @@ import axios from 'axios';
 import notfound from '../images/404.webp'
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { SERVER } from './ShowUsers';
 
 const token = localStorage.getItem("token")
 
 
-const CompPageNotFound = () => {
+const CompPageNotFound = ({ server }) => {
   const [id, setId] = useState('')
   const navigate = useNavigate()
-  
+
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   axios.defaults.withCredentials = true
-  
+
   useEffect(() => {
     const verifyUser = async () => {
-      const res = await axios.get(SERVER)
+      const res = await axios.get(`${server}`)
       if (res.data.verified === true) {
         setId(res.data.id)
         return

@@ -1,3 +1,4 @@
+import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
 // import 'bulma/css/bulma.css'
@@ -17,9 +18,12 @@ import CompEditUser from './components/EditUser.js'
 import CompLogin from './components/CompLogin.js'
 import CompPageNotFound from './components/CompPageNotFound.js'
 
+// Set backend server
+const server = 'http://192.168.4.14:4000'
+
 const App = () => {
+  const [srv, setsrv] = useState('')
   const [user, setUser] = useState('')
-  const [token, setToken] = useState('')
 
   useEffect(() => {
     getName()
@@ -28,7 +32,7 @@ const App = () => {
   const getName = (name) => {
     setUser(name)
   }
-
+  
   const logOut = async () => {
 
     try {
@@ -39,18 +43,7 @@ const App = () => {
     }
   }
 
-  const runtest = () => {
-    const modal = document.getElementById('message')
-    modal.classList.add('is-active', 'is-clipped')
-  }
-
-  const closeMessage = () =>{
-    const modal = document.getElementById('message')
-    modal.classList.remove('is-active', 'is-clipped')
-  }
-
   return (
-
     <>
       <div className='App'>
         <nav className="navbar border-bottom">
@@ -72,11 +65,11 @@ const App = () => {
 
         <BrowserRouter forceRefresh={true}>
           <Routes>
-            <Route path='/' element={<CompShowUsers getname={getName} />} />
-            <Route path='/login' element={<CompLogin />} />
-            <Route path='/create' element={<CompCreateUser getname={getName} />} />
-            <Route path='/edit/:id' element={<CompEditUser getname={getName} />} />
-            <Route path='/error' element={<CompPageNotFound getname={getName} />} />
+            <Route path='/' element={<CompShowUsers getname={getName} server={`${server}`}/>} />
+            <Route path='/login' element={<CompLogin server={`${server}`} />} />
+            <Route path='/create' element={<CompCreateUser getname={getName} server={`${server}`} />} />
+            <Route path='/edit/:id' element={<CompEditUser getname={getName} server={`${server}`} />} />
+            <Route path='/error' element={<CompPageNotFound getname={getName} server={`${server}`} />} />
             <Route path='*' element={<Navigate to="/error" />} />
 
             <Route path='/pdf' Component={CompPdf} />

@@ -3,23 +3,22 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6"
 import { SlUser, SlLock } from "react-icons/sl"
 import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
-import { SERVER } from './ShowUsers'
 
-const URI = `${SERVER}/login`
-const token = localStorage.getItem("token")
-
-const CompLogin = () => {
+const CompLogin = ({ server }) => {
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const [viewpassword, setViewPassword] = useState(<FaEye className='eye' />)
   const navigate = useNavigate()
+
+  const token = localStorage.getItem("token")
+  const URI = `${server}/login`
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   axios.defaults.withCredentials = true
 
   useEffect(() => {
     const verifyUser = async () => {
-      const res = await axios.get(SERVER)
+      const res = await axios.get(`${server}`)
       if (res.data.verified === true) {
         navigate('/')
       }

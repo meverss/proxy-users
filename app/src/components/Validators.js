@@ -6,20 +6,6 @@ export const ValidateAll = (formField, user, fullname) => {
   const validUserFullName = /^[A-Z a-z.áéíóúÁÉÍÓÚ]{3,100}$/
   const validPassword = /^(?=.*[0-9])(?=.*[!@#$£%^&*,.;:~])(?=.*[A-Z])[a-zA-Z0-9!@#$£%^&*,.;:~]{6,16}$/
 
-  // fields.forEach((field) => {
-  //   switch (field.dataset.frminfo) {
-  //     case "email":
-  //       field.type = "email";
-  //       break;
-  //     case "password":
-  //       field.type = "password";
-  //       break;
-  //     default:
-  //       field.type = "text";
-  //       break;
-  //   }
-  // });
-
   fields.forEach((e) => {
     const dataType = e.dataset.frminfo
 
@@ -68,6 +54,8 @@ export const ValidateAll = (formField, user, fullname) => {
             setTimeout(() => {
               e.placeholder = '********'
             }, 3500);
+          } else {
+            return true
           }
         })
         break;
@@ -104,6 +92,8 @@ export const ValidateAll = (formField, user, fullname) => {
           }
         })
         break
+      default:
+
     }
   })
 }

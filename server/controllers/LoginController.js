@@ -1,6 +1,11 @@
 import { db } from '../database/db.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import { SERVERIP } from '../config.js'
+
+export const serverConfig = (req, res) => {
+  res.json({ ip: SERVERIP })
+}
 
 export const userLogin = async (req, res) => {
   const { user, password } = req.body
@@ -11,7 +16,7 @@ export const userLogin = async (req, res) => {
       const { id, fullname } = sql[0]
       const passwordHashed = sql[0].password
 
-      // Verify credentials and create token
+      // Verify credentials and create token //
       const verifyPassword = await bcrypt.compare(password, passwordHashed)
 
       if (verifyPassword) {
@@ -21,7 +26,7 @@ export const userLogin = async (req, res) => {
         res.json({ id: id, user: user, fullname: fullname, token })
       } else {
         res.status(401).json({
-          message: 'Usuario o contraseña incorrectos'
+          message: 'Credenciales inválidas, intente de nuevo'
         })
       }
     } else {
@@ -35,7 +40,6 @@ export const userLogin = async (req, res) => {
 }
 
 export const addToken = (req, res) => {
-  // handleCors(req, res)
   const { user } = req.body
   const token = req.cookies.token
 
@@ -56,8 +60,6 @@ export const addToken = (req, res) => {
 }
 
 export const deleteToken = async (req, res) => {
-  // handleCors(req, res)
-
   const token = req.cookies.token
   const { id } = jwt.decode(token)
 

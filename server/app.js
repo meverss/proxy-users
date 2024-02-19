@@ -1,9 +1,10 @@
 import express from 'express'
 import cors from 'cors'
 import AppRoutes from './routes/routes.js'
-import { userLogin } from './controllers/LoginController.js'
+import { serverConfig, userLogin } from './controllers/LoginController.js'
 import { verifyUser } from './middlewares/verifyUser.js'
 import jwt from 'jsonwebtoken'
+import { SERVERIP } from './config.js'
 
 const app = express()
 app.disable('x-powered-by')
@@ -13,17 +14,15 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('./static'))
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:4000', 'http://192.168.237.14:3000'],
+  origin: ['http://localhost:3000', `http://${SERVERIP}:3000`],
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   credentials: true
 }))
 
-// Login & Logout
+app.get('/config', serverConfig)
+
+// Login
 app.post('/login', userLogin)
-app.get('/logout', verifyUser, (req, res) => {
-  res.clearCookie('token')
-  res.json({ Status: 'success' })
-})
 
 // Routes
 app.use('/users', verifyUser, AppRoutes)
@@ -31,7 +30,7 @@ app.use('/error', verifyUser, (req, res) => {
   res.status(404).render('404error', { title: 'Error 404 - Page not found' })
 })
 
-// Verify user session
+// Verify user
 app.use('/', verifyUser, (req, res) => {
   const auth = (req.headers.authorization).split(' ')
   const token = auth[1]

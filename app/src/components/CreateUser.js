@@ -1,14 +1,12 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { SERVER } from './ShowUsers.js'
 import unathorized from '../images/401.webp'
 import { ValidateAll } from './Validators.js'
 
-const URI = `${SERVER}/users/`
 const token = localStorage.getItem("token")
 
-const CompCreateUser = ({ getname }) => {
+const CompCreateUser = ({ getname, server }) => {
   const [user, setUser] = useState('')
   const [id, setId] = useState('')
   const [admin, setAdmin] = useState(false)
@@ -19,13 +17,15 @@ const CompCreateUser = ({ getname }) => {
 
   const navigate = useNavigate()
 
+  const URI = `${server}/users/`
+
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   axios.defaults.withCredentials = true
 
   useEffect(() => {
     try {
       const verifyUser = async () => {
-        const res = await axios.get(SERVER)
+        const res = await axios.get(`${server}`)
         if (res.data.verified === true) {
           if (res.data.id === '5MWtG6KkG4GPO-unt12kj') {
             setAdmin(true)

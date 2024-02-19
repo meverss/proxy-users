@@ -1,14 +1,12 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { SERVER } from './ShowUsers.js'
 import { FaEye, FaEyeSlash } from "react-icons/fa6"
 import { ValidateAll } from './Validators.js';
 
-const URI = `${SERVER}/users/`
 const token = localStorage.getItem("token")
 
-const CompEditUser = ({ getname, isvalid }) => {
+const CompEditUser = ({ getname, server }) => {
   const [user, setUser] = useState('')
   const [seluser, setSelUser] = useState('')
   const [selfullname, setSelFullName] = useState('')
@@ -22,6 +20,10 @@ const CompEditUser = ({ getname, isvalid }) => {
   const [enabled, setEnabled] = useState('')
   const navigate = useNavigate()
 
+  const message = document.getElementById('message')
+  const pwdInput = document.getElementById('pwdInput')
+  const pwdVInput = document.getElementById('pwdVInput')
+
   const { id } = useParams()
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
@@ -30,7 +32,7 @@ const CompEditUser = ({ getname, isvalid }) => {
   useEffect(() => {
     try {
       const verifyUser = async () => {
-        const res = await axios.get(SERVER)
+        const res = await axios.get(`${server}`)
         if (res.data.verified === true) {
           if (res.data.id === '5MWtG6KkG4GPO-unt12kj') {
             setAdmin(true)
@@ -41,12 +43,15 @@ const CompEditUser = ({ getname, isvalid }) => {
           navigate('/login')
         }
       }
+
       verifyUser()
       getUserById()
     } catch (error) {
       console.log(error)
     }
   }, [])
+
+  const URI = `${server}/users/`
 
   ValidateAll('.form-control', seluser, selfullname)
 
@@ -122,13 +127,18 @@ const CompEditUser = ({ getname, isvalid }) => {
   }
 
   const updateUser = async (e) => {
-    const message = document.getElementById('message')
+    // const message = document.getElementById('message')
+    // const pwdInput = document.getElementById('pwdInput')
+    // const pwdVInput = document.getElementById('pwdVInput')
 
     e.preventDefault()
-    
+
     if (password !== vpassword) {
       document.getElementById('message').innerHTML = 'Las contraseñas no coinciden'
+      pwdInput.value = ''
+      pwdVInput.value = ''
       setTimeout(() => message.innerHTML = `&nbsp;`, 3000)
+      pwdInput.focus()
     } else if (password === '' && vpassword === '') {
       await axios.patch(URI + id + '/nopwd', { user, fullname, enabled })
       authUser === 'admin' ? navigate('/') : logOut()
@@ -164,8 +174,7 @@ const CompEditUser = ({ getname, isvalid }) => {
     <>
       <div className='editBox '>
         <div className='container editUser shadow-sm'>
-          <h1 className='sessionTitle fw-bold mb-3'>Editar los datos de </h1>
-          <h1 className='sessionTitle fw-bold mb-3'>{selfullname}</h1>
+          <h1 className='sessionTitle fw-bold mb-3'>{admin & seluser !== 'admin' ? 'Editar datos del usuario': 'Cambiar contraseña'}</h1>
           <p className='message' id='message' style={{ color: 'red' }}>&nbsp;</p>
           <form id='editUser' onSubmit={updateUser}>
             <div className='input-group mb-3'>
@@ -220,11 +229,11 @@ const CompEditUser = ({ getname, isvalid }) => {
             <br />
             <div className='formButtons'>
               <button
-                type='button' className='btn btn-secondary' onClick={admin ? () => navigate('/') : logOut}
+                type='button' id='btnCancel' className='btn btn-secondary' onClick={admin ? () => navigate('/') : logOut}
               >
                 Cancelar
               </button>
-              <button type='submit' className='btn btn-success'>
+              <button type='submit' id='btnSave' className='btn btn-success'>
                 Guardar
               </button>
             </div>

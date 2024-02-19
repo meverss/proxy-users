@@ -1,18 +1,17 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill} from 'react-icons/bs'
+import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill } from 'react-icons/bs'
 import { SlUserFollow, SlMagnifier, SlSettings } from "react-icons/sl";
 import CompPagination from './CompPagination';
 import unauthorized from '../images/401.webp'
 
-export const SERVER = `http://192.168.237.14:4000`
-const URI = `${SERVER}/users/`
 const token = localStorage.getItem("token")
 
-const CompShowusers = ({ getname }) => {
+const CompShowusers = ({ getname, server}) => {
+
   const [users, setusers] = useState([])
-  const [admin, setAdmin] = useState(false)
+  const [admin, setAdmin] = useState(true)
   const [id, setId] = useState('')
   const [selectedId, setSelectedId] = useState('')
   const [selectedUser, setSelectedUser] = useState('')
@@ -25,6 +24,8 @@ const CompShowusers = ({ getname }) => {
 
   const navigate = useNavigate()
 
+  const URI = `${server}/users/`
+
   const lastIndex = currentPage * usersPerPage
   const firstIndex = lastIndex - usersPerPage
 
@@ -33,11 +34,11 @@ const CompShowusers = ({ getname }) => {
 
   useEffect(() => {
     const verifyUser = async () => {
-      const res = await axios.get(SERVER)
+      const res = await axios.get(`${server}`)
 
       if (res.data.verified === true) {
-        if (res.data.id === '5MWtG6KkG4GPO-unt12kj') {
-          setAdmin(true)
+        if (res.data.id !== '5MWtG6KkG4GPO-unt12kj') {
+          setAdmin(false)
         }
         setId(res.data.id)
         getname(res.data.fullname)
@@ -49,7 +50,7 @@ const CompShowusers = ({ getname }) => {
     verifyUser()
     displayCheck()
     getUsers()
-  }, [getname, navigate])
+  }, [navigate])
 
   const getUsers = async () => {
     try {
@@ -64,15 +65,14 @@ const CompShowusers = ({ getname }) => {
     }
   }
 
-
-  const displayCheck = () =>{
+  const displayCheck = () => {
     if (window.innerHeight <= 768) setUsersPerPage(7)
   }
 
   const filterUsers = async (filter) => {
     try {
       const res = await axios.get(URI + `search?user=${filter}`)
-      if(res.data.length !== 0){
+      if (res.data.length !== 0) {
         setusers(res.data)
         setTotalUsers(res.data.length)
       }
