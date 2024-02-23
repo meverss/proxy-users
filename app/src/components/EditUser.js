@@ -1,12 +1,13 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { FaEye, FaEyeSlash } from "react-icons/fa6"
 import { ValidateAll } from './Validators.js';
+import { serverContext } from '../App';
 
 const token = localStorage.getItem("token")
 
-const CompEditUser = ({ getname, server }) => {
+const CompEditUser = ({ getname }) => {
   const [user, setUser] = useState('')
   const [seluser, setSelUser] = useState('')
   const [selfullname, setSelFullName] = useState('')
@@ -18,13 +19,14 @@ const CompEditUser = ({ getname, server }) => {
   const [viewpassword2, setViewPassword2] = useState(<FaEye className='eye' />)
   const [fullname, setFullname] = useState('')
   const [enabled, setEnabled] = useState('')
-  const navigate = useNavigate()
 
+  const navigate = useNavigate()
+  const { id } = useParams()
   const message = document.getElementById('message')
   const pwdInput = document.getElementById('pwdInput')
   const pwdVInput = document.getElementById('pwdVInput')
 
-  const { id } = useParams()
+  const server = useContext(serverContext)
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   axios.defaults.withCredentials = true
@@ -52,8 +54,6 @@ const CompEditUser = ({ getname, server }) => {
   }, [])
 
   const URI = `${server}/users/`
-
-  ValidateAll('.form-control', seluser, selfullname)
 
   const getUserById = async () => {
     const stateSwitch = document.getElementById('userState')
@@ -117,37 +117,6 @@ const CompEditUser = ({ getname, server }) => {
     }
   }
 
-  const logOut = async () => {
-    try {
-      localStorage.removeItem('token')
-      window.location.reload(true)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const updateUser = async (e) => {
-    // const message = document.getElementById('message')
-    // const pwdInput = document.getElementById('pwdInput')
-    // const pwdVInput = document.getElementById('pwdVInput')
-
-    e.preventDefault()
-
-    if (password !== vpassword) {
-      document.getElementById('message').innerHTML = 'Las contraseñas no coinciden'
-      pwdInput.value = ''
-      pwdVInput.value = ''
-      setTimeout(() => message.innerHTML = `&nbsp;`, 3000)
-      pwdInput.focus()
-    } else if (password === '' && vpassword === '') {
-      await axios.patch(URI + id + '/nopwd', { user, fullname, enabled })
-      authUser === 'admin' ? navigate('/') : logOut()
-    } else if (password === vpassword) {
-      await axios.patch(URI + id, { user, fullname, password, enabled })
-      authUser === 'admin' ? navigate('/') : logOut()
-    }
-  }
-
   const showPassword = () => {
     const pwd = document.getElementById('pwdInput')
     if (pwd.type === 'password') {
@@ -170,11 +139,62 @@ const CompEditUser = ({ getname, server }) => {
     }
   }
 
+  // Validate data
+  ValidateAll('.form-control', seluser, selfullname)
+
+  // Clear unsafe passwords
+  if (pwdInput && pwdVInput) {
+    const pwdFields = document.querySelectorAll('.pwdfield')
+
+    pwdFields.forEach(field => {
+      switch (field.id) {
+        case 'pwdInput':
+          field.addEventListener('focusout', (e) => {
+            if (e.target.value === '') setPassword('')
+          })
+          break
+        case 'pwdVInput':
+          field.addEventListener('focusout', (e) => {
+            if (e.target.value === '') setVPassword('')
+          })
+          break
+        default:
+      }
+    })
+  }
+
+  const updateUser = async (e) => {
+    e.preventDefault()
+
+    if (password !== vpassword) {
+      document.getElementById('message').innerHTML = 'Las contraseñas no coinciden'
+      pwdInput.value = ''
+      pwdVInput.value = ''
+      setTimeout(() => message.innerHTML = `&nbsp;`, 3000)
+      pwdInput.focus()
+    } else if (password === '' && vpassword === '') {
+      await axios.patch(URI + id + '/nopwd', { user, fullname, enabled })
+      authUser === 'admin' ? navigate('/') : logOut()
+    } else if (password === vpassword) {
+      await axios.patch(URI + id, { user, fullname, password, enabled })
+      authUser === 'admin' ? navigate('/') : logOut()
+    }
+  }
+
+  const logOut = async () => {
+    try {
+      localStorage.removeItem('token')
+      window.location.reload(true)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <div className='editBox '>
         <div className='container editUser shadow-sm'>
-          <h1 className='sessionTitle fw-bold mb-3'>{admin & seluser !== 'admin' ? 'Editar datos del usuario': 'Cambiar contraseña'}</h1>
+          <h1 className='sessionTitle fw-bold mb-3'>{admin & seluser !== 'admin' ? 'Editar datos del usuario' : 'Cambiar contraseña'}</h1>
           <p className='message' id='message' style={{ color: 'red' }}>&nbsp;</p>
           <form id='editUser' onSubmit={updateUser}>
             <div className='input-group mb-3'>
@@ -207,7 +227,7 @@ const CompEditUser = ({ getname, server }) => {
               <input id='pwdInput' name='pwdInput'
                 type="password"
                 data-frminfo='password'
-                className="form-control"
+                className="form-control pwdfield"
                 placeholder='********'
                 onChange={(e) => setPassword(e.target.value)} />
               <span className="input-group-text" id="showPwd" onClick={showPassword}>{viewpassword}</span>
@@ -217,7 +237,7 @@ const CompEditUser = ({ getname, server }) => {
               <input id='pwdVInput' name='pwdVInput'
                 type="password"
                 data-frminfo='password'
-                className="form-control"
+                className="form-control pwdfield"
                 placeholder='********'
                 onChange={(e) => setVPassword(e.target.value)} />
               <span className="input-group-text" id="showPwd" onClick={showVPassword}>{viewpassword2}</span>

@@ -1,12 +1,13 @@
 import axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import unathorized from '../images/401.webp'
 import { ValidateAll } from './Validators.js'
+import { serverContext } from '../App';
 
 const token = localStorage.getItem("token")
 
-const CompCreateUser = ({ getname, server }) => {
+const CompCreateUser = ({ getname }) => {
   const [user, setUser] = useState('')
   const [id, setId] = useState('')
   const [admin, setAdmin] = useState(false)
@@ -15,8 +16,12 @@ const CompCreateUser = ({ getname, server }) => {
   const [fullname, setFullname] = useState('')
   const [available, setAvailable] = useState([])
 
+  const pwdInput = document.getElementById('pwdInput')
+  const pwdVInput = document.getElementById('pwdVInput')
+
   const navigate = useNavigate()
 
+  const server = useContext(serverContext)
   const URI = `${server}/users/`
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
@@ -45,8 +50,6 @@ const CompCreateUser = ({ getname, server }) => {
     checkUser()
   }, [getname, navigate])
 
-  ValidateAll('.form-control', null, null)
-
   const checkUser = async () => {
     try {
       await axios.get(URI)
@@ -63,6 +66,31 @@ const CompCreateUser = ({ getname, server }) => {
     }
   }
 
+  // Validate data
+  ValidateAll('.form-control', null, null)
+
+  // Clear unsafe passwords
+  if (pwdInput && pwdVInput) {
+    const pwdFields = document.querySelectorAll('.pwdfield')
+
+    pwdFields.forEach(field => {
+      switch (field.id) {
+        case 'pwdInput':
+          field.addEventListener('focusout', (e) => {
+            if (e.target.value === '') setPassword('')
+          })
+          break
+        case 'pwdVInput':
+          field.addEventListener('focusout', (e) => {
+            if (e.target.value === '') setVPassword('')
+          })
+          break
+        default:
+      }
+    })
+  }
+
+
   const save = async (e) => {
     try {
       e.preventDefault()
@@ -76,7 +104,6 @@ const CompCreateUser = ({ getname, server }) => {
         document.getElementById('message').innerHTML = 'Las contraseñas no coinciden'
         setTimeout(() => document.getElementById('message').innerHTML = `&nbsp;`, 3000)
       } else {
-
         await axios.post(URI, { user, password, fullname })
         navigate('/')
       }
@@ -97,7 +124,7 @@ const CompCreateUser = ({ getname, server }) => {
                 <div className='input-group mb-3'>
                   <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
                   <input
-                    className='form-control'
+                    className='form-control pwdfield'
                     value={user}
                     onChange={(e) => setUser(e.target.value.toLowerCase())}
                     onKeyUp={(e) => searchAvailable(e.target.value.toLowerCase())}
@@ -108,7 +135,7 @@ const CompCreateUser = ({ getname, server }) => {
                 <div className='input-group mb-3'>
                   <span className='input-group-text' id='inputGroup-sizing-default'>Nombre y Apellidos</span>
                   <input
-                    className='form-control'
+                    className='form-control pwdfield'
                     value={fullname}
                     onChange={(e) => setFullname(e.target.value)}
                     type='text'
@@ -117,8 +144,8 @@ const CompCreateUser = ({ getname, server }) => {
                 </div>
                 <div className='input-group mb-3'>
                   <span className='input-group-text' id='inputPasswd'>Contraseña</span>
-                  <input
-                    className='form-control'
+                  <input id='pwdInput'
+                    className='form-control pwdfield'
                     value={password}
                     placeholder='********'
                     onChange={(e) => setPassword(e.target.value)}
@@ -128,8 +155,8 @@ const CompCreateUser = ({ getname, server }) => {
                 </div>
                 <div className='input-group mb-3'>
                   <span className='input-group-text' id='inputVPasswd'>Verificación</span>
-                  <input
-                    className='form-control'
+                  <input id='pwdVInput'
+                    className='form-control pwdfield'
                     value={vpassword}
                     placeholder='********'
                     onChange={(e) => { setVPassword(e.target.value) }}

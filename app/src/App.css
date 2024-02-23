@@ -341,6 +341,14 @@ td p {
   color: #eee;
 }
 
+.noAccessText {
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 8px;
+  background-color: #f0f9ff;
+  color: #02518c;
+}
+
 @media screen and (max-width: 460px) {
   .logOut {
     position: fixed;
@@ -376,8 +384,8 @@ td p {
     font-size: 24px;
   }
 
-.row .col {
-  margin-top: -25px;
-}
+  .row .col {
+    margin-top: -25px;
+  }
 
 }

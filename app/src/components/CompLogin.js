@@ -1,10 +1,13 @@
 import axios from 'axios'
 import { FaEye, FaEyeSlash } from "react-icons/fa6"
 import { SlUser, SlLock } from "react-icons/sl"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
+import { serverContext } from '../App'
 
-const CompLogin = ({ server }) => {
+const CompLogin = () => {
+  const server = useContext(serverContext)
+
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
   const [viewpassword, setViewPassword] = useState(<FaEye className='eye' />)
@@ -23,6 +26,7 @@ const CompLogin = ({ server }) => {
         navigate('/')
       }
     }
+
     verifyUser()
     focus()
     animForm()

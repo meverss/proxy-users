@@ -1,14 +1,16 @@
 import axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill } from 'react-icons/bs'
 import { SlUserFollow, SlMagnifier, SlSettings } from "react-icons/sl";
 import CompPagination from './CompPagination';
 import unauthorized from '../images/401.webp'
+import { serverContext } from '../App';
 
 const token = localStorage.getItem("token")
 
-const CompShowusers = ({ getname, server}) => {
+const CompShowusers = ({ getname }) => {
+  const server = useContext(serverContext)
 
   const [users, setusers] = useState([])
   const [admin, setAdmin] = useState(true)
@@ -21,9 +23,9 @@ const CompShowusers = ({ getname, server}) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [usersPerPage, setUsersPerPage] = useState(10)
   const [totalUsers, setTotalUsers] = useState()
+  const [sorted, setSorted] = useState(false)
 
   const navigate = useNavigate()
-
   const URI = `${server}/users/`
 
   const lastIndex = currentPage * usersPerPage
@@ -65,6 +67,14 @@ const CompShowusers = ({ getname, server}) => {
     }
   }
 
+  const sortedUsers = sorted && users.user !== 'admin' ? users.toSorted((a, b) => {
+    return a.fullname.localeCompare(b.fullname)
+  }) : users
+
+  const toggleSorted = () => {
+    setSorted(prevState => !prevState)
+  }
+
   const displayCheck = () => {
     if (window.innerHeight <= 768) setUsersPerPage(7)
   }
@@ -89,9 +99,14 @@ const CompShowusers = ({ getname, server}) => {
   const CompNoAuth = () => {
     return (
       <>
-        <div className='unauthCont'>
-          <a href={`/edit/${id}`} ><img className='unauthImage animate__animated animate__fadeIn' src={unauthorized} alt='Unathorized'></img></a>
-        </div>
+        {
+          !admin ?
+            <div className='unauthCont'>
+              <a href={`/edit/${id}`} ><img className='unauthImage animate__animated animate__fadeIn' src={unauthorized} alt='Unathorized'></img></a>
+              <span className='noAccessText' style={{ fontSize: window.innerWidth <= 420 ? '16px' : '22px' }}>Usuario con acceso restringido</span>
+            </div>
+            : null
+        }
       </>
     )
   }
@@ -116,6 +131,11 @@ const CompShowusers = ({ getname, server}) => {
                     </div>
                     <div className='d-grid gap-2 d-md-flex justify-content-md-end '>
                       <Link to='/create' className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle' style={{ borderRadius: '8px' }}><SlUserFollow size='22px' /> Nuevo</Link>
+                      <button className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle'
+                        onClick={toggleSorted}
+                      >
+                        {!sorted ? 'Ordenar' : 'Desordenar'}
+                      </button>
                     </div>
                   </section>
                   <div className='usersTable shadow-sm p-3 mb-5 '>
@@ -131,7 +151,7 @@ const CompShowusers = ({ getname, server}) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {users.map((user) => (
+                        {sortedUsers.map((user) => (
                           <tr key={user.id} className='table-sm'>
                             <td><p id='admUser'> {user.user}</p> </td>
                             <td><p> {user.fullname}</p> </td>
@@ -146,9 +166,7 @@ const CompShowusers = ({ getname, server}) => {
                                 }} disabled={user.user === 'admin' ? true : false}  ><BsTrash className='actionIcon' size='24px' /></button>
                             </td>
                           </tr>
-                        )).sort((a, b) => {
-                          return a.user - b.user
-                        }).slice(firstIndex, lastIndex)}
+                        )).slice(firstIndex, lastIndex)}
                       </tbody>
                     </table>
                   </div>

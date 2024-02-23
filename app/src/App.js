@@ -5,7 +5,7 @@ import 'bootstrap/dist/js/bootstrap.js'
 import './App.css'
 import './animate.css'
 import { SlLogout } from "react-icons/sl";
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Import router
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
@@ -21,20 +21,31 @@ import CompPageNotFound from './components/CompPageNotFound.js'
 // Set backend server
 const server = 'http://192.168.4.14:4000'
 
+export const serverContext = React.createContext()
+
 const App = () => {
-  const [srv, setsrv] = useState('')
+  // const [server, setServer] = useState('')
   const [user, setUser] = useState('')
 
+  const getServer = async () => {
+    try {
+      const res = await axios.get('http://localhost:4000/config')
+      // setServer(`http://${res.data.ip}:4000`)
+    } catch (error) {
+      // console.log(error)
+    }
+  }
+
   useEffect(() => {
+    // getServer()
     getName()
   }, [])
 
   const getName = (name) => {
     setUser(name)
   }
-  
-  const logOut = async () => {
 
+  const logOut = async () => {
     try {
       localStorage.removeItem('token')
       window.location.pathname = '/login'
@@ -44,41 +55,42 @@ const App = () => {
   }
 
   return (
-    <>
-      <div className='App'>
-        <nav className="navbar border-bottom">
-          <div className="container-fluid">
-            <div className='Title'>
-              <p className="App-Title "><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></p>
+    <serverContext.Provider value={server}>
+      <>
+        <div className='App'>
+          <nav className="navbar border-bottom">
+            <div className="container-fluid">
+              <div className='Title'>
+                <p className="App-Title "><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></p>
+              </div>
+              <div className="sessionInfo d-inline-flex" role="search" id='logOut'>
+
+                <span className='userName' id='userName'>{user}</span>
+                {user !== undefined ?
+                  < button className="btn" id='btnLogOut' type="button" onClick={logOut}><SlLogout className='logOut actionIcon' size='26px' color='chocolate' /></button>
+                  : null
+                }
+              </div>
             </div>
-            <div className="sessionInfo d-inline-flex" role="search" id='logOut'>
+          </nav >
+          <br />
 
-              <span className='userName' id='userName'>{user}</span>
-              {user !== undefined ?
-                < button className="btn" id='btnLogOut' type="button" onClick={logOut}><SlLogout className='logOut actionIcon' size='26px' color='chocolate' /></button>
-                : null
-              }
-            </div>
-          </div>
-        </nav >
-        <br />
+          <BrowserRouter forceRefresh={true}>
+            <Routes>
+              <Route path='/' element={<CompShowUsers getname={getName} />} />
+              <Route path='/login' element={<CompLogin />} />
+              <Route path='/create' element={<CompCreateUser getname={getName} />} />
+              <Route path='/edit/:id' element={<CompEditUser getname={getName} />} />
+              <Route path='/error' element={<CompPageNotFound getname={getName} />} />
+              <Route path='*' element={<Navigate to="/error" />} />
 
-        <BrowserRouter forceRefresh={true}>
-          <Routes>
-            <Route path='/' element={<CompShowUsers getname={getName} server={`${server}`}/>} />
-            <Route path='/login' element={<CompLogin server={`${server}`} />} />
-            <Route path='/create' element={<CompCreateUser getname={getName} server={`${server}`} />} />
-            <Route path='/edit/:id' element={<CompEditUser getname={getName} server={`${server}`} />} />
-            <Route path='/error' element={<CompPageNotFound getname={getName} server={`${server}`} />} />
-            <Route path='*' element={<Navigate to="/error" />} />
+              <Route path='/pdf' Component={CompPdf} />
+            </Routes>
+          </BrowserRouter>
 
-            <Route path='/pdf' Component={CompPdf} />
-          </Routes>
-        </BrowserRouter>
-
-      </div >
-
-    </>
+        </div >
+      </>
+    </serverContext.Provider>
   )
 }
 
