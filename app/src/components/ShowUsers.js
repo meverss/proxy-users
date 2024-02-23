@@ -9,7 +9,7 @@ import { serverContext } from '../App';
 
 const token = localStorage.getItem("token")
 
-const CompShowusers = ({ getname }) => {
+const CompShowusers = ({ getname, srv }) => {
   const server = useContext(serverContext)
 
   const [users, setusers] = useState([])
@@ -26,6 +26,7 @@ const CompShowusers = ({ getname }) => {
   const [sorted, setSorted] = useState(false)
 
   const navigate = useNavigate()
+
   const URI = `${server}/users/`
 
   const lastIndex = currentPage * usersPerPage
@@ -33,6 +34,8 @@ const CompShowusers = ({ getname }) => {
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   axios.defaults.withCredentials = true
+
+  console.log(srv)
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -67,7 +70,7 @@ const CompShowusers = ({ getname }) => {
     }
   }
 
-  const sortedUsers = sorted && users.user !== 'admin' ? users.toSorted((a, b) => {
+  const sortedUsers = sorted ? users.toSorted((a, b) => {
     return a.fullname.localeCompare(b.fullname)
   }) : users
 

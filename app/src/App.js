@@ -24,7 +24,7 @@ const server = 'http://192.168.4.14:4000'
 export const serverContext = React.createContext()
 
 const App = () => {
-  // const [server, setServer] = useState('')
+  const [srv, setSrv] = useState('')
   const [user, setUser] = useState('')
 
   const getServer = async () => {
@@ -32,12 +32,27 @@ const App = () => {
       const res = await axios.get('http://localhost:4000/config')
       // setServer(`http://${res.data.ip}:4000`)
     } catch (error) {
-      // console.log(error)
+      console.log(error)
     }
   }
 
+  const test = () => {
+    fetch('http://localhost:4000/config')
+      .then(res => res.json())
+      .then(res => {
+        setSrv(`http://${res.ip}:4000`)
+        // console.log(srv)
+      })
+      .catch((error => {
+        console.log(error)
+      }))
+
+  }
+
+
   useEffect(() => {
     // getServer()
+    test()
     getName()
   }, [])
 
@@ -77,7 +92,7 @@ const App = () => {
 
           <BrowserRouter forceRefresh={true}>
             <Routes>
-              <Route path='/' element={<CompShowUsers getname={getName} />} />
+              <Route path='/' element={<CompShowUsers getname={getName} srv={srv} />} />
               <Route path='/login' element={<CompLogin />} />
               <Route path='/create' element={<CompCreateUser getname={getName} />} />
               <Route path='/edit/:id' element={<CompEditUser getname={getName} />} />

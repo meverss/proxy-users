@@ -4,6 +4,9 @@ import { SlUser, SlLock } from "react-icons/sl"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import { serverContext } from '../App'
+import background from '../images/background.webp'
+
+const isMovile = window.innerWidth <= 450
 
 const CompLogin = () => {
   const server = useContext(serverContext)
@@ -97,37 +100,49 @@ const CompLogin = () => {
 
   return (
     <>
-      < div className='App'>
-        <section className='vh-100 mainContainer'>
-          <div className='container h-100 loginBox'>
-            <div className='card text-white' id='card' style={{ borderRadius: '1rem' }}>
-              <div className='card-body text-center' >
+      <div style={{
+        backgroundImage: `url(${background})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: window.innerWidth <= '450px' ? 'top' : 'bottom',
+        backgroundAttachment: 'fixed',
+      }}>
+        < div className='App' style={{
+          backgroundColor: `rgb(10, 10, 10, 0.9)`,
+          backdropFilter: 'brightness(70%) contrast(120%)',
+          width: '100%'
+        }}>
+          <section className='vh-100 mainContainer'>
+            <div className='container h-100 loginBox'>
+              <div className='card text-white' id='card' style={{ borderRadius: '1rem' }}>
+                <div className='card-body text-center' >
 
-                <form className='container' id='loginForm' onSubmit={handleSubmit}>
+                  <form className='container' id='loginForm' onSubmit={handleSubmit}>
 
-                  <h2 className='loginTitle fw-bold mb-2 text-uppercase'>Autenticación</h2>
-                  <p className='subTitle' id="subTitle">Ingrese sus credenciales</p>
+                    <h2 className='loginTitle fw-bold mb-2 text-uppercase'>Autenticación</h2>
+                    <p className='subTitle' id="subTitle">Ingrese sus credenciales</p>
 
-                  <div className="input-group mb-3">
-                    <span className="input-group-text" id="basic-addon1"><SlUser className='formIcons' /></span>
-                    <input type="text" className="form-control" id='userInput' name='userInput' placeholder="Usuario" aria-label="Username" aria-describedby="basic-addon1" value={user}
-                      onChange={(e) => { setUser(e.target.value.toLowerCase()) }} />
-                  </div>
+                    <div className="input-group mb-3">
+                      <span className="input-group-text" id="basic-addon1"><SlUser className='formIcons' /></span>
+                      <input type="text" className="form-control" id='userInput' name='userInput' placeholder="Usuario" aria-label="Username" aria-describedby="basic-addon1" value={user}
+                        onChange={(e) => { setUser(e.target.value.toLowerCase()) }} />
+                    </div>
 
-                  <div className="input-group mb-3">
-                    <span className="input-group-text"><SlLock className='formIcons' /></span>
-                    <input type="password" className="form-control" id='pwdInput' name='pwdInput' placeholder='Contraseña' aria-label="Amount (to the nearest dollar)" value={password} onChange={(e) => setPassword(e.target.value)} />
-                    <span className="input-group-text" id="showPwd" onClick={showPassword}>{viewpassword}</span>
-                  </div>
+                    <div className="input-group mb-3">
+                      <span className="input-group-text"><SlLock className='formIcons' /></span>
+                      <input type="password" className="form-control" id='pwdInput' name='pwdInput' placeholder='Contraseña' aria-label="Amount (to the nearest dollar)" value={password} onChange={(e) => setPassword(e.target.value)} />
+                      <span className="input-group-text" id="showPwd" onClick={showPassword}>{viewpassword}</span>
+                    </div>
 
-                  <button className='btnLogin btn btn-success px-5' type='submit'>Login</button>
+                    <button className='btnLogin btn btn-success px-5' type='submit'>Login</button>
 
-                </form>
+                  </form>
+                </div>
               </div>
-            </div>
-          </div >
-        </section >
-      </div >
+            </div >
+          </section >
+        </div >
+      </div>
     </>
   )
 }
