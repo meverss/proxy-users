@@ -33,8 +33,18 @@ const CompPageNotFound = () => {
   return (
     <>
       <div className='unauthCont'>
-        <a href={id === 1 ? '/' : `/edit/${id}`} ><img className='unauthImage animate__animated animate__fadeIn' src={notfound} alt='Page not found'></img></a>
+        <div className='unauthImage '>
+          <a href={id === 1 ? '/' : `/edit/${id}`} ><img className='animate__animated animate__fadeIn' src={notfound} alt='Page not found'></img></a>
+          <br />
+        </div>
+        <span className='notFoundText' style={{
+          fontSize: window.innerWidth <= 420 ? '20px' : '36px',
+          fontWeight: 'bold'
+        }}>
+          PÁGINA NO ENCONTRADA
+        </span>
       </div>
+
     </>
   )
 }

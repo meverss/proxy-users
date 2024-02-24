@@ -104,7 +104,12 @@ const CompShowusers = ({ getname }) => {
           !admin ?
             <div className='unauthCont'>
               <a href={`/edit/${id}`} ><img className='unauthImage animate__animated animate__fadeIn' src={unauthorized} alt='Unathorized'></img></a>
-              <span className='noAccessText' style={{ fontSize: window.innerWidth <= 420 ? '16px' : '22px' }}>Usuario con acceso restringido</span>
+              <span className='noAccessText' style={{
+                fontSize: window.innerWidth <= 420 ? '20px' : '36px',
+                fontWeight: 'bold'
+              }}>
+                ACCESO RESTRINGIDO
+              </span>
             </div>
             : null
         }

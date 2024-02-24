@@ -299,16 +299,30 @@ td p {
 .unauthCont {
   display: flex;
   width: 100%;
-  height: 68vh;
+  height: 75%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.unauthImage {
-  width: 98%;
+.unauthImage img {
+  height: 100%;
+  width: 100%;
   max-width: 800px;
   object-fit: contain;
+}
+
+.noAccessText,
+.notFoundText {
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 8px;
+  background-color: #f0f9ff;
+  color: #02518c;
+}
+
+.notFoundText {
+  margin-top: -80px;
 }
 
 .form-check-input:disabled {
@@ -349,14 +363,6 @@ td p {
   color: #eee;
 }
 
-.noAccessText {
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 8px;
-  background-color: #f0f9ff;
-  color: #02518c;
-}
-
 @media screen and (max-width: 460px) {
   .logOut {
     position: fixed;
@@ -382,7 +388,6 @@ td p {
     background-color: #fff;
   }
 
-
   .paginationBar {
     margin-top: -25px;
   }
@@ -402,4 +407,7 @@ td p {
     margin-top: -25px;
   }
 
+    .notFoundText {
+      margin-top: -40px;
+    }
 }
