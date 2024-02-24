@@ -33,6 +33,7 @@ html {
   text-align: center;
   width: 100%;
   height: 100vh;
+  z-index: -1;
 }
 
 .App-logo {
@@ -74,15 +75,15 @@ html {
   z-index: 99999;
 }
 
+.searchBar {
+  border: .1px solid #bbb;
+  border-radius: 8px;
+}
+
 .mainTools {
   position: sticky;
   top: 30px;
-  box-shadow: 0px -35px 0px #fff;
   z-index: 1000;
-}
-
-.modal {
-  z-index: 9999;
 }
 
 .titlebar {
@@ -130,6 +131,7 @@ td p {
   font-size: calc(10px + 2vmin);
   color: #222;
   padding-top: 20px;
+  background-color: transparent;
 }
 
 .actions {
@@ -159,6 +161,7 @@ td p {
   border: 1px solid #bbb;
   border-radius: 5px;
   padding: 3px;
+  background-color: #fff;
 }
 
 .usersTable {
@@ -187,6 +190,7 @@ td p {
 .table {
   overflow: auto;
   min-width: 900px;
+  background-color: #fff;
 }
 
 .editUser,
@@ -258,6 +262,10 @@ td p {
 
 #showPwd:hover {
   cursor: pointer;
+}
+
+.btn-tool {
+  background-color: #fff;
 }
 
 .btnLogin {
@@ -367,7 +375,13 @@ td p {
 
   .usersTable {
     height: 378px;
+    background-color: #fff;
   }
+
+  .table .table-responsive .table-sm .table-hover {
+    background-color: #fff;
+  }
+
 
   .paginationBar {
     margin-top: -25px;

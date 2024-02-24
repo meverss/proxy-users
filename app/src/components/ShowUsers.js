@@ -9,7 +9,7 @@ import { serverContext } from '../App';
 
 const token = localStorage.getItem("token")
 
-const CompShowusers = ({ getname, srv }) => {
+const CompShowusers = ({ getname }) => {
   const server = useContext(serverContext)
 
   const [users, setusers] = useState([])
@@ -34,8 +34,6 @@ const CompShowusers = ({ getname, srv }) => {
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   axios.defaults.withCredentials = true
-
-  console.log(srv)
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -124,7 +122,7 @@ const CompShowusers = ({ getname, srv }) => {
                 <div className='col'>
                   <section className='mainTools'>
                     <h1 className='sessionTitle fw-bold mb-3'>Listado de usuarios</h1>
-                    <div className='input-group mb-3'>
+                    <div className='input-group mb-3 searchBar '>
                       <span className='input-group-text ' id='search'><SlMagnifier /></span>
                       <input
                         className='form-control'
@@ -133,8 +131,8 @@ const CompShowusers = ({ getname, srv }) => {
                       />
                     </div>
                     <div className='d-grid gap-2 d-md-flex justify-content-md-end '>
-                      <Link to='/create' className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle' style={{ borderRadius: '8px' }}><SlUserFollow size='22px' /> Nuevo</Link>
-                      <button className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle'
+                      <Link to='/create' className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle btn-tool' style={{ borderRadius: '8px' }}><SlUserFollow size='22px' /> Nuevo</Link>
+                      <button className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle btn-tool'
                         onClick={toggleSorted}
                       >
                         {!sorted ? 'Ordenar' : 'Desordenar'}

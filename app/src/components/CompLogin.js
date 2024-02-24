@@ -108,9 +108,9 @@ const CompLogin = () => {
         backgroundAttachment: 'fixed',
       }}>
         < div className='App' style={{
-          backgroundColor: `rgb(10, 10, 10, 0.9)`,
+          backgroundColor: `rgb(5, 10, 10, 0.9)`,
           backdropFilter: 'brightness(70%) contrast(120%)',
-          width: '100%'
+          width: '100%',
         }}>
           <section className='vh-100 mainContainer'>
             <div className='container h-100 loginBox'>

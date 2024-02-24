@@ -1,12 +1,15 @@
 import axios from 'axios';
 import notfound from '../images/404.webp'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { serverContext } from '../App'
 
 const token = localStorage.getItem("token")
 
 
-const CompPageNotFound = ({ server }) => {
+const CompPageNotFound = () => {
+  const server = useContext(serverContext)
+
   const [id, setId] = useState('')
   const navigate = useNavigate()
 

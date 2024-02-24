@@ -6,6 +6,8 @@ import './App.css'
 import './animate.css'
 import { SlLogout } from "react-icons/sl";
 import React, { useState, useEffect } from 'react';
+import background from './images/background.webp'
+import background_app from './images/background_app.webp'
 
 // Import router
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
@@ -72,37 +74,47 @@ const App = () => {
   return (
     <serverContext.Provider value={server}>
       <>
-        <div className='App'>
-          <nav className="navbar border-bottom">
-            <div className="container-fluid">
-              <div className='Title'>
-                <p className="App-Title "><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></p>
+        <div style={{
+          backgroundImage: `url(${background_app})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'top',
+          backgroundAttachment: 'fixed',
+        }}>
+          <div className='App' style={{
+            // backgroundColor: `rgb(255, 255, 255, 0.75)`,
+            // backdropFilter: 'brightness(100%)'
+          }}>
+            <nav className="navbar">
+              <div className="container-fluid">
+                <div className='Title'>
+                  <p className="App-Title "><span className='text fw-bold mb-2 text-uppercase'>Usuarios del proxy</span></p>
+                </div>
+                <div className="sessionInfo d-inline-flex" id='logOut'>
+
+                  <span className='userName' id='userName'>{user}</span>
+                  {user !== undefined ?
+                    < button className="btn" id='btnLogOut' type="button" onClick={logOut}><SlLogout className='logOut actionIcon' size='26px' color='chocolate' /></button>
+                    : null
+                  }
+                </div>
               </div>
-              <div className="sessionInfo d-inline-flex" role="search" id='logOut'>
+            </nav >
+            <br />
 
-                <span className='userName' id='userName'>{user}</span>
-                {user !== undefined ?
-                  < button className="btn" id='btnLogOut' type="button" onClick={logOut}><SlLogout className='logOut actionIcon' size='26px' color='chocolate' /></button>
-                  : null
-                }
-              </div>
-            </div>
-          </nav >
-          <br />
+            <BrowserRouter forceRefresh={true}>
+              <Routes>
+                <Route path='/' element={<CompShowUsers getname={getName} srv={srv} />} />
+                <Route path='/login' element={<CompLogin />} />
+                <Route path='/create' element={<CompCreateUser getname={getName} />} />
+                <Route path='/edit/:id' element={<CompEditUser getname={getName} />} />
+                <Route path='/error' element={<CompPageNotFound getname={getName} />} />
+                <Route path='*' element={<Navigate to="/error" />} />
 
-          <BrowserRouter forceRefresh={true}>
-            <Routes>
-              <Route path='/' element={<CompShowUsers getname={getName} srv={srv} />} />
-              <Route path='/login' element={<CompLogin />} />
-              <Route path='/create' element={<CompCreateUser getname={getName} />} />
-              <Route path='/edit/:id' element={<CompEditUser getname={getName} />} />
-              <Route path='/error' element={<CompPageNotFound getname={getName} />} />
-              <Route path='*' element={<Navigate to="/error" />} />
-
-              <Route path='/pdf' Component={CompPdf} />
-            </Routes>
-          </BrowserRouter>
-
+                <Route path='/pdf' Component={CompPdf} />
+              </Routes>
+            </BrowserRouter>
+          </div>
         </div >
       </>
     </serverContext.Provider>
