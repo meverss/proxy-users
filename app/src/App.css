@@ -391,6 +391,10 @@ td p {
   .paginationBar {
     margin-top: -25px;
   }
+
+  .notFoundText {
+    margin-top: -40px;
+  }
 }
 
 @media screen and (max-height: 768px) {
@@ -406,8 +410,4 @@ td p {
   .row .col {
     margin-top: -25px;
   }
-
-    .notFoundText {
-      margin-top: -40px;
-    }
 }
