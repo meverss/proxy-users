@@ -8,6 +8,10 @@ import { serverContext } from '../App';
 const token = localStorage.getItem("token")
 
 const CompCreateUser = ({ getname }) => {
+
+  const server = useContext(serverContext)
+  const URI = `${server}/users/`
+
   const [user, setUser] = useState('')
   const [id, setId] = useState('')
   const [admin, setAdmin] = useState(false)
@@ -20,9 +24,6 @@ const CompCreateUser = ({ getname }) => {
   const pwdVInput = document.getElementById('pwdVInput')
 
   const navigate = useNavigate()
-
-  const server = useContext(serverContext)
-  const URI = `${server}/users/`
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   axios.defaults.withCredentials = true

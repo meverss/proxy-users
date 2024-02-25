@@ -1,11 +1,6 @@
 import { db } from '../database/db.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-import { SERVERIP } from '../config.js'
-
-export const serverConfig = (req, res) => {
-  res.json({ ip: SERVERIP })
-}
 
 export const userLogin = async (req, res) => {
   const { user, password } = req.body

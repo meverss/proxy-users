@@ -21,40 +21,14 @@ import CompLogin from './components/CompLogin.js'
 import CompPageNotFound from './components/CompPageNotFound.js'
 
 // Set backend server
-const server = 'http://192.168.4.14:4000'
-
 export const serverContext = React.createContext()
+const server = `http://${window.location.hostname}:4000`
 
+// App Component
 const App = () => {
-  const [srv, setSrv] = useState('')
   const [user, setUser] = useState('')
 
-  const getServer = async () => {
-    try {
-      const res = await axios.get('http://localhost:4000/config')
-      // setServer(`http://${res.data.ip}:4000`)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const test = () => {
-    fetch('http://localhost:4000/config')
-      .then(res => res.json())
-      .then(res => {
-        setSrv(`http://${res.ip}:4000`)
-        // console.log(srv)
-      })
-      .catch((error => {
-        console.log(error)
-      }))
-
-  }
-
-
   useEffect(() => {
-    // getServer()
-    test()
     getName()
   }, [])
 
@@ -81,10 +55,7 @@ const App = () => {
           backgroundPosition: 'top',
           backgroundAttachment: 'fixed',
         }}>
-          <div className='App' style={{
-            // backgroundColor: `rgb(255, 255, 255, 0.75)`,
-            // backdropFilter: 'brightness(100%)'
-          }}>
+          <div className='App' >
             <nav className="navbar">
               <div className="container-fluid">
                 <div className='Title'>
@@ -101,19 +72,18 @@ const App = () => {
               </div>
             </nav >
             <br />
+                <BrowserRouter forceRefresh={true}>
+                  <Routes>
+                    <Route path='/' element={<CompShowUsers getname={getName} />} />
+                    <Route path='/login' element={<CompLogin />} />
+                    <Route path='/create' element={<CompCreateUser getname={getName} />} />
+                    <Route path='/edit/:id' element={<CompEditUser getname={getName} />} />
+                    <Route path='/error' element={<CompPageNotFound getname={getName} />} />
+                    <Route path='*' element={<Navigate to="/error" />} />
 
-            <BrowserRouter forceRefresh={true}>
-              <Routes>
-                <Route path='/' element={<CompShowUsers getname={getName} srv={srv} />} />
-                <Route path='/login' element={<CompLogin />} />
-                <Route path='/create' element={<CompCreateUser getname={getName} />} />
-                <Route path='/edit/:id' element={<CompEditUser getname={getName} />} />
-                <Route path='/error' element={<CompPageNotFound getname={getName} />} />
-                <Route path='*' element={<Navigate to="/error" />} />
-
-                <Route path='/pdf' Component={CompPdf} />
-              </Routes>
-            </BrowserRouter>
+                    <Route path='/pdf' Component={CompPdf} />
+                  </Routes>
+                </BrowserRouter>
           </div>
         </div >
       </>

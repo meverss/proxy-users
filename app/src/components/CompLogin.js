@@ -9,7 +9,9 @@ import background from '../images/background.webp'
 const isMovile = window.innerWidth <= 450
 
 const CompLogin = () => {
+
   const server = useContext(serverContext)
+  const URI = `${server}/login`
 
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
@@ -17,7 +19,6 @@ const CompLogin = () => {
   const navigate = useNavigate()
 
   const token = localStorage.getItem("token")
-  const URI = `${server}/login`
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   axios.defaults.withCredentials = true

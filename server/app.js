@@ -1,12 +1,16 @@
 import express from 'express'
 import cors from 'cors'
 import AppRoutes from './routes/routes.js'
-import { serverConfig, userLogin } from './controllers/LoginController.js'
+import { userLogin } from './controllers/LoginController.js'
 import { verifyUser } from './middlewares/verifyUser.js'
 import jwt from 'jsonwebtoken'
 import { SERVERIP } from './config.js'
 
 const app = express()
+const URI = `http://${SERVERIP}:3000`
+
+console.log(URI)
+
 app.disable('x-powered-by')
 
 // Middlewares
@@ -14,12 +18,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('./static'))
 app.use(cors({
-  origin: ['http://localhost:3000', `http://${SERVERIP}:3000`],
+  origin: ['http://localhost:3000', URI.toString],
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   credentials: true
 }))
-
-app.get('/config', serverConfig)
 
 // Login
 app.post('/login', userLogin)

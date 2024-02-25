@@ -6,8 +6,8 @@ import { serverContext } from '../App'
 
 const token = localStorage.getItem("token")
 
-
 const CompPageNotFound = () => {
+
   const server = useContext(serverContext)
 
   const [id, setId] = useState('')

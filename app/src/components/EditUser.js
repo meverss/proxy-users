@@ -8,6 +8,10 @@ import { serverContext } from '../App';
 const token = localStorage.getItem("token")
 
 const CompEditUser = ({ getname }) => {
+  
+  const server = useContext(serverContext)
+  const URI = `${server}/users/`
+
   const [user, setUser] = useState('')
   const [seluser, setSelUser] = useState('')
   const [selfullname, setSelFullName] = useState('')
@@ -25,8 +29,6 @@ const CompEditUser = ({ getname }) => {
   const message = document.getElementById('message')
   const pwdInput = document.getElementById('pwdInput')
   const pwdVInput = document.getElementById('pwdVInput')
-
-  const server = useContext(serverContext)
 
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   axios.defaults.withCredentials = true
@@ -52,8 +54,6 @@ const CompEditUser = ({ getname }) => {
       console.log(error)
     }
   }, [])
-
-  const URI = `${server}/users/`
 
   const getUserById = async () => {
     const stateSwitch = document.getElementById('userState')
