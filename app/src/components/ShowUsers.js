@@ -38,10 +38,9 @@ const CompShowusers = ({ getname }) => {
   useEffect(() => {
     const verifyUser = async () => {
       const res = await axios.get(`${server}`)
-
       if (res.data.verified === true) {
         if (res.data.id !== '5MWtG6KkG4GPO-unt12kj') {
-          setAdmin(false)
+          setAdmin(prev => !prev)
         }
         setId(res.data.id)
         getname(res.data.fullname)

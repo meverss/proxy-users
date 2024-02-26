@@ -4,11 +4,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { FaEye, FaEyeSlash } from "react-icons/fa6"
 import { ValidateAll } from './Validators.js';
 import { serverContext } from '../App';
+import { CompLoader } from './CompLoader.js';
 
 const token = localStorage.getItem("token")
 
 const CompEditUser = ({ getname }) => {
-  
+
   const server = useContext(serverContext)
   const URI = `${server}/users/`
 
@@ -192,6 +193,7 @@ const CompEditUser = ({ getname }) => {
 
   return (
     <>
+      {!user ? <CompLoader /> : null}
       <div className='editBox '>
         <div className='container editUser shadow-sm'>
           <h1 className='sessionTitle fw-bold mb-3'>{admin & seluser !== 'admin' ? 'Editar datos del usuario' : 'Cambiar contraseña'}</h1>
