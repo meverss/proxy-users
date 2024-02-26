@@ -2,7 +2,8 @@ import axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill } from 'react-icons/bs'
-import { SlUserFollow, SlMagnifier, SlSettings } from "react-icons/sl";
+import { SlUserFollow, SlMagnifier, SlSettings, SlPrinter, SlList } from "react-icons/sl"
+import { TbArrowsSort, TbArrowsUpDown, TbSortAscendingLetters } from "react-icons/tb"
 import CompPagination from './CompPagination';
 import unauthorized from '../images/401.webp'
 import { serverContext } from '../App';
@@ -23,9 +24,10 @@ const CompShowusers = ({ getname }) => {
   const [inactive, setInactive] = useState('')
 
   const [currentPage, setCurrentPage] = useState(1)
-  const [usersPerPage, setUsersPerPage] = useState(10)
+  const [usersPerPage, setUsersPerPage] = useState()
   const [totalUsers, setTotalUsers] = useState()
   const [sorted, setSorted] = useState(false)
+  const [isdesktop, setIsDesktop] = useState(true)
 
   const navigate = useNavigate()
 
@@ -59,10 +61,9 @@ const CompShowusers = ({ getname }) => {
       const res = await axios.get(URI)
       setusers(res.data)
       setTotalUsers(res.data.length)
-      if (window.innerWidth <= 450) setUsersPerPage(7)
+      displayCheck()
       setActive(res.data.filter(user => user.enabled === 1).length)
       setInactive(res.data.filter(user => user.enabled === 0).length)
-
     } catch (error) {
     }
   }
@@ -76,8 +77,13 @@ const CompShowusers = ({ getname }) => {
   }
 
   const displayCheck = () => {
-    if (window.innerHeight <= 768) setUsersPerPage(7)
+    window.innerHeight <= 768 ? setUsersPerPage(7) : setUsersPerPage(10)
+    window.innerWidth <= 450 ? setIsDesktop(false) : setIsDesktop(true)
   }
+
+  window.addEventListener('resize', () => {
+    displayCheck()
+  })
 
   const filterUsers = async (filter) => {
     try {
@@ -135,12 +141,14 @@ const CompShowusers = ({ getname }) => {
                           type='text'
                         />
                       </div>
-                      <div className='d-grid gap-2 d-md-flex justify-content-md-end '>
-                        <Link to='/create' className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle btn-tool' style={{ borderRadius: '8px' }}><SlUserFollow size='22px' /> Nuevo</Link>
+                      <div className='gap-2 d-md-flex justify-content-md-center btn-tools-group'>
+                        <Link to='/create' className='new-record btn btn-outline-success me-md-2 shadow-sm border-dark-subtle btn-tool' style={{ borderRadius: '8px' }}> <SlUserFollow size='22px' /> {isdesktop ? 'Nuevo' : null}</Link>
+
+                        <Link to='/print' className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle btn-tool' style={{ borderRadius: '8px' }}><SlPrinter size='22px' /> {isdesktop ? 'Imprimir' : null}</Link>
+
                         <button className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle btn-tool'
                           onClick={toggleSorted}
-                        >
-                          {!sorted ? 'Ordenar' : 'Desordenar'}
+                        > <TbSortAscendingLetters size='22px' /> {isdesktop ? !sorted ? 'Ordenar' : 'Desordenar' : null}
                         </button>
                       </div>
                     </section>

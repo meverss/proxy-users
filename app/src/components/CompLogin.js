@@ -30,7 +30,6 @@ const CompLogin = () => {
         navigate('/')
       }
     }
-    console.log(server)
 
     verifyUser()
     focus()

@@ -29,6 +29,11 @@ const passAuth = (req) =>{
   }
 }
 
+export const test = (req, res)=>{
+  fetch('http://localhost:4001/wwpsp/')
+.then(res => res.json)
+}
+
 export const getAllUsers = async (req, res) => {
   if (passAuth(req)) {
     const auth = req.get('authorization')

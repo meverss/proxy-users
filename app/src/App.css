@@ -86,6 +86,12 @@ html {
   z-index: 1000;
 }
 
+.btn-tools-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .titlebar {
   display: flex;
   gap: 20px;
@@ -456,6 +462,11 @@ td p {
 
   .notFoundText {
     margin-top: -40px;
+  }
+
+  .btn-tool {
+    width: 48px;
+    height: 48px;
   }
 }
 

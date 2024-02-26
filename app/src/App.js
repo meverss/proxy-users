@@ -5,13 +5,12 @@ import 'bootstrap/dist/js/bootstrap.js'
 import './App.css'
 import './animate.css'
 import { SlLogout } from "react-icons/sl";
-import React, { useState, useEffect, createContext } from 'react';
+import { React, useState, useEffect, createContext } from 'react';
 import background from './images/background.webp'
 import background_app from './images/background_app.webp'
 
 // Import router
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
-import CompPdf from './components/PrintPdf.js'
 
 // Import Components
 import CompShowUsers from './components/ShowUsers.js'
@@ -19,6 +18,7 @@ import CompCreateUser from './components/CreateUser.js'
 import CompEditUser from './components/EditUser.js'
 import CompLogin from './components/CompLogin.js'
 import CompPageNotFound from './components/CompPageNotFound.js'
+import CompPdf from './components/CompPDF.js'
 
 // Set backend server
 export const serverContext = createContext()
@@ -72,18 +72,18 @@ const App = () => {
               </div>
             </nav >
             <br />
-                <BrowserRouter forceRefresh={true}>
-                  <Routes>
-                    <Route path='/' element={<CompShowUsers getname={getName} />} />
-                    <Route path='/login' element={<CompLogin />} />
-                    <Route path='/create' element={<CompCreateUser getname={getName} />} />
-                    <Route path='/edit/:id' element={<CompEditUser getname={getName} />} />
-                    <Route path='/error' element={<CompPageNotFound getname={getName} />} />
-                    <Route path='*' element={<Navigate to="/error" />} />
+            <BrowserRouter forceRefresh={true}>
+              <Routes>
+                <Route path='/' element={<CompShowUsers getname={getName} />} />
+                <Route path='/login' element={<CompLogin />} />
+                <Route path='/create' element={<CompCreateUser getname={getName} />} />
+                <Route path='/edit/:id' element={<CompEditUser getname={getName} />} />
+                <Route path='/error' element={<CompPageNotFound getname={getName} />} />
+                <Route path='/print' element={<CompPdf getname={getName} />} />
+                <Route path='*' element={<Navigate to="/error" />} />
 
-                    <Route path='/pdf' Component={CompPdf} />
-                  </Routes>
-                </BrowserRouter>
+              </Routes>
+            </BrowserRouter>
           </div>
         </div >
       </>

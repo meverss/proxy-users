@@ -1,21 +1,62 @@
-import React from 'react'
+import axios from 'axios'
+import { React, useState, useEffect, useContext } from 'react'
+import { serverContext } from '../App';
+import { useNavigate } from 'react-router-dom'
+import { CompLoader } from './CompLoader'
 import { Page, Text, View, Font, Image, Document, StyleSheet, PDFViewer, PDFDownloadLink } from '@react-pdf/renderer'
-// import CompShowBlogs from './ShowBlogs.js'
 
-const token = sessionStorage.getItem("token")
+const token = localStorage.getItem("token")
 
-const CompPdf = () => {
+const CompPdf = ({ getname }) => {
+  const server = useContext(serverContext)
+  const URI = `${server}/users/`
+
+  const [users, setusers] = useState([])
+  const [admin, setAdmin] = useState(true)
+
+  const navigate = useNavigate()
+
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  axios.defaults.withCredentials = true
+
+  useEffect(() => {
+    const verifyUser = async () => {
+      const res = await axios.get(`${server}`)
+      if (res.data.verified === true) {
+        if (res.data.id !== '5MWtG6KkG4GPO-unt12kj') {
+          setAdmin(prev => !prev)
+        }
+        getname(res.data.fullname)
+        return
+      } else {
+        navigate('/login')
+      }
+    }
+    verifyUser()
+    getUsers()
+  }, [])
+
+  const getUsers = async () => {
+    try {
+      const res = await axios.get(URI)
+      setusers(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // Content
   const Quixote = () => (
     <Document>
       <Page style={styles.body}>
         <Text style={styles.header} fixed>
-          ~ Created with react-pdf ~
+          ~ Listado de Usuarios del Proxy ~
         </Text>
         <Text style={styles.title}>Don Quijote de la Mancha</Text>
         <Text style={styles.author}>Miguel de Cervantes</Text>
         <Image
           style={styles.image}
-          src='../src/images/quijote1.png'
+          src='../src/images/icon.png'
         />
         <Text style={styles.subtitle}>
           Capítulo I: Que trata de la condición y ejercicio del famoso hidalgo D.
@@ -241,19 +282,27 @@ const CompPdf = () => {
   })
 
   return (
-    <div>
-      <PDFDownloadLink document={<Quixote />} fileName='Quijote.pdf'>
-        <button
-          type='button' className='btn btn-secondary'
-        >
-          Download
-        </button>
-      </PDFDownloadLink>
+    <>
+      {
+        admin ?
+          users.length > 0 ?
+            <div>
+              <PDFDownloadLink document={<Quixote />} fileName='Quijote.pdf'>
+                <button
+                  type='button' className='btn btn-secondary'
+                >
+                  Descargar
+                </button>
+              </PDFDownloadLink>
 
-      <PDFViewer style={{ width: '100%', height: '90vh' }}>
-        <Quixote />
-      </PDFViewer>
-    </div>
+              <PDFViewer style={{ width: '100%', height: '90vh' }}>
+                <Quixote />
+              </PDFViewer>
+            </div>
+            : <CompLoader />
+          : navigate('/')
+      }
+    </>
   )
 }
 
