@@ -1,0 +1,42 @@
+
+> proxy-users@1.0.0 dev
+> concurrently "npm run server" "npm run app"
+
+[0] 
+[0] > proxy-users@1.0.0 server
+[0] > npm start --prefix server
+[0] 
+[1] 
+[1] > proxy-users@1.0.0 app
+[1] > npm start --prefix app
+[1] 
+[0] 
+[0] > nodejs@1.0.0 start
+[0] > nodemon index.js
+[0] 
+[1] 
+[1] > proxy-users-app@0.1.0 start
+[1] > PORT=80 react-scripts start
+[1] 
+[0] [33m[nodemon] 3.0.1[39m
+[0] [33m[nodemon] to restart at any time, enter `rs`[39m
+[0] [33m[nodemon] watching path(s): *.*[39m
+[0] [33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[0] [32m[nodemon] starting `node index.js`[39m
+[0] http://127.0.0.1
+[0] Server listenning on port 4000...
+[1] (node:1973) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+[1] (Use `node --trace-deprecation ...` to show where the warning was created)
+[1] (node:1973) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+[1] Starting the development server...
+[1] 
+[1] Compiled successfully!
+[1] 
+[1] You can now view proxy-users-app in the browser.
+[1] 
+[1]   http://localhost:80
+[1] 
+[1] Note that the development build is not optimized.
+[1] To create a production build, use yarn build.
+[1] 
+[1] webpack compiled successfully

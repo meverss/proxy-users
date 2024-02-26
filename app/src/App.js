@@ -5,7 +5,7 @@ import 'bootstrap/dist/js/bootstrap.js'
 import './App.css'
 import './animate.css'
 import { SlLogout } from "react-icons/sl";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import background from './images/background.webp'
 import background_app from './images/background_app.webp'
 
@@ -21,7 +21,7 @@ import CompLogin from './components/CompLogin.js'
 import CompPageNotFound from './components/CompPageNotFound.js'
 
 // Set backend server
-export const serverContext = React.createContext()
+export const serverContext = createContext()
 const server = `http://${window.location.hostname}:4000`
 
 // App Component

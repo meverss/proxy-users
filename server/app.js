@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 import { SERVERIP } from './config.js'
 
 const app = express()
-const URI = `http://${SERVERIP}:3000`
+const URI = `http://${SERVERIP}`
 
 console.log(URI)
 
@@ -18,7 +18,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('./static'))
 app.use(cors({
-  origin: ['http://localhost:3000', URI.toString],
+  origin: ['http://localhost', URI.toString],
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   credentials: true
 }))
