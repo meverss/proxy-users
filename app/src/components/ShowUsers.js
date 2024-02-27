@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill } from 'react-icons/bs'
-import { SlUserFollow, SlMagnifier, SlSettings, SlPrinter, SlList } from "react-icons/sl"
-import { TbArrowsSort, TbArrowsUpDown, TbSortAscendingLetters } from "react-icons/tb"
+import { SlUserFollow, SlMagnifier, SlSettings, SlPrinter } from "react-icons/sl"
+import { BsSortAlphaDown } from "react-icons/bs"
 import CompPagination from './CompPagination';
 import unauthorized from '../images/401.webp'
 import { serverContext } from '../App';
@@ -53,8 +54,9 @@ const CompShowusers = ({ getname }) => {
     }
     verifyUser()
     displayCheck()
-    getUsers()
-  }, [navigate])
+    // getUsers()
+    filterUsers('')
+  }, [getname, navigate, server])
 
   const getUsers = async () => {
     try {
@@ -77,7 +79,7 @@ const CompShowusers = ({ getname }) => {
   }
 
   const displayCheck = () => {
-    window.innerHeight <= 768 ? setUsersPerPage(7) : setUsersPerPage(10)
+    window.innerHeight <= 800 ? setUsersPerPage(7) : setUsersPerPage(10)
     window.innerWidth <= 450 ? setIsDesktop(false) : setIsDesktop(true)
   }
 
@@ -148,7 +150,7 @@ const CompShowusers = ({ getname }) => {
 
                         <button className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle btn-tool'
                           onClick={toggleSorted}
-                        > <TbSortAscendingLetters size='22px' /> {isdesktop ? !sorted ? 'Ordenar' : 'Desordenar' : null}
+                        > <BsSortAlphaDown size='22px' /> {isdesktop ? !sorted ? 'Ordenar' : 'Desordenar' : null}
                         </button>
                       </div>
                     </section>

@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios'
 import { React, useState, useEffect, useContext } from 'react'
 import { serverContext } from '../App';
 import { useNavigate } from 'react-router-dom'
 import { CompLoader } from './CompLoader'
-import { Page, Text, View, Font, Image, Document, StyleSheet, PDFViewer, PDFDownloadLink } from '@react-pdf/renderer'
+import { Page, Text, Font, Image, Document, StyleSheet, PDFViewer, PDFDownloadLink } from '@react-pdf/renderer'
 
 const token = localStorage.getItem("token")
 

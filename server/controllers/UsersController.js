@@ -22,16 +22,11 @@ export const getDate = () => {
   return dd + '-' + mm + '-' + yyyy + '.' + hh + ':' + min + ':' + sec
 }
 
-const passAuth = (req) =>{
+const passAuth = (req) => {
   const auth = req.get('authorization')
   if (auth && auth.toLowerCase().startsWith('bearer')) {
     return true
   }
-}
-
-export const test = (req, res)=>{
-  fetch('http://localhost:4001/wwpsp/')
-.then(res => res.json)
 }
 
 export const getAllUsers = async (req, res) => {
@@ -189,7 +184,7 @@ export const deleteUser = async (req, res) => {
 export const searchUsers = async (req, res) => {
   try {
     const { user } = req.query
-    const [sql] = await db.query(`SELECT id, user, fullname, createdAt, updatedAt, enabled FROM passwd WHERE user like '%${user}%' OR fullname like '%${user}%' ORDER BY createdAt`)
+    const [sql] = await db.query(`SELECT id, user, fullname, createdAt, updatedAt, enabled FROM passwd WHERE user like '%${user}%' OR fullname like '%${user}%' ORDER by createdAt`)
     res.json(sql)
   } catch (error) {
     return res.status(500).json({

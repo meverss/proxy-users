@@ -1,12 +1,9 @@
-import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
-// import 'bulma/css/bulma.css'
 import './App.css'
 import './animate.css'
 import { SlLogout } from "react-icons/sl";
 import { React, useState, useEffect, createContext } from 'react';
-import background from './images/background.webp'
 import background_app from './images/background_app.webp'
 
 // Import router
