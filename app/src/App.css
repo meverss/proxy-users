@@ -105,6 +105,10 @@ html {
   color: #555;
 }
 
+.header:hover {
+  cursor: pointer;
+}
+
 .App-link {
   color: #61dafb;
 }

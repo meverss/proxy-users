@@ -1,7 +1,9 @@
+import axios from 'axios'
 import { db } from '../database/db.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { nanoid } from 'nanoid'
+import { SERVERIP } from '../config.js'
 
 // SETTING CUSTOM DATE
 export const getDate = () => {
@@ -29,16 +31,21 @@ const passAuth = (req) => {
   }
 }
 
-// Get All Users
+export const test = async (req, res) => {
+  const r = await axios.get(`http://${SERVERIP}:4001/proxy-users`)
+  res.send(r.data)
+}
+
 export const getAllUsers = async (req, res) => {
   if (passAuth(req)) {
     const auth = req.get('authorization')
     const token = (auth.split(' '))[1]
     const { id } = jwt.decode(token)
     try {
-      const [sql] = await db.query('SELECT * FROM passwd ORDER BY user')
+      const r = await axios.get(`http://${SERVERIP}:4001/proxy-users?_sort=fullname`)
+      // const [sql] = await db.query('SELECT * FROM passwd ORDER BY fullname')
       if (id === '5MWtG6KkG4GPO-unt12kj') {
-        res.json(sql)
+        res.json(r.data)
       } else {
         res.status(401).json({ message: 'Usuario no autorizado' })
       }
@@ -52,7 +59,6 @@ export const getAllUsers = async (req, res) => {
   }
 }
 
-// Get One User
 export const getOneUser = async (req, res) => {
   const { id } = req.params
   try {
@@ -83,7 +89,6 @@ export const getOneUser = async (req, res) => {
   }
 }
 
-// Get User Name
 export const getUserName = async (req, res) => {
   const auth = (req.headers.authorization).split(' ')
   const token = auth[1]
@@ -92,7 +97,6 @@ export const getUserName = async (req, res) => {
   res.json({ id: id, user: user, fullname: fullname })
 }
 
-// Create a User
 export const createUser = async (req, res) => {
   const { user, password, fullname } = req.body
   const auth = (req.headers.authorization).split(' ')
@@ -124,8 +128,6 @@ export const createUser = async (req, res) => {
   }
 }
 
-
-// Update a User (ALL)
 export const updateUser = async (req, res) => {
   const { user, password, enabled, fullname } = req.body
   const passwordHashed = await bcrypt.hash(password, 10)
@@ -147,7 +149,6 @@ export const updateUser = async (req, res) => {
   }
 }
 
-// Update a User (No-Password)
 export const updateUserNoPass = async (req, res) => {
   const { user, enabled, fullname } = req.body
   const { id } = req.params
@@ -168,7 +169,6 @@ export const updateUserNoPass = async (req, res) => {
   }
 }
 
-// Delete a User
 export const deleteUser = async (req, res) => {
   const { id } = req.params
 
@@ -189,11 +189,10 @@ export const deleteUser = async (req, res) => {
   }
 }
 
-// Filter Users
 export const searchUsers = async (req, res) => {
   try {
     const { user } = req.query
-    const [sql] = await db.query(`SELECT id, user, fullname, createdAt, updatedAt, enabled FROM passwd WHERE user like '%${user}%' OR fullname like '%${user}%' ORDER by user`)
+    const [sql] = await db.query(`SELECT id, user, fullname, createdAt, updatedAt, enabled FROM passwd WHERE user like '%${user}%' OR fullname like '%${user}%' ORDER by fullname`)
     res.json(sql)
   } catch (error) {
     return res.status(500).json({
@@ -202,7 +201,6 @@ export const searchUsers = async (req, res) => {
   }
 }
 
-// Search if the New User is available
 export const searchAvailableUser = async (req, res) => {
   try {
     const { user } = req.query

@@ -1,0 +1,290 @@
+[
+	{
+		"id": "0kiKBegkN2SAvAy9SDAZ-",
+		"user": "reyna",
+		"password": "$2b$10$Da9Rz1dsOz8HV4y1f11asunxPmwRjwc47uEETAYIsYgH7zGRKNgS.",
+		"enabled": 0,
+		"fullname": "Reyna Springer Betts",
+		"createdAt": "17-12-2023.12:59:25",
+		"updatedAt": "28-02-2024.21:22:45"
+	},
+	{
+		"id": "44_Uh0QRIkrPhiolenxAC",
+		"user": "pipito",
+		"password": "$2b$10$Ki7u1cX2sTJmQE/3pE/OauSa/YA2fMuEdohNvEWIlt6Y87Z7hR9aS",
+		"enabled": 1,
+		"fullname": "Eddy Welch López",
+		"createdAt": "17-12-2023.13:00:20",
+		"updatedAt": "17-12-2023.13:00:20"
+	},
+	{
+		"id": "4cxUOqYC0DiZNCdGmIs1h",
+		"user": "kaiser",
+		"password": "$2b$10$U.pBImjSqtIBMPgdMq8u9.J9LY60APw0hfdBPmx1B0C/NLHlgjpv.",
+		"enabled": 0,
+		"fullname": "Kaiser Espinosa La Figura",
+		"createdAt": "15-02-2024.21:48:31",
+		"updatedAt": "28-02-2024.20:21:10"
+	},
+	{
+		"id": "5MWtG6KkG4GPO-unt12kj",
+		"user": "admin",
+		"password": "$2b$10$RbbEHCQLYTKq00lfU8pP7uJGi9gioINo2KBQkb51glBNz3F00KM6S",
+		"enabled": 1,
+		"fullname": "Administrador",
+		"createdAt": "02-04-2023.00:45:00",
+		"updatedAt": "28-02-2024.21:25:43"
+	},
+	{
+		"id": "6exbH2mque61D2Cl86Faj",
+		"user": "lolo",
+		"password": "$2b$10$MSZHuev4p9PCLn2OuNHrm.OshJ9J0b74d3NpgMz6QwPpLTYagYxeW",
+		"enabled": 1,
+		"fullname": "Lolandro Martínez Estupiñán",
+		"createdAt": "17-12-2023.12:56:06",
+		"updatedAt": "28-02-2024.20:21:37"
+	},
+	{
+		"id": "6S4SMKufo62R-frUiSzTu",
+		"user": "carmen",
+		"password": "$2b$10$K0N4wxpeORVIVfVUaX4lXOxe8VaIJfOl0f.aiUjOGM4bvhlNuN9Wq",
+		"enabled": 1,
+		"fullname": "Carmen Solar Baldío",
+		"createdAt": "17-12-2023.12:57:00",
+		"updatedAt": "24-02-2024.21:05:52"
+	},
+	{
+		"id": "amj0_hvXQHGQeUPYRa9JY",
+		"user": "pepe",
+		"password": "$2b$10$wJ2gMM1XXIOQMOo9EN1hUuFl81ViADkW5wOE7UszyixJTpv/Injye",
+		"enabled": 1,
+		"fullname": "José Mota Morales",
+		"createdAt": "17-12-2023.12:57:13",
+		"updatedAt": "25-02-2024.16:20:51"
+	},
+	{
+		"id": "clj5rZxDlRiwLH956jNWk",
+		"user": "pedro",
+		"password": "$2b$10$kYqAPoMRSpTxjhDs1BUY5.rm6v29QAp4f1AMuYKjBGna5a5Ygc3hu",
+		"enabled": 1,
+		"fullname": "Pedro Pereira Juanajuato",
+		"createdAt": "16-02-2024.15:01:09",
+		"updatedAt": "28-02-2024.21:23:01"
+	},
+	{
+		"id": "d7bdusvf4VaSEnMeiwpIN",
+		"user": "annis",
+		"password": "$2b$10$Ch1W0iSr9U1Ix8cRkY486eppdxuPMa70LzUUbGUuCR/LDA5ovSNse",
+		"enabled": 1,
+		"fullname": "Annis Hecheverría Morales",
+		"createdAt": "17-12-2023.13:02:18",
+		"updatedAt": "28-02-2024.21:26:22"
+	},
+	{
+		"id": "dhqNKvG4jPA4v4HKw_53k",
+		"user": "anastacia",
+		"password": "$2b$10$PeCFZaF1PC5T7K1d5I4Gl.TiueQX/365s6sAHZhcy6MK2bOG6tuvK",
+		"enabled": 0,
+		"fullname": "Anastacia Bonaparte Ferrer",
+		"createdAt": "23-02-2024.22:38:16",
+		"updatedAt": "25-02-2024.23:51:47"
+	},
+	{
+		"id": "HuGzKC9sGk6096z7p2JSy",
+		"user": "petra",
+		"password": "$2b$10$6./E5Bbi6YqHObPq.K3TMOjUjX6rgZK78z/PRJxSe5zB4iJzI0DjW",
+		"enabled": 0,
+		"fullname": "Petra Fierra Stone",
+		"createdAt": "17-12-2023.12:56:45",
+		"updatedAt": "20-02-2024.23:47:29"
+	},
+	{
+		"id": "hvOl43-EFEvOCOVdStFqW",
+		"user": "marvin",
+		"password": "$2b$10$ZAdq/Rz.0RuBKNkr.fxjSuUAyAjvIbaVO77mOGgS.QDs4WtRmFwyG",
+		"enabled": 1,
+		"fullname": "Marvin Eversley Silva",
+		"createdAt": "17-12-2023.12:55:29",
+		"updatedAt": "20-02-2024.23:45:26"
+	},
+	{
+		"id": "Hw32RnNaQHvgXffMOjdP1",
+		"user": "jacinto",
+		"password": "$2b$10$71Ls7Jp13P55//DqUjqIQOxMDe5bpBGIHvxeKKf8dPql2KezU6PiC",
+		"enabled": 1,
+		"fullname": "Jacinto Cantalapiedra Guio",
+		"createdAt": "17-12-2023.12:58:05",
+		"updatedAt": "20-02-2024.23:48:58"
+	},
+	{
+		"id": "Lv-lciIsHHRN7YWtHRjc9",
+		"user": "jorge",
+		"password": "$2b$10$svO5FaOfF.4OUWFUk7f8A.QSq1ki5ZijxgEgCMBhbZc4ISA2tbpDK",
+		"enabled": 1,
+		"fullname": "Jorge Eversley Goulbourne",
+		"createdAt": "17-12-2023.13:00:00",
+		"updatedAt": "17-12-2023.13:00:00"
+	},
+	{
+		"id": "OBO2VBx3iY0gHSfxnxWgB",
+		"user": "xonia",
+		"password": "$2b$10$B8kw1v2Yck8W/ZxXuPR.LeumseP8L1TX/petL2U/k0mkWFG9uVtxS",
+		"enabled": 1,
+		"fullname": "Xonia Gómez Botello",
+		"createdAt": "28-02-2024.20:09:47",
+		"updatedAt": "28-02-2024.20:12:07"
+	},
+	{
+		"id": "OByGcdPDrVBndjixZHV3Y",
+		"user": "elio",
+		"password": "$2b$10$4Lvdj4obLC6NBw5gM2DCjuq/kTMvCe1deTCHNfzi2VWBePwfcGM2u",
+		"enabled": 1,
+		"fullname": "Elio Crespo Valladares",
+		"createdAt": "23-02-2024.22:37:55",
+		"updatedAt": "26-02-2024.23:00:23"
+	},
+	{
+		"id": "oqHw7thBYNjuLdGNXOJ3x",
+		"user": "alex",
+		"password": "$2b$10$uDCu9Klkx.KLUJjDiMnVremCheqyICDS7kwABiOYYcpOLIQVF9.Tq",
+		"enabled": 1,
+		"fullname": "Alexander Guerrero Batista",
+		"createdAt": "17-12-2023.13:01:20",
+		"updatedAt": "17-12-2023.13:01:20"
+	},
+	{
+		"id": "P72kRcW9XwHGzVxYYVxao",
+		"user": "aaron",
+		"password": "$2b$10$2ikUMA8f/K5SamOreq/QMOBNJf0uJTtnA3PdmUzrFcKqDJVpaBLpe",
+		"enabled": 0,
+		"fullname": "Aaron Ceplets Rivero",
+		"createdAt": "22-02-2024.19:53:25",
+		"updatedAt": "28-02-2024.20:20:20"
+	},
+	{
+		"id": "pOMBVdYi7vpyBRAV-Cw40",
+		"user": "sonia",
+		"password": "$2b$10$0/Wq0h0B3.0NxkpPzR6lV.9WlzIq/inzKupFD8ytHS.0lr5oQCw7C",
+		"enabled": 1,
+		"fullname": "Sonia Camejo Reynaldo",
+		"createdAt": "17-12-2023.13:00:32",
+		"updatedAt": "28-02-2024.21:22:33"
+	},
+	{
+		"id": "Pr5CRBSdfgyDUQjAZZ1tW",
+		"user": "julia",
+		"password": "$2b$10$d52Dwhw3DdrSxT5.NzKnzuGOqdPD4ceqx74pYN1DMnD351QkPFQAq",
+		"enabled": 1,
+		"fullname": "Julia O. Silva Castro",
+		"createdAt": "17-12-2023.12:59:44",
+		"updatedAt": "17-12-2023.12:59:44"
+	},
+	{
+		"id": "QkrJ9BEqRt-mqqQqClI6Z",
+		"user": "splitz",
+		"password": "$2b$10$79VarVasa1CogNUQShrKC.aE8CK2QjVEOUrCcj98Kt6HTuZp5EwHy",
+		"enabled": 1,
+		"fullname": "Splitz Hidalgo Ferraz",
+		"createdAt": "22-02-2024.19:39:50",
+		"updatedAt": "22-02-2024.19:41:57"
+	},
+	{
+		"id": "rbOC9fWi36_spSWJu_Abb",
+		"user": "katia",
+		"password": "$2b$10$HjrYv5evAcOqqaodhQ6n3eF2ZST.b0haEbptWrkJ5JpsM2nvu0IO6",
+		"enabled": 1,
+		"fullname": "Katia Maldonado Batista",
+		"createdAt": "23-02-2024.01:16:28",
+		"updatedAt": "23-02-2024.01:16:28"
+	},
+	{
+		"id": "sFCBJxhX6Kr9UOd2j83SU",
+		"user": "ana",
+		"password": "$2b$10$X196PIrx2ru9cpGDCeOHVur26rYBWnaAZcAwLT029yrJX/GtGN3L2",
+		"enabled": 1,
+		"fullname": "Ana Karenina Sedespetronka",
+		"createdAt": "22-02-2024.19:52:58",
+		"updatedAt": "28-02-2024.20:20:49"
+	},
+	{
+		"id": "SV0spSlyzdTiutg8p3Fno",
+		"user": "alvaro",
+		"password": "$2b$10$qPwgR50xvLEqSeYIwhYndOHYo08YxsCuouwAKxO/ympReCc5Rbb.6",
+		"enabled": 1,
+		"fullname": "Álvaro Torres Galván",
+		"createdAt": "22-02-2024.19:57:13",
+		"updatedAt": "28-02-2024.20:20:37"
+	},
+	{
+		"id": "TcC3DKrq3TCxLLPjdM4zf",
+		"user": "peter",
+		"password": "$2b$10$WSGKnpju6gO0cZg3SZMlXu8xg1ubxNk1vdPYRm4qKyBGCKiCLC9AG",
+		"enabled": 1,
+		"fullname": "Peter Pann López",
+		"createdAt": "17-12-2023.13:01:40",
+		"updatedAt": "28-02-2024.21:23:17"
+	},
+	{
+		"id": "TkYxrBp7p9wqnoHoFcvhC",
+		"user": "daily",
+		"password": "$2b$10$F7rZLsEbxWRhuZEcjm3.yOJBEk7BzcSg9QthZ1OchZ6dM0.Cy4O9a",
+		"enabled": 0,
+		"fullname": "Daily Espinosa García",
+		"createdAt": "17-12-2023.13:00:47",
+		"updatedAt": "18-12-2023.18:01:47"
+	},
+	{
+		"id": "Tn8DBbaUJu4lZecWxBEIp",
+		"user": "zenaida",
+		"password": "$2b$10$2BFYbjUHstuW3rR9FgdhVu5tcHTnRIJ/AmQEIi9SvuR.uKSF8Ff4S",
+		"enabled": 1,
+		"fullname": "Zenaida Sarmiento Toranzo",
+		"createdAt": "28-02-2024.20:08:24",
+		"updatedAt": "28-02-2024.20:08:24"
+	},
+	{
+		"id": "uoi-rBM-WvMxO_mvA0fyA",
+		"user": "acido",
+		"password": "$2b$10$7oOyszo2m1Y6C55gLszhh.hErqlAcGqdzPxuZC3ba1IpoGEVm9aiW",
+		"enabled": 0,
+		"fullname": "Ácido Sulfúrico Empotasiado",
+		"createdAt": "22-02-2024.19:58:26",
+		"updatedAt": "26-02-2024.21:27:42"
+	},
+	{
+		"id": "X2DS3rqcZQ4C54QL7-kWx",
+		"user": "smeagol",
+		"password": "$2b$10$nNzmEUPpz.cbjEF1iHXkiucZKIhMB/t7n6tEGs/rSF1SHgHYnFFIm",
+		"enabled": 1,
+		"fullname": "Smeagol Baggins Elf",
+		"createdAt": "23-02-2024.22:38:53",
+		"updatedAt": "23-02-2024.22:38:53"
+	},
+	{
+		"id": "xJHkSod35tPd96RlpDfv0",
+		"user": "clarissa",
+		"password": "$2b$10$5Vraaoycf7JRUhwro.cmhuBD6WvlH3phHeLjCh96yKRG0Bhd/bHLW",
+		"enabled": 1,
+		"fullname": "Clarissa Mendeleiev Serra",
+		"createdAt": "18-12-2023.22:52:00",
+		"updatedAt": "22-12-2023.09:56:11"
+	},
+	{
+		"id": "yYq1HTGM4L0TQ2Z7sxugp",
+		"user": "tino",
+		"password": "$2b$10$jCysdBAOh/LYhZhefNg4Q.i9Ct3GMrBj1LogRLzQr1xHccaBQdQfe",
+		"enabled": 0,
+		"fullname": "Agustín Guevara Mayo",
+		"createdAt": "17-12-2023.12:59:05",
+		"updatedAt": "22-02-2024.20:20:46"
+	},
+	{
+		"id": "_oUkbZIP6TQZ3-MZ3v5Gg",
+		"user": "hermes",
+		"password": "$2b$10$WmpP5o1ym5ITK9SxJ71hxulFlxblBNAKAzKqwcbcu2Nz4/gYJ7E0O",
+		"enabled": 1,
+		"fullname": "Hermenegildo Catacumbas Pozo",
+		"createdAt": "17-12-2023.13:02:00",
+		"updatedAt": "16-02-2024.19:26:41"
+	}
+]

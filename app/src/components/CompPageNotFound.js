@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios';
 import notfound from '../images/404.webp'
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { serverContext } from '../App'
+import { CompLoader } from './CompLoader';
 
 const token = localStorage.getItem("token")
 
@@ -32,6 +34,7 @@ const CompPageNotFound = () => {
 
   return (
     <>
+      {!id ? <CompLoader /> : null}
       <div className='unauthCont'>
         <div className='unauthImage '>
           <a href={id === 1 ? '/' : `/edit/${id}`} ><img className='animate__animated animate__fadeIn' src={notfound} alt='Page not found'></img></a>

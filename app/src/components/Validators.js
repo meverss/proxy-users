@@ -1,6 +1,6 @@
 export const ValidateAll = (formField, user, fullname) => {
   const fields = document.querySelectorAll(`${formField}`);
-  const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/
+  const validEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/
   const validPhone = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
   const validUser = /^[0-9a-zA-Z]{3,16}$/
   const validUserFullName = /^[A-Z a-z.áéíóúÁÉÍÓÚ]{3,100}$/

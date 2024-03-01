@@ -3,11 +3,11 @@ import React from 'react'
 import { TfiControlSkipBackward, TfiControlSkipForward, TfiControlBackward, TfiControlForward } from "react-icons/tfi"
 
 const CompPagination = ({ usersPerPage, currentPage, setCurrentPage, totalUsers }) => {
+
   const Pages = []
   for (let i = 1; i <= Math.ceil(totalUsers / usersPerPage); i++) {
     Pages.push(i)
   }
-  console.log(Pages)
 
   const goToPage = (page) => {
     setCurrentPage(page)

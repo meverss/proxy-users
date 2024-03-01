@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios'
 import { FaEye, FaEyeSlash } from "react-icons/fa6"
 import { SlUser, SlLock } from "react-icons/sl"
@@ -5,8 +6,6 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import { serverContext } from '../App'
 import background from '../images/background.webp'
-
-const isMovile = window.innerWidth <= 450
 
 const CompLogin = () => {
 

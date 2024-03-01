@@ -1,10 +1,13 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-eval */
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill } from 'react-icons/bs'
 import { SlUserFollow, SlMagnifier, SlSettings, SlPrinter } from "react-icons/sl"
-import { BsSortAlphaDown } from "react-icons/bs"
+// import { BsSortAlphaDown } from "react-icons/bs"
+import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti"
 import CompPagination from './CompPagination';
 import unauthorized from '../images/401.webp'
 import { serverContext } from '../App';
@@ -16,7 +19,7 @@ const CompShowusers = ({ getname }) => {
   const server = useContext(serverContext)
   const URI = `${server}/users/`
 
-  const [users, setusers] = useState([])
+  const [users, setUsers] = useState([])
   const [admin, setAdmin] = useState(true)
   const [id, setId] = useState('')
   const [selectedId, setSelectedId] = useState('')
@@ -27,8 +30,11 @@ const CompShowusers = ({ getname }) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [usersPerPage, setUsersPerPage] = useState()
   const [totalUsers, setTotalUsers] = useState()
-  const [sorted, setSorted] = useState(false)
   const [isdesktop, setIsDesktop] = useState(true)
+  const [sortAsc, setSortAsc] = useState(true)
+  const [sortArrow, setSortArrow] = useState()
+  const [sortParam, setSortParam] = useState('Usuario')
+  const [sortedUsers, setSortedUsers] = useState([])
 
   const navigate = useNavigate()
 
@@ -52,52 +58,80 @@ const CompShowusers = ({ getname }) => {
         navigate('/login')
       }
     }
+
     verifyUser()
-    displayCheck()
-    // getUsers()
-    filterUsers('')
-  }, [getname, navigate, server])
+    checkDisplay()
+    getUsers()
+  }, [])
 
   const getUsers = async () => {
     try {
       const res = await axios.get(URI)
-      setusers(res.data)
+      setUsers(res.data)
+      setSortedUsers(res.data)
       setTotalUsers(res.data.length)
-      displayCheck()
+      checkDisplay()
       setActive(res.data.filter(user => user.enabled === 1).length)
       setInactive(res.data.filter(user => user.enabled === 0).length)
     } catch (error) {
+      console.log(error)
     }
   }
 
-  const sortedUsers = sorted ? users.toSorted((a, b) => {
-    return a.fullname.localeCompare(b.fullname)
-  }) : users
-
-  const toggleSorted = () => {
-    setSorted(prevState => !prevState)
-  }
-
-  const displayCheck = () => {
+  const checkDisplay = () => {
     window.innerHeight <= 800 ? setUsersPerPage(7) : setUsersPerPage(10)
     window.innerWidth <= 450 ? setIsDesktop(false) : setIsDesktop(true)
   }
 
   window.addEventListener('resize', () => {
-    displayCheck()
+    checkDisplay()
   })
 
   const filterUsers = async (filter) => {
     try {
       const res = await axios.get(URI + `search?user=${filter}`)
       if (res.data.length !== 0) {
-        setusers(res.data)
+        setSortedUsers(res.data)
         setTotalUsers(res.data.length)
+        setCurrentPage(1)
       }
     } catch (error) {
       console.log(error.response.data.message)
     }
   }
+
+  const sort = (e, f) => {
+    const param = e ? ((e.target.innerHTML).split(' '))[0] : sortParam
+    setSortParam(param)
+    let prm = ''
+    switch (param) {
+      case 'Usuario':
+        prm = 'user'
+        break
+      case 'Nombre':
+        prm = 'fullname'
+        break
+      case 'Creado':
+        prm = 'createdAt'
+        break
+      case 'Modificado':
+        prm = 'updatedAt'
+        break
+      default:
+        setSortedUsers(users)
+    }
+
+    setSortedUsers(users.toSorted((a, b) => {
+      const sortDAta = `!sortAsc ? a.${prm}.localeCompare(b.${prm}) : b.${prm}.localeCompare(a.${prm})`
+      return eval(sortDAta)
+    }))
+
+    setSortAsc(prev => !prev)
+  }
+
+  useEffect(() => {
+    sortAsc === false ? setSortArrow(<TiArrowSortedUp color='#555' />) : setSortArrow(<TiArrowSortedDown color='#555' />)
+  }, [sortAsc])
 
   const deleteuser = async (id) => {
     await axios.delete(URI + id)
@@ -148,22 +182,18 @@ const CompShowusers = ({ getname }) => {
 
                         <Link to='/print' className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle btn-tool' style={{ borderRadius: '8px' }}><SlPrinter size='22px' /> {isdesktop ? 'Imprimir' : null}</Link>
 
-                        <button className='new-record btn btn-outline-secondary me-md-2 shadow-sm border-dark-subtle btn-tool'
-                          onClick={toggleSorted}
-                        > <BsSortAlphaDown size='22px' /> {isdesktop ? !sorted ? 'Ordenar' : 'Desordenar' : null}
-                        </button>
                       </div>
                     </section>
                     <div className='usersTable shadow-sm p-3 mb-5 '>
                       <table className='table table-responsive table-sm table-hover'>
                         <thead className='table' style={{ backgroundColor: '#000' }}>
                           <tr>
-                            <th scope='col'>Usuario</th>
-                            <th scope='col'>Nombre y apellidos</th>
-                            <th scope='col'>Creado</th>
-                            <th scope='col'>Modificdo</th>
-                            <th scope='col'>Estado</th>
-                            <th scope='col'>Acciones</th>
+                            <th><span className='header' onClick={sort}>Usuario {sortParam === 'Usuario' ? sortArrow : null}</span></th>
+                            <th><span className='header' onClick={sort}>Nombre y apellidos {sortParam === 'Nombre' ? sortArrow : null}</span></th>
+                            <th><span className='header' onClick={sort}>Creado {sortParam === 'Creado' ? sortArrow : null}</span></th>
+                            <th><span className='header' onClick={sort}>Modificado {sortParam === 'Modificado' ? sortArrow : null}</span></th>
+                            <th><span className='header' >Estado</span></th>
+                            <th><span className='header' >Acciones</span></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -214,7 +244,6 @@ const CompShowusers = ({ getname }) => {
                   </div>
                 </div>
               </div>
-
               <div className='footer'>
                 <p><BsFillPeopleFill /> Total: {totalUsers}</p>
                 <p><BsFillPersonCheckFill /> Activos: {active}</p>
