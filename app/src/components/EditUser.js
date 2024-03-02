@@ -54,8 +54,9 @@ const CompEditUser = ({ getname, notify }) => {
 
       verifyUser()
       getUserById()
+      focus()
     } catch (error) {
-      console.log(error)
+      notify('err', <p>{error}</p>)
     }
   }, [])
 
@@ -90,6 +91,13 @@ const CompEditUser = ({ getname, notify }) => {
       }
     } catch (error) {
       navigate(`/edit/${error.response.data.authId}`)
+    }
+  }
+
+  const focus = () => {
+    const pwdInput = document.getElementById('pwdInput')
+    if (pwdInput) {
+      pwdInput.focus()
     }
   }
 
@@ -179,7 +187,7 @@ const CompEditUser = ({ getname, notify }) => {
     const difFullname = prevFullname !== fullname
 
     if (password !== vpassword) {
-      notify('err', <p>Las contraseñas no coinciden</p>)
+      notify('inf', <p>Las contraseñas no coinciden</p>)
       pwdInput.value = ''
       pwdVInput.value = ''
       setPassword('')
@@ -187,10 +195,10 @@ const CompEditUser = ({ getname, notify }) => {
       pwdInput.focus()
     } else if ((difUser || difFullname || difEnabled) && (password === '' && vpassword === '')) {
       await axios.patch(URI + id + '/nopwd', { user, fullname, enabled })
-      notify('ok', <p>Datos de <span style={{fontWeight: 'bold'}}>{fullname.split(' ')[0]}</span> actualizados</p>)
+      notify('ok', <p>Datos de <span style={{ fontWeight: 'bold' }}>{fullname.split(' ')[0]}</span> actualizados</p>)
       authUser === 'admin' ? navigate('/') : logOut()
     } else if ((!difUser && !difFullname && !difEnabled) && (password === '' && vpassword === '')) {
-      notify('inf', <p>Sin cambios realizados</p>)
+      notify('ok', <p>Sin cambios realizados</p>)
       authUser === 'admin' ? navigate('/') : logOut()
     } else if (password === vpassword) {
       await axios.patch(URI + id, { user, fullname, password, enabled })
@@ -210,74 +218,77 @@ const CompEditUser = ({ getname, notify }) => {
 
   return (
     <>
-      {!user ? <CompLoader /> : null}
-      <div className='editBox '>
-        <div className='container editUser shadow-sm'>
-          <h1 className='sessionTitle fw-bold mb-3'>{admin & seluser !== 'admin' ? 'Editar datos del usuario' : 'Cambiar contraseña'}</h1>
-          <form id='editUser' onSubmit={updateUser}>
-            <div className='input-group mb-3'>
-              <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
-              <input
-                id='userInput'
-                name='user'
-                className='form-control'
-                value={user}
-                onChange={(e) => setUser(e.target.value)}
-                type='text'
-                disabled={admin ? false : true}
-                data-frminfo='user'
-              />
-            </div>
-            <div className='input-group mb-3'>
-              <span className='input-group-text' id='inputGroup-sizing-default'>Nombre y Apellidos</span>
-              <input
-                id='nameInput'
-                className='form-control'
-                value={fullname}
-                onChange={(e) => setFullname(e.target.value)}
-                type='text'
-                disabled={admin ? false : true}
-                data-frminfo='fullname'
-              />
-            </div>
-            <div className="input-group mb-3">
-              <span className="input-group-text">Contraseña</span>
-              <input id='pwdInput' name='pwdInput'
-                type="password"
-                data-frminfo='password'
-                className="form-control pwdfield"
-                placeholder='********'
-                onChange={(e) => setPassword(e.target.value)} />
-              <span className="input-group-text" id="showPwd" onClick={showPassword}>{viewpassword}</span>
-            </div>
-            <div className="input-group mb-3">
-              <span className="input-group-text"> Confirmar&nbsp;</span>
-              <input id='pwdVInput' name='pwdVInput'
-                type="password"
-                data-frminfo='password'
-                className="form-control pwdfield"
-                placeholder='********'
-                onChange={(e) => setVPassword(e.target.value)} />
-              <span className="input-group-text" id="showPwd" onClick={showVPassword}>{viewpassword2}</span>
-            </div>
-            <div className='form-switch' >
-              <input className='form-check-input' id='userState' name='userState' type='checkbox' role='switch' onLoad={checkAdmin()} onChange={checkState} disabled={admin ? false : true} /> &nbsp;
-              <label className='form-check-label' id='userStateLabel' htmlFor='userState' />
-            </div>
+      {!prevUser ? <CompLoader /> :
+        <div className='editBox '>
+          <div className='container editUser shadow-sm'>
+            <h1 className='sessionTitle fw-bold mb-3'>{admin & seluser !== 'admin' ? 'Editar datos del usuario' : 'Cambiar contraseña'}
+            </h1>
             <br />
-            <div className='formButtons'>
-              <button
-                type='button' id='btnCancel' className='btn btn-secondary' onClick={admin ? () => navigate('/') : logOut}
-              >
-                Cancelar
-              </button>
-              <button type='submit' id='btnSave' className='btn btn-success'>
-                Guardar
-              </button>
-            </div>
-          </form>
+            <form id='editUser' onSubmit={updateUser}>
+              <div className='input-group mb-3'>
+                <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
+                <input
+                  id='userInput'
+                  name='user'
+                  className='form-control'
+                  value={user}
+                  onChange={(e) => setUser(e.target.value)}
+                  type='text'
+                  disabled={admin ? false : true}
+                  data-frminfo='user'
+                />
+              </div>
+              <div className='input-group mb-3'>
+                <span className='input-group-text' id='inputGroup-sizing-default'>Nombre y Apellidos</span>
+                <input
+                  id='nameInput'
+                  className='form-control'
+                  value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
+                  type='text'
+                  disabled={admin ? false : true}
+                  data-frminfo='fullname'
+                />
+              </div>
+              <div className="input-group mb-3">
+                <span className="input-group-text">Contraseña</span>
+                <input id='pwdInput' name='pwdInput'
+                  type="password"
+                  data-frminfo='password'
+                  className="form-control pwdfield"
+                  placeholder='********'
+                  onChange={(e) => setPassword(e.target.value)} />
+                <span className="input-group-text" id="showPwd" onClick={showPassword}>{viewpassword}</span>
+              </div>
+              <div className="input-group mb-3">
+                <span className="input-group-text"> Confirmar&nbsp;</span>
+                <input id='pwdVInput' name='pwdVInput'
+                  type="password"
+                  data-frminfo='password'
+                  className="form-control pwdfield"
+                  placeholder='********'
+                  onChange={(e) => setVPassword(e.target.value)} />
+                <span className="input-group-text" id="showPwd" onClick={showVPassword}>{viewpassword2}</span>
+              </div>
+              <div className='form-switch' >
+                <input className='form-check-input' id='userState' name='userState' type='checkbox' role='switch' onLoad={checkAdmin()} onChange={checkState} disabled={admin ? false : true} /> &nbsp;
+                <label className='form-check-label' id='userStateLabel' htmlFor='userState' />
+              </div>
+              <br />
+              <div className='formButtons'>
+                <button
+                  type='button' id='btnCancel' className='btn btn-secondary' onClick={admin ? () => navigate('/') : logOut}
+                >
+                  Cancelar
+                </button>
+                <button type='submit' id='btnSave' className='btn btn-success'>
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
+      }
     </>
   )
 }

@@ -62,6 +62,7 @@ const CompShowusers = ({ getname, notify }) => {
     verifyUser()
     checkDisplay()
     getUsers()
+    searchShortCut()
   }, [])
 
   const getUsers = async () => {
@@ -76,6 +77,21 @@ const CompShowusers = ({ getname, notify }) => {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const searchShortCut = ()=>{
+    let keysPressed = {}
+    document.addEventListener('keydown', (event) => {
+      keysPressed[event.key] = true;
+
+      if (keysPressed['Control'] && event.key === 'b') {
+        alert(event.key);
+      }
+    });
+
+    document.addEventListener('keyup', (event) => {
+      delete keysPressed[event.key];
+    });
   }
 
   const checkDisplay = () => {
@@ -96,7 +112,7 @@ const CompShowusers = ({ getname, notify }) => {
         setCurrentPage(1)
       }
     } catch (error) {
-      console.log(error.response.data.message)
+      notify('err', <p>{error.response.data.message}</p>)
     }
   }
 

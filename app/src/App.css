@@ -387,6 +387,13 @@ td p {
   height: 100vh;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  background-image: url(./images/background_app.webp);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  background-attachment: fixed;
+  z-index: 9997;
 }
 
 .loader {

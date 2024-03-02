@@ -54,7 +54,7 @@ const CompLogin = () => {
   }
 
   const handleSubmit = async (e) => {
-    const userInput = document.getElementById('userInputMod')
+    const userInput = document.getElementById('userInput')
     const pawdInput = document.getElementById('pwdInput')
     const subTitle = document.getElementById('subTitle')
 
@@ -93,8 +93,6 @@ const CompLogin = () => {
     const userInput = document.getElementById('userInput')
     if (userInput) {
       userInput.focus()
-      userInput.setAttribute('id', 'userInputMod')
-      return
     }
   }
 

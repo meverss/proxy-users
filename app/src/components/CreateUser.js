@@ -118,7 +118,8 @@ const CompCreateUser = ({ getname, notify }) => {
         admin ?
           <div className='createBox'>
             <div className='container createUser shadow-sm'>
-              <h1 className='appTitle fw-bold mb-3'>Crear nuevo Usuario</h1>
+              <h1 className='sessionTitle fw-bold mb-3'>Crear nuevo Usuario</h1>
+              <br />
               <form onSubmit={save}>
                 <div className='input-group mb-3'>
                   <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>
