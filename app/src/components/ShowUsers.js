@@ -6,7 +6,6 @@ import { useState, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill } from 'react-icons/bs'
 import { SlUserFollow, SlMagnifier, SlSettings, SlPrinter } from "react-icons/sl"
-// import { BsSortAlphaDown } from "react-icons/bs"
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti"
 import CompPagination from './CompPagination';
 import unauthorized from '../images/401.webp'
