@@ -343,7 +343,8 @@ td p {
   margin-top: -25px;
 }
 
-.footer {
+.footer,
+.footer1 {
   display: flex;
   justify-content: center;
   position: fixed;
@@ -363,11 +364,16 @@ td p {
   z-index: 9999;
 }
 
+.footer1 {
+  z-index: 9998;
+}
+
 .wrong {
   box-shadow: 0 0 8px .1px #ea5421;
 }
 
-.footer p {
+.footer p,
+.footer1 p {
   height: 100%;
   margin: 0;
   color: #eee;
@@ -433,7 +439,64 @@ td p {
   }
 }
 
-/* ------------------ */
+/* NOTIFICATIONS */
+
+.s_notifications {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  margin: 0;
+  max-width: fit-content;
+  right: 0;
+  bottom: 45px;
+  z-index: 999999;
+  transition: .3s;
+  transform: translate(100%);
+  background-color: rgb(10, 10, 10, 0.7);
+  border-radius: 8px;
+}
+
+.ntf_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.ntf_msg {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+  width: fit-content;
+}
+
+.ntf_icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30pt;
+  height: 100%;
+  font-size: 38px;
+}
+
+.ntf_text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+}
+
+.ntf_text p {
+  padding: 0;
+  margin: 0;
+  font-size: 13pt;
+  color: #fff;
+  text-align: left;
+}
+
+/* _____________________________ */
 
 @media screen and (max-width: 460px) {
   .logOut {

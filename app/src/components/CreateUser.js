@@ -8,7 +8,7 @@ import { serverContext } from '../App';
 
 const token = localStorage.getItem("token")
 
-const CompCreateUser = ({ getname }) => {
+const CompCreateUser = ({ getname, notify }) => {
 
   const server = useContext(serverContext)
   const URI = `${server}/users/`
@@ -97,20 +97,18 @@ const CompCreateUser = ({ getname }) => {
     try {
       e.preventDefault()
       if (available === false) {
-        document.getElementById('message').innerHTML = `El usuario ${user} ya existe`
-        setTimeout(() => document.getElementById('message').innerHTML = `&nbsp;`, 3000)
+        notify('inf', <p>El usuario <span style={{ fontWeight: 'bold' }}>{user}</span> ya existe</p>)
       } else if (user === '' || fullname === '' || password === '') {
-        document.getElementById('message').innerHTML = 'Debe proporcionar todos los datos'
-        setTimeout(() => document.getElementById('message').innerHTML = `&nbsp;`, 3000)
+        notify('inf', <p>Debe proporcionar todos los datos</p>)
       } else if (password !== vpassword) {
-        document.getElementById('message').innerHTML = 'Las contraseñas no coinciden'
-        setTimeout(() => document.getElementById('message').innerHTML = `&nbsp;`, 3000)
+        notify('inf', <p>Las contraseñas no coinciden</p>)
       } else {
         await axios.post(URI, { user, password, fullname })
+        notify('ok', <p>Agregado el usuario <span style={{ fontWeight: 'bold' }}>{fullname.split(' ')[0]}</span></p>)
         navigate('/')
       }
     } catch (error) {
-      console.log(error)
+      notify('err', <p>{error}</p>)
     }
   }
 
@@ -121,7 +119,6 @@ const CompCreateUser = ({ getname }) => {
           <div className='createBox'>
             <div className='container createUser shadow-sm'>
               <h1 className='appTitle fw-bold mb-3'>Crear nuevo Usuario</h1>
-              <p className='message' id='message' style={{ color: 'red' }}>&nbsp;</p>
               <form onSubmit={save}>
                 <div className='input-group mb-3'>
                   <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>

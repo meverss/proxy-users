@@ -9,14 +9,16 @@ import { CompLoader } from './CompLoader.js';
 
 const token = localStorage.getItem("token")
 
-const CompEditUser = ({ getname }) => {
+const CompEditUser = ({ getname, notify }) => {
 
   const server = useContext(serverContext)
   const URI = `${server}/users/`
 
   const [user, setUser] = useState('')
+  const [prevUser, setPrevUser] = useState('')
   const [seluser, setSelUser] = useState('')
   const [selfullname, setSelFullName] = useState('')
+  const [prevFullname, setPrevFullName] = useState('')
   const [authUser, setAuthUser] = useState('')
   const [admin, setAdmin] = useState(false)
   const [password, setPassword] = useState('')
@@ -25,10 +27,10 @@ const CompEditUser = ({ getname }) => {
   const [viewpassword2, setViewPassword2] = useState(<FaEye className='eye' />)
   const [fullname, setFullname] = useState('')
   const [enabled, setEnabled] = useState('')
+  const [prevEnabled, setPrevEnabled] = useState('')
 
   const navigate = useNavigate()
   const { id } = useParams()
-  const message = document.getElementById('message')
   const pwdInput = document.getElementById('pwdInput')
   const pwdVInput = document.getElementById('pwdVInput')
 
@@ -69,6 +71,10 @@ const CompEditUser = ({ getname }) => {
       setFullname(res.data.fullname)
       setSelFullName(res.data.fullname)
       setEnabled(res.data.enabled)
+      setPrevEnabled(res.data.enabled)
+      setPrevUser(res.data.user)
+      setPrevFullName(res.data.fullname)
+
       if (res.data.authUser === 'admin') {
         try {
           if (res.data.enabled === 1) {
@@ -168,17 +174,27 @@ const CompEditUser = ({ getname }) => {
   const updateUser = async (e) => {
     e.preventDefault()
 
+    const difUser = prevUser !== user
+    const difEnabled = prevEnabled !== enabled
+    const difFullname = prevFullname !== fullname
+
     if (password !== vpassword) {
-      document.getElementById('message').innerHTML = 'Las contraseñas no coinciden'
+      notify('err', <p>Las contraseñas no coinciden</p>)
       pwdInput.value = ''
       pwdVInput.value = ''
-      setTimeout(() => message.innerHTML = `&nbsp;`, 3000)
+      setPassword('')
+      setVPassword('')
       pwdInput.focus()
-    } else if (password === '' && vpassword === '') {
+    } else if ((difUser || difFullname || difEnabled) && (password === '' && vpassword === '')) {
       await axios.patch(URI + id + '/nopwd', { user, fullname, enabled })
+      notify('ok', <p>Datos de <span style={{fontWeight: 'bold'}}>{fullname.split(' ')[0]}</span> actualizados</p>)
+      authUser === 'admin' ? navigate('/') : logOut()
+    } else if ((!difUser && !difFullname && !difEnabled) && (password === '' && vpassword === '')) {
+      notify('inf', <p>Sin cambios realizados</p>)
       authUser === 'admin' ? navigate('/') : logOut()
     } else if (password === vpassword) {
       await axios.patch(URI + id, { user, fullname, password, enabled })
+      notify('ok', <p>Datos de <span style={{ fontWeight: 'bold' }}>{fullname.split(' ')[0]}</span> actualizados</p>)
       authUser === 'admin' ? navigate('/') : logOut()
     }
   }
@@ -198,7 +214,6 @@ const CompEditUser = ({ getname }) => {
       <div className='editBox '>
         <div className='container editUser shadow-sm'>
           <h1 className='sessionTitle fw-bold mb-3'>{admin & seluser !== 'admin' ? 'Editar datos del usuario' : 'Cambiar contraseña'}</h1>
-          <p className='message' id='message' style={{ color: 'red' }}>&nbsp;</p>
           <form id='editUser' onSubmit={updateUser}>
             <div className='input-group mb-3'>
               <span className='input-group-text' id='inputGroup-sizing-default'>Usuario</span>

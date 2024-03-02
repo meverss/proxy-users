@@ -15,7 +15,7 @@ import { CompLoader } from './CompLoader'
 
 const token = localStorage.getItem("token")
 
-const CompShowusers = ({ getname }) => {
+const CompShowusers = ({ getname, notify }) => {
   const server = useContext(serverContext)
   const URI = `${server}/users/`
 
@@ -100,8 +100,8 @@ const CompShowusers = ({ getname }) => {
     }
   }
 
-  const sort = (e, f) => {
-    const param = e ? ((e.target.innerHTML).split(' '))[0] : sortParam
+  const sort = (e) => {
+    const param = ((e.target.innerHTML).split(' '))[0]
     setSortParam(param)
     let prm = ''
     switch (param) {
@@ -118,7 +118,7 @@ const CompShowusers = ({ getname }) => {
         prm = 'updatedAt'
         break
       default:
-        setSortedUsers(users)
+        prm = 'user'
     }
 
     setSortedUsers(users.toSorted((a, b) => {

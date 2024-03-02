@@ -5,6 +5,8 @@ import './animate.css'
 import { SlLogout } from "react-icons/sl";
 import { React, useState, useEffect, createContext } from 'react';
 import background_app from './images/background_app.webp'
+import { FaCircleCheck, FaTriangleExclamation, FaCircleExclamation } from "react-icons/fa6";
+
 
 // Import router
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
@@ -21,9 +23,15 @@ import CompPdf from './components/CompPDF.js'
 export const serverContext = createContext()
 const server = `http://${window.location.hostname}:4000`
 
+const timestamp = Date.now()
+const today = new Date(timestamp)
+const currentYear = today.getFullYear()
+
 // App Component
 const App = () => {
   const [user, setUser] = useState('')
+  const [notifyIcon, setNotifyIcon] = useState()
+  const [notifyText, setNotifyText] = useState()
 
   useEffect(() => {
     getName()
@@ -40,6 +48,44 @@ const App = () => {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  // Notification Box
+
+  const showNotification = (notiType, message) => {
+    const noti = document.getElementById('s_notifications')
+
+    switch (notiType) {
+      case "ok":
+        setNotifyIcon(
+          <div id="ntf_icon" className="ntf_icon">
+            <FaCircleCheck style={{ color: 'green' }} />
+          </div>
+        )
+        break
+      case "err":
+        setNotifyIcon(
+          <div id="ntf_icon" className="ntf_icon" >
+            <FaTriangleExclamation style={{ color: 'red' }} />
+          </div>
+        )
+        break
+      case "inf":
+        setNotifyIcon(
+          <div id="ntf_icon" className="ntf_icon">
+            <FaCircleExclamation style={{ color: 'yellow' }} />
+          </div>
+        )
+        break
+      default:
+    }
+
+    setNotifyText(message)
+    noti.style['transform'] = 'translate(-3%)';
+    setTimeout(() => {
+      noti.style['transform'] = 'translate(102%)';
+    }, 3500);
+
   }
 
   return (
@@ -68,21 +114,38 @@ const App = () => {
                 </div>
               </div>
             </nav >
+
+            {/* Notification */}
+            <section className="s_notifications" id="s_notifications">
+              <div className="ntf_box" id="ntf_box">
+                <div className="ntf_msg" id="ntf_msg">
+                  <div className="ntf_icon">{notifyIcon}</div>
+                  <div className="ntf_text">
+                    {notifyText}
+                  </div>
+                </div>
+              </div>
+            </section>
             <br />
             <BrowserRouter forceRefresh={true}>
               <Routes>
-                <Route path='/' element={<CompShowUsers getname={getName} />} />
-                <Route path='/login' element={<CompLogin />} />
-                <Route path='/create' element={<CompCreateUser getname={getName} />} />
-                <Route path='/edit/:id' element={<CompEditUser getname={getName} />} />
+                <Route path='/' element={<CompShowUsers
+                  getname={getName} notify={showNotification} />} />
+                <Route path='/login' element={<CompLogin />} notify={showNotification} />
+                <Route path='/create' element={<CompCreateUser getname={getName} notify={showNotification} />} />
+                <Route path='/edit/:id' element={<CompEditUser getname={getName} notify={showNotification} />} />
                 <Route path='/error' element={<CompPageNotFound getname={getName} />} />
                 <Route path='/print' element={<CompPdf getname={getName} />} />
                 <Route path='*' element={<Navigate to="/error" />} />
 
               </Routes>
             </BrowserRouter>
+
           </div>
         </div >
+        <div className='footer1'>
+          <p>Usuarios del Proxy - Copyright© {currentYear}</p>
+        </div>
       </>
     </serverContext.Provider>
   )
