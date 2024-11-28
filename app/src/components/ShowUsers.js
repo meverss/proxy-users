@@ -94,7 +94,7 @@ const CompShowusers = ({ getname, notify }) => {
   }
 
   const checkDisplay = () => {
-    window.innerHeight <= 800 ? setUsersPerPage(7) : setUsersPerPage(10)
+    window.innerHeight <= 768 ? setUsersPerPage(5) : setUsersPerPage(10)
     window.innerWidth <= 450 ? setIsDesktop(false) : setIsDesktop(true)
   }
 
@@ -250,7 +250,7 @@ const CompShowusers = ({ getname, notify }) => {
                       <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                      Seguro que desea borrar el usuario <b>{selectedUser}</b>?
+                      ¿Seguro que desea borrar el usuario <b>{selectedUser}</b>?
                     </div>
                     <div className="modal-footer">
                       <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

@@ -546,7 +546,7 @@ td p {
 
 @media screen and (max-height: 768px) {
   .usersTable {
-    height: 378px;
+    height: 274px;
   }
 
   .sessionTitle {

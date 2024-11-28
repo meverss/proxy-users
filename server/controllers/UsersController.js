@@ -1,5 +1,6 @@
 import { db } from '../database/db.js'
-import bcrypt from 'bcrypt'
+import argon2 from 'argon2'
+import crypto from "crypto"
 import jwt from 'jsonwebtoken'
 import { nanoid } from 'nanoid'
 
@@ -59,16 +60,16 @@ export const getOneUser = async (req, res) => {
     const auth = (req.headers.authorization).split(' ')
     const token = auth[1]
 
-    const getAuthId = jwt.decode(token)
-    const authId = getAuthId.id
-    const authUser = getAuthId.user
+    const getAuthUser = jwt.decode(token)
+    const authId = getAuthUser.id
+    const authUser = getAuthUser.user
 
     const [sql] = await db.query(`SELECT * FROM passwd WHERE id = '${id}'`)
     if (authUser != 'admin' && authId != id) {
-      res.status(401).json({ message: 'No tiene permiso para editar este usuario', authUser: authUser, authId: authId })
+      res.status(401).json({ message: 'Unauthorized user', authUser, authId })
     } else {
       if (sql != '') {
-        res.json({ ...sql[0], authUser: authUser })
+        res.json({ ...sql[0], authUser, authId })
       } else {
         console.log('Record not found')
         res.status(404).json({
@@ -97,10 +98,8 @@ export const createUser = async (req, res) => {
   const { user, password, fullname } = req.body
   const auth = (req.headers.authorization).split(' ')
   const token = auth[1]
-
   const { id } = jwt.decode(token)
-
-  const passwordHashed = await bcrypt.hash(password, 10)
+  const passwordHashed = await argon2.hash(password, {type: argon2.argon2id})
 
   try {
     if (id === '5MWtG6KkG4GPO-unt12kj') {
@@ -128,7 +127,7 @@ export const createUser = async (req, res) => {
 // Update a User (ALL)
 export const updateUser = async (req, res) => {
   const { user, password, enabled, fullname } = req.body
-  const passwordHashed = await bcrypt.hash(password, 10)
+  const passwordHashed = await argon2.hash(password, {type: argon2.argon2id})
   const { id } = req.params
 
   try {

@@ -1,9 +1,12 @@
 import { db } from '../database/db.js'
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+import crypto from "crypto"
+import argon2 from 'argon2'
 
 export const userLogin = async (req, res) => {
   const { user, password } = req.body
+  const sha1 = crypto.createHash('sha1').update(password).digest('hex')
+
   try {
     const [sql] = await db.query(`SELECT * FROM passwd WHERE user = '${user}' AND enabled = 1`)
 
@@ -11,8 +14,8 @@ export const userLogin = async (req, res) => {
       const { id, fullname } = sql[0]
       const passwordHashed = sql[0].password
 
-      // Verify credentials and create token //
-      const verifyPassword = await bcrypt.compare(password, passwordHashed)
+      // Verify credentials and create token //      
+      const verifyPassword = await argon2.verify(passwordHashed, password)
 
       if (verifyPassword) {
         const TOKEN_KEY = process.env.SECRET

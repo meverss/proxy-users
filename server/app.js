@@ -9,8 +9,6 @@ import { SERVERIP } from './config.js'
 const app = express()
 const URI = `http://${SERVERIP}:3000`
 
-console.log(URI)
-
 app.disable('x-powered-by')
 
 // Middlewares
@@ -37,7 +35,7 @@ app.use('/', verifyUser, (req, res) => {
   const auth = (req.headers.authorization).split(' ')
   const token = auth[1]
   const { id, fullname } = jwt.decode(token)
-  res.json({ verified: true, id: id, fullname: fullname, token: token })
+  res.json({ verified: true, id, fullname, token })
 })
 
 app.use((req, res) => {

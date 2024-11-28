@@ -8,3 +8,14 @@ export const db = createPool({
   database: DB_DATABASE,
   port: DB_PORT
 })
+
+import mongoose from "mongoose"
+
+export const connectDB = async () => {
+try {
+    await mongoose.connect("mongodb://localhost/squidusers")
+    console.log(">> Connected to DB...")
+}catch (error){
+    console.log(error)
+}
+}

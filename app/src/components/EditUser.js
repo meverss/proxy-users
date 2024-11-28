@@ -20,6 +20,7 @@ const CompEditUser = ({ getname, notify }) => {
   const [selfullname, setSelFullName] = useState('')
   const [prevFullname, setPrevFullName] = useState('')
   const [authUser, setAuthUser] = useState('')
+  const [authId, setAuthId] = useState('')
   const [admin, setAdmin] = useState(false)
   const [password, setPassword] = useState('')
   const [vpassword, setVPassword] = useState('')
@@ -55,6 +56,7 @@ const CompEditUser = ({ getname, notify }) => {
       verifyUser()
       getUserById()
       focus()
+
     } catch (error) {
       notify('err', <p>{error}</p>)
     }
@@ -69,6 +71,7 @@ const CompEditUser = ({ getname, notify }) => {
       setUser(res.data.user)
       setSelUser(res.data.user)
       setAuthUser(res.data.authUser)
+      setAuthId(res.data.authId)
       setFullname(res.data.fullname)
       setSelFullName(res.data.fullname)
       setEnabled(res.data.enabled)
@@ -76,7 +79,7 @@ const CompEditUser = ({ getname, notify }) => {
       setPrevUser(res.data.user)
       setPrevFullName(res.data.fullname)
 
-      if (res.data.authUser === 'admin') {
+      if (res.data.user === 'admin') {
         try {
           if (res.data.enabled === 1) {
             stateSwitch.checked = true
@@ -88,7 +91,7 @@ const CompEditUser = ({ getname, notify }) => {
         } catch (error) {
           console.log(error)
         }
-      }
+      } 
     } catch (error) {
       navigate(`/edit/${error.response.data.authId}`)
     }
@@ -96,14 +99,17 @@ const CompEditUser = ({ getname, notify }) => {
 
   const focus = () => {
     const pwdInput = document.getElementById('pwdInput')
-    if (pwdInput) {
+    if (pwdInput !== null) {
       pwdInput.focus()
     }
   }
 
   const checkState = () => {
+
     const stateSwitch = document.getElementById('userState')
     const stateLabel = document.getElementById('userStateLabel')
+
+  if (stateSwitch !== null){
 
     if (enabled === 1) {
       stateSwitch.checked = false
@@ -115,7 +121,8 @@ const CompEditUser = ({ getname, notify }) => {
       setEnabled(1)
     }
   }
-
+  }
+  
   const checkAdmin = () => {
     const enableSwitch = document.getElementById('userState')
     const enableSwitchLabel = document.getElementById('userStateLabel')
@@ -218,7 +225,7 @@ const CompEditUser = ({ getname, notify }) => {
 
   return (
     <>
-      {!prevUser ? <CompLoader /> :
+      {!authUser ? <CompLoader /> :
         <div className='editBox '>
           <div className='container editUser shadow-sm'>
             <h1 className='sessionTitle fw-bold mb-3'>{admin & seluser !== 'admin' ? 'Editar datos del usuario' : 'Cambiar contraseña'}
@@ -271,8 +278,8 @@ const CompEditUser = ({ getname, notify }) => {
                 <span className="input-group-text" id="showPwd" onClick={showVPassword}>{viewpassword2}</span>
               </div>
               <div className='form-switch' >
-                <input className='form-check-input' id='userState' name='userState' type='checkbox' role='switch' onLoad={checkAdmin()} onChange={checkState} disabled={admin ? false : true} /> &nbsp;
-                <label className='form-check-label' id='userStateLabel' htmlFor='userState' />
+                <input className='form-check-input' id='userState' name='userState' type='checkbox' role='switch' onLoad={checkAdmin()} onChange={checkState} disabled={admin ? false : true} checked={enabled === 1 ? true : false}/> &nbsp; &nbsp;
+                <label className='form-check-label' id='userStateLabel' htmlFor='userState'>{enabled === 1 ? " Activo" : " Inactivo"}</label>
               </div>
               <br />
               <div className='formButtons'>
