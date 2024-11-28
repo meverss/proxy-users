@@ -12,11 +12,11 @@ import { FaCircleCheck, FaTriangleExclamation, FaCircleExclamation } from "react
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 // Import Components
-import CompShowUsers from './components/ShowUsers.js'
-import CompCreateUser from './components/CreateUser.js'
-import CompEditUser from './components/EditUser.js'
-import CompLogin from './components/CompLogin.js'
-import CompPageNotFound from './components/CompPageNotFound.js'
+import CompShowUsers from './pages/ShowUsers.js'
+import CompCreateUser from './pages/CreateUser.js'
+import CompEditUser from './pages/EditUser.js'
+import CompLogin from './pages/CompLogin.js'
+import CompPageNotFound from './pages/CompPageNotFound.js'
 import CompPdf from './components/CompPDF.js'
 
 // Set backend server

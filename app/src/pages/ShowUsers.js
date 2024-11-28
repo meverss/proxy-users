@@ -7,10 +7,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { BsFillPeopleFill, BsFillPersonCheckFill, BsTrash, BsFillPersonXFill } from 'react-icons/bs'
 import { SlUserFollow, SlMagnifier, SlSettings, SlPrinter } from "react-icons/sl"
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti"
-import CompPagination from './CompPagination';
+import CompPagination from '../components/CompPagination';
 import unauthorized from '../images/401.webp'
 import { serverContext } from '../App';
-import { CompLoader } from './CompLoader'
+import { CompLoader } from '../components/CompLoader'
 
 const token = localStorage.getItem("token")
 

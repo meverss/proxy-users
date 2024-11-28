@@ -4,7 +4,7 @@ import notfound from '../images/404.webp'
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { serverContext } from '../App'
-import { CompLoader } from './CompLoader';
+import { CompLoader } from '../components/CompLoader';
 
 const token = localStorage.getItem("token")
 

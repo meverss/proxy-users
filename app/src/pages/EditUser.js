@@ -3,9 +3,9 @@ import axios from 'axios'
 import { useEffect, useState, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { FaEye, FaEyeSlash } from "react-icons/fa6"
-import { ValidateAll } from './Validators.js';
-import { serverContext } from '../App';
-import { CompLoader } from './CompLoader.js';
+import { ValidateAll } from '../components/Validators.js';
+import { serverContext } from '../App.js';
+import { CompLoader } from '../components/CompLoader.js';
 
 const token = localStorage.getItem("token")
 
@@ -94,6 +94,7 @@ const CompEditUser = ({ getname, notify }) => {
       } 
     } catch (error) {
       navigate(`/edit/${error.response.data.authId}`)
+      alert(authId)
     }
   }
 

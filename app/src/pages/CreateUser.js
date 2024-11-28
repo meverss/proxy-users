@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import unathorized from '../images/401.webp'
-import { ValidateAll } from './Validators.js'
+import { ValidateAll } from '../components/Validators.js'
 import { serverContext } from '../App';
 
 const token = localStorage.getItem("token")
